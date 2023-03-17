@@ -1,23 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faCaretRight, faCircleArrowRight, faArrowsLeftRight,faCheck} from '@fortawesome/free-solid-svg-icons'
+import animation from './images/animation.webp'
+import loaded from './images/ll.jpg'
+import ballies from './images/ballies.png'
+import React, { useState, useEffect } from 'react';
+import twitter from './images/twitter.svg'
+import instagram from './images/instagram.svg'
+import discord from './images/discord.svg'
+import { Link, Outlet } from 'react-router-dom';
+
+
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <div className='navigation'>
+        <div className='logo'><a>CRONOS.CLUB <c>BETA</c></a></div>
+
+        <div className='menu'>
+          <ul>
+          <li><Link to='/'><FontAwesomeIcon icon={faHandshake} /> &nbsp;&nbsp;TRADE</Link></li>
+          <li><Link to='/trade'><FontAwesomeIcon icon={faRocket} /> &nbsp;&nbsp;LAUNCHPAD</Link></li>
+          <li><Link to='/trade'><FontAwesomeIcon icon={faSackDollar} /> &nbsp;&nbsp;STAKE</Link></li>
+          <li><Link to='/trade'><FontAwesomeIcon icon={faNewspaper} /> &nbsp;&nbsp;NEWSLETTER</Link></li>
+          <li><Link to='/trade'><FontAwesomeIcon icon={faScaleBalanced} /> &nbsp;&nbsp;DAO</Link></li>
+          </ul>
+        </div>
+
+        <div className='right'>
+          <button>CONNECT WALLET &nbsp;&nbsp;<FontAwesomeIcon icon={faCaretRight} /></button>
+        </div>
+
+      </div>
+      <Outlet/>
     </div>
   );
 }

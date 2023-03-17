@@ -1,38 +1,862 @@
-.App {
-  text-align: center;
+
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400;500;600;700&display=swap');
+
+  body{
+  background-color: #212121;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+a{
+  text-decoration: none;
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #000000 #0000003b;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background: #0000003b;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #00000083;
+    border-radius: 10px;
+    border: 0px;
+  }
+
+
+.App{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-@keyframes App-logo-spin {
+.navigation{
+  font-family: 'Kanit', sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 1280px;
+  width: 100%;
+  background-color: #212121;
+  height: 5em;
+  align-items: center;
+  color: white;
+}
+
+.right button{
+  background-color: #325d96;
+  border: 0;
+  padding: 10px;
+  color: white;
+  font-family: 'Kanit', sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  padding-right: 1em;
+  padding-left: 1em;
+  border-radius: 10em;
+}
+
+.right button:hover{
+  background-color: #3a6eb1;
+  transition: 1s;
+  cursor: pointer;
+}
+
+.menu ul{
+  display: flex;
+  flex-direction: row;
+  color: white;
+
+}
+
+.menu ul li{
+  list-style: none;
+  text-align: center;
+  margin-left: 25px;
+  margin-right: 25px;
+}
+
+.menu ul li a{
+  -webkit-mask-image: linear-gradient(45deg,#000 25%,rgba(0,0,0,.2) 50%,#000 75%);
+  mask-image: linear-gradient(45deg,#000 25%,rgba(0,0,0,.2) 50%,#000 75%);
+  -webkit-mask-size: 800%;
+  mask-size: 800%;
+  -webkit-mask-position: 0;
+  mask-position: 0;
+  font-weight: 500;
+  font-size:1em;
+}
+
+.menu ul li a:hover{
+  color: #ffffff;
+  font-size: 1.05em;
+  transition: mask-position 3s ease,-webkit-mask-position 3s ease, font-size 1s ease;
+  -webkit-mask-position: 120%;
+  mask-position: 120%;
+  opacity: 1;
+}
+.logo{margin-left: 10px;}
+
+.logo a{
+  font-weight: 500;
+  font-size: 2em;
+}
+
+.logo c{
+  background-color: #325d96;
+  font-size: 0.4em;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 10em;
+}
+
+.main-container{
+  max-width: 1280px;
+  width: 100%;
+  background-color: #212121;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.banner{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 600px;
+  background-repeat: no-repeat;
+  background: url(./images/lines.svg);
+  background-size: cover;
+}
+
+.banner-left{
+  color: white;
+  font-family: 'Kanit', sans-serif;
+  padding: 5em;
+}
+
+.banner-left h2{ 
+  color: white;
+  font-family: 'Kanit', sans-serif;
+  font-size: 3em;
+  font-weight: 600;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.banner-left p{ 
+  font-family: 'Kanit', sans-serif;
+  margin: 0;
+  color: #ffffff73;
+  font-weight: 200;
+}
+
+.banner-left b{ 
+  color: #4a7dc0;
+}
+
+.banner-left button{ 
+  padding: 0.5em;
+  padding-left: 2em;
+  padding-right: 2em;
+  background-color: #325d96;
+  border: 0;
+  color: white;
+  font-family: 'Kanit', sans-serif;
+  font-size: 1.2em;
+  font-weight: 600;
+  animation: .8s shake infinite alternate;
+  border-radius: 10em;
+  cursor: pointer;
+}
+
+.banner-right img{
+  margin-right: 4em;
+}
+
+.information-box{
+  margin-top: 2em;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  width: 100%;
+  min-height: 10em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  border-radius: 1em;
+}
+
+.info-box{
+  color: white;
+  display: flex;
+  height: 10em;
+  align-items: center;
+  flex-direction: column;
+  font-family: 'Kanit', sans-serif;
+  padding-left: 2em;
+  padding-right: 2em;
+  border-radius: 0.5em;
+  background: url(./images/crd1.svg);
+  background-repeat: no-repeat;
+  background-size:cover;
+  background-color: transparent;
+}
+
+.info-box:hover{
+  animation: cards 1s forwards;
+}
+
+
+.info-box h2{
+  color: #ffffff;
+  font-size: 1.7em;
+  font-weight: 400;
+  font-family: 'Kanit', sans-serif;
+}
+
+.info-box h1{
+  margin-top: -20px;
+  color: #4a7dc0;
+  font-size: 2.5em;
+  font-weight: 500;
+  font-family: 'Kanit', sans-serif;
+}
+
+#trade-title{  
+  margin-top: 5em;
+  font-family: 'Kanit', sans-serif;
+  color: white;
+  font-weight: 400;
+  padding-bottom: 0.5em;
+  font-size: 1.5em;
+  margin-bottom: 0;
+  border-bottom: 1px solid #3a6eb160;
+  padding-left: 1em;
+}
+
+
+.last-trades{
+  width: 100%;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  max-width: 1280px;
+  background-color: #242424;
+  position: relative;
+  overflow:scroll;
+  overflow-y: hidden;
+  
+}
+
+
+.last-trade-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color:#4a7dc0;
+  font-size: 1em;
+  margin-left: 1.5em;
+  margin-right: 1.5em;
+
+}
+
+
+.last-trade-item{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  font-size: 2em;
+  background-color: #242424;
+  padding: 0.5em;
+}
+
+
+.last-trade-item h4{
+  font-size: 0.5em;
+  margin: 0;
+  color: #fff;
+  padding-bottom: 0.5em;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 400;
+}
+
+.last-trade-item button{
+  width: 100%;
+  border:0;
+  background-color: #3a6eb1;
+  color: white;
+  font-family: 'Kanit', sans-serif;
+  padding:0.5em;
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.tutorial{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 300;
+  color:white;
+  border-radius: 1em;
+  margin-bottom: 10vh;
+  padding-top: 2em;
+  padding-bottom: 2em;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+
+.bar-container{
+  position: relative;
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar-dot{
+  width: 25px;
+  height: 25px;
+  background-color: #353535;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  border: 0;
+  color: white;
+}
+
+#dot1{
+  animation: beat 9s infinite;
+}
+
+#dot2{
+  animation: beat1 9s infinite;
+}
+
+#dot3{
+  animation: beat2 9s infinite;
+}
+
+#dot4{
+  animation: beat3 9s infinite;
+}
+
+#step1{animation: step 9s infinite;}
+#step2{animation: step1 9s infinite;}
+#step3{animation: step2 9s infinite;}
+#step4{animation: step3 9s infinite;}
+
+
+.dot-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.ghost-line{
+  width: 5px;
+  background-color: #000000;
+  height: 100%;
+  position:absolute;
+  z-index: 0;
+  border-radius: 10px;
+}
+
+.bar-line{
+  transition: all 5s;
+  width: 5px;
+  background-color: #325d96;
+  position:absolute;
+  z-index: 1;
+  animation: slideDown 9s infinite linear;
+  border-radius: 10px;
+}
+
+.tutorial-text{
+  padding-left: 2em;
+  padding-right: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 40%;
+}
+
+.tutorial-step{
+  color: #c5c4c441;
+}
+
+.tutorial-video{
+  font-family: 'Kanit', sans-serif;
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #4a7dc03f;
+  border-radius: 10px;
+  margin-right: 2em;
+}
+
+.tutorial-text h2{
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+.tutorial-text p{
+  margin-top: 0;
+}
+
+.footer{
+  max-width: 1280px;
+  width: 100%;
+  position: relative;
+}
+
+.footer-menus{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: url(./images/lines.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position-y: center;
+  margin-bottom: 2em;
+}
+
+.footer-menu{
+  color: white;
+  padding: 2em;
+}
+
+.footer-menu h4{
+  font-family: 'Kanit', sans-serif;
+  font-size: 1.1em;
+  margin-bottom: 0;
+}
+
+.footer-menu li{
+  list-style:none;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 200;
+  font-size: 1em;
+}
+
+.footer-menu li a{
+  color: #ffffff93;
+  cursor: pointer;
+}
+
+.social-box{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  font-weight: 400;
+  min-height: 5em;
+  border-top: 1px solid #4b4b4b5d;
+  border-bottom: 1px solid #4b4b4b5d;
+  border-radius: 4em;
+}
+
+.social-box a{
+  display: flex;
+  font-family: 'Kanit', sans-serif;
+  background-color: #00000000;
+  padding: 1em;
+  border-radius: 2em;
+}
+
+.social-box a:hover{
+  cursor: pointer;
+  transition: all 1s;
+  display: flex;
+  font-family: 'Kanit', sans-serif;
+  padding: 1em;
+  border-radius: 2em;
+}
+
+.social-box img{
+  margin-right: 0.5em;
+}
+
+.footer-info{
+  font-family: 'Kanit', sans-serif;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.288);
+  margin-top: 3em;
+  padding: 2em;
+  padding-top: 0;
+}
+
+.footer-info a{
+  color: #325d96;
+  cursor: pointer;
+}
+
+.displaynone{
+  display: none;
+}
+
+.warning{
+  background-color: #c93f27;
+  width: 100%;
+  margin-top: 2em;
+  color: white;
+  font-family: 'Kanit', sans-serif;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  border-radius: 0.5em;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-bottom: 2em;
+}
+
+.warning h2, .warning p{
+  margin: 0;
+  margin-left: 1em;
+
+}
+
+.warning button{
+  border: 0;
+  background-color: #0000002f;
+  font-family: 'Kanit', sans-serif;
+  font-size: 1.2em;
+  color: white;
+  padding-left: 1em;
+  padding-right: 1em;
+  cursor: pointer;
+  border-radius: 0.5em;
+  margin-right: 1em;
+}
+
+.trade-information{
+  width: 100%;
+  color: white;
+  background-color: #00000057;
+  margin: 0;
+  border-top-right-radius: 1em;
+  border-top-left-radius: 1em;
+  font-family: 'Kanit', sans-serif;
+}
+
+.trade-information h3{
+  margin: 0;
+  padding-top: 1em;
+  font-weight: 200;
+  font-size: 1.5em;
+  text-align: center;
+}
+
+.trade-information p{
+  margin: 0rem;
+  padding-bottom: 1em;
+  font-weight: 200;
+  text-align: center;
+  color: #c7c7c7;
+}
+
+.trade-information b{
+  color: #4a7dc0;
+}
+
+.trade-area{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  font-family: 'Kanit', sans-serif;
+}
+
+.trade-line{
+  width: 0.5em;
+  background-color: #00000057;
+}
+
+.trade-container{
+  width: 100%;
+  display: flex;
+  max-height: 500px;
+  overflow-y: auto;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.trade-steps{
+  width: 100%;
+  height: 10em;
+  margin-bottom: 1em;
+  border-bottom-left-radius: 1em;
+  border-bottom-right-radius: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: url(./images/lines.svg);
+  background-color: #00000057;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position-y:center;
+
+}
+
+.trade-steps button{
+  border: 0;
+  background-color: #325d96;
+  color: white;
+  padding: 1em;
+  border-radius: 5em;
+  font-family: 'Kanit', sans-serif;
+  font-size: 1em;
+  padding-left: 4em;
+  padding-right: 4em;
+  cursor: pointer;
+  margin-left: 1em;
+  margin-right: 1em;
+
+}
+
+.trade-steps h4{
+  color:white;
+  margin: 0;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 300;
+  font-size: 1.5em;
+  margin-left: 5em;
+}
+
+.nft-trade-item{
+  padding: 10px;
+  width: 200px;
+  height: 250px;
+  background-color: #252525;
+  display: flex;
+  flex-direction: column;
+  margin: 0.5em;
+  border-radius: 0.5em;
+}
+
+.nft-information{
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.nft-information a{
+  padding-left: 0.3em;
+}
+
+
+.selected-nft{
+  border: 2px solid #4a7dc0;
+}
+
+.trade-steps-container{
+  width: 50%;
+  margin-top: 1em;
+  
+}
+
+.trade-steps-text{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  color:white;
+  font-family: 'Kanit', sans-serif;
+  font-weight: 500;
+}
+
+.trade-bar-container{
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-bottom: 10px;
+}
+
+.trade-ghost-line{
+  height: 5px;
+  background-color: #000000;
+  width: 100%;
+  z-index: 0;
+  border-radius: 10px;
+  position:absolute;
+
+}
+
+.trade-bar-line{
+  transition: all 5s;
+  height: 5px;
+  background-color: #325d96;
+  position:absolute;
+  z-index: 1;
+  border-radius: 10px;
+}
+
+.trade-step-1{
+  animation: tradestep1 1s linear forwards;
+}
+.trade-step-2{
+  animation: tradestep2 1s linear forwards;
+}
+.trade-step-3{
+  animation: tradestep3 1s linear forwards;
+}
+
+.trade-dot-container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trade-bar-dot{
+  width: 25px;
+  height: 25px;
+  background-color: #353535;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+  border: 0;
+  color: white;
+}
+
+
+@keyframes step{
+  0%, 10% { color:#ffffff60;}
+  11%, 32% { color:#fff;}
+  33%, 34% { color:#ffffff60;}
+}
+
+@keyframes step1{
+  0%, 35% { color:#ffffff60;}
+  36%, 57% { color:#fff;}
+  58%, 59% { color:#ffffff60;}
+}
+
+@keyframes step2{
+  0%, 60% { color:#ffffff60;}
+  61%, 82% { color:#fff;}
+  83%, 84% { color:#ffffff60;}
+}
+
+@keyframes step3{
+  0%, 85% { color:#ffffff60;}
+  86%, 100% { color:#fff;}
+}
+
+@keyframes beat{
+  0%, 10% { transform: scale(1); background-color:#353535; }
+  11%, 32% { transform: scale(1.4); background-color: #4a7dc0;}
+  33%, 34% { transform: scale(1); background-color:#353535; }
+}
+
+@keyframes beat1{
+  0%, 35% { transform: scale(1); background-color:#353535; }
+  36%, 57% { transform: scale(1.4); background-color: #4a7dc0; }
+  58%, 59% { transform: scale(1); background-color:#353535; }
+}
+
+@keyframes beat2{
+  0%, 60% { transform: scale(1); background-color:#353535; }
+  61%, 82% { transform: scale(1.4); background-color: #4a7dc0;}
+  83%, 84% { transform: scale(1); background-color:#353535;  }
+}
+
+@keyframes beat3{
+  0%, 85% { transform: scale(1); background-color:#353535; }
+  86%, 100% { transform: scale(1.4); background-color: #4a7dc0;}
+}
+
+@keyframes slideDown{
   from {
-    transform: rotate(0deg);
+    height: 0%;
   }
   to {
-    transform: rotate(360deg);
+    height: 100%;
   }
+}
+
+@keyframes tradestep1{
+  from {
+    width: 0%;
+  }
+  to {
+    width: 16%;
+  }
+}
+
+@keyframes tradestep2{
+  from {
+    width: 16%;
+  }
+  to {
+    width: 50%;
+  }
+}
+
+@keyframes tradestep3{
+  from {
+    width: 50%;
+  }
+  to {
+    width: 85%;
+  }
+}
+
+@keyframes shake {
+  0% { transform: skewX(-15deg); }
+  5% { transform: skewX(15deg); }
+  10% { transform: skewX(-15deg); }
+  15% { transform: skewX(15deg); }
+  20% { transform: skewX(0deg); scale: 105%; }
+  100% { transform: skewX(0deg); }  
+}
+
+@keyframes cards {
+  0% {
+    transform: scale(1, 1);
+  }
+
+  100% {
+    transform: scale(1.2, 1.2);
+  }
+}
+
+
+@media only screen and (max-width: 1000px) {
+  .menu{display: none;}
+  .banner-right{display: none;}
+  .info-box{margin-top: 2em;}
 }
