@@ -10,7 +10,6 @@ export default function Newsletter() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedCollectionId, setSelectedCollectionId] = useState(null);
 
-
     const handleSearch = (event) => {
       setSearchTerm(event.target.value);
     };
@@ -72,8 +71,9 @@ export default function Newsletter() {
         }
       }, [selectedCollectionId, navigate]);
     
-      const handleButtonClick = (id) => {
+      const handleButtonClick = (id,name,image) => {
         setSelectedCollectionId(id);
+        navigate(`/announcement/${id}?name=${encodeURIComponent(name)}&image=${encodeURIComponent(image)}`);
       };
     
   return (
@@ -86,7 +86,7 @@ export default function Newsletter() {
               key={collection.name}
               collectionName={collection.name}
               collectionImage={collection.image}
-              buttonClick={() => handleButtonClick(collection.id)}
+              buttonClick={() => handleButtonClick(collection.id,collection.name,collection.image)}
               />))}
 
           </div>
