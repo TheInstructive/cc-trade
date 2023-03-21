@@ -26,7 +26,7 @@ const router = createBrowserRouter([
         element: <Trade />,
       },
       {
-        path: "announcement/:id",
+        path: "announcement/:slug",
         element: <Announcement />,
       },
       {

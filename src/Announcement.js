@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from 'react'
 import AnnouncementItem from './components/AnnouncementItem';
-import { useParams, useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { bySlug } from './collections';
+
+function filterImages(item) {
+  return item.attachments.filter(
+    file => file.contentType && file.contentType.startsWith('image/')
+  ).map(file => file.url);
+}
+
+function getDate(item) {
+  return item.timestamp ? new Date(item.timestamp).toLocaleString() : "-";
+}
 
 export default function Announcement() {
-    const { id } = useParams();
-    const { search } = useLocation();
-    const queryParams = new URLSearchParams(search);
-    const name = queryParams.get('name');
-    const image = queryParams.get('image');
-    const [data, setData] = useState(null);
+  const { slug } = useParams();
+  const [data, setData] = useState(null);
+  const collection = bySlug(slug);
+  const page = 0;
 
-    useEffect(() => {
-        fetch(`https://cronosnft.club/cronos_club/news.php?channelid=${id}&page=0`)
-        .then(response => response.json())
-        .then(data => setData(data));
-    }, [id]);
-
-
+  useEffect(() => {
+    fetch(`https://cronosnft.club/cronos_club/news.php?channelid=${collection.id}&page=${page}`)
+      .then(response => response.json())
+      .then(data => setData(data));
+  }, [collection.id]);
 
   return (
     <div className='main-container'>
@@ -62,17 +69,18 @@ export default function Announcement() {
         </div>
 
         <div className='news-container'>
-            <h1>NEWS FROM <b>{name}</b></h1>
+            <h1>NEWS FROM <b>{collection.name}</b></h1>
             <div className='news-table'>
             {data && data.length > 0 && (
             data.map((announcement) => (
                 <AnnouncementItem
                     key={announcement.url}
-                    collectionImage = {image}
-                    annouImages={announcement.attachments.filter(a => a.contentType.startsWith('image/')).map(a => a.url)}
+                    collectionImage = {collection.image}
+                    annouImages={filterImages(announcement)}
                     announcementTitle={announcement.authorid}
-                    announcementDate={announcement.timestamp ? new Date(announcement.timestamp).toLocaleString() : "???"}
+                    announcementDate={getDate(announcement)}
                     announcementDesc={announcement.content}
+                    mentions={announcement.mentions}
                 />
             ))
         )}
