@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import AnnouncementItem from './components/AnnouncementItem';
-
+import { useParams } from 'react-router-dom';
 
 export default function Announcement() {
-
+    const { id } = useParams();
     const [data, setData] = useState(null);
 
     useEffect(() => {
-        fetch('https://cronosnft.club/cronos_club/news.php?channelid=966011090330865704&page=0')
+        fetch('https://cronosnft.club/cronos_club/news.php?channelid=${id}&page=0')
         .then(response => response.json())
         .then(data => setData(data));
-    }, []);
+    }, [id]);
 
 
 

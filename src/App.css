@@ -849,6 +849,10 @@ a{
   justify-content: center;
 }
 
+.news-image-gallery img{
+  cursor: zoom-in; 
+}
+
 .news-image-gallery button{
   border: 0;
   font-family: 'Kanit', sans-serif;
