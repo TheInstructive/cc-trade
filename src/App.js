@@ -15,7 +15,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
+    <div className='App'>
 
       <div className='navigation'>
         <div className='logo'><a>CRONOS.CLUB <c>BETA</c></a></div>
@@ -25,13 +25,13 @@ function App() {
           <li><Link to='/'><FontAwesomeIcon icon={faHandshake} /> &nbsp;&nbsp;TRADE</Link></li>
           <li><Link to='/trade'><FontAwesomeIcon icon={faRocket} /> &nbsp;&nbsp;LAUNCHPAD</Link></li>
           <li><Link to='/trade'><FontAwesomeIcon icon={faSackDollar} /> &nbsp;&nbsp;STAKE</Link></li>
-          <li><Link to='/trade'><FontAwesomeIcon icon={faNewspaper} /> &nbsp;&nbsp;NEWSLETTER</Link></li>
+          <li><Link to='/announcement'><FontAwesomeIcon icon={faNewspaper} /> &nbsp;&nbsp;NEWSLETTER</Link></li>
           <li><Link to='/trade'><FontAwesomeIcon icon={faScaleBalanced} /> &nbsp;&nbsp;DAO</Link></li>
           </ul>
         </div>
 
         <div className='right'>
-          <button>CONNECT WALLET &nbsp;&nbsp;<FontAwesomeIcon icon={faCaretRight} /></button>
+          <button>CONNECT WALLET</button>
         </div>
 
       </div>

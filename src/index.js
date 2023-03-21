@@ -5,8 +5,8 @@ import App from './App';
 import Trade from './Trade';
 import reportWebVitals from './reportWebVitals';
 import Main from './Main'
-
-
+import Announcement from './Announcement';
+import Newsletter from './Newsletter';
 
 import {
   createBrowserRouter,
@@ -24,6 +24,14 @@ const router = createBrowserRouter([
       {
         path: "trade",
         element: <Trade />,
+      },
+      {
+        path: "announcement",
+        element: <Announcement />,
+      },
+      {
+        path: "newsletter",
+        element: <Newsletter />,
       },
     ],
   },
