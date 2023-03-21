@@ -1201,3 +1201,44 @@ a{
   .news-container h1{font-size: 1.5em;}
   
 }
+
+.dc-spoiler {
+  background-color: #444;
+  color: #444;
+  padding: 0.2em;
+}
+.dc-spoiler:hover {
+  background-color: none;
+  color: #fff;
+}
+.dc-code {
+  margin: 0;
+  background-color: #2B2D31;
+  color: #fff;
+  display: inline-block;
+}
+.dc-user {
+  background-color: #5865F2;
+  color: #fff;
+  padding: 0 0.3em;
+}
+.dc-role {
+}
+.dc-channel {
+  background-color: #5865F2;
+  color: #fff;
+  padding: 0 0.3em;
+}
+.dc-multi-code {
+  background-color: #2B2D31;
+  border: 1px solid #1E1F22;
+  border-radius: 5px;
+  padding: 0.3em;
+  white-space: pre;
+  display: block;
+}
+.dc-quote {
+  margin: 0;
+  border-left: 3px solid #4E5058;
+  padding-left: 6px;
+}
