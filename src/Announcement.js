@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import AnnouncementItem from './components/AnnouncementItem';
 import { useParams } from 'react-router-dom';
 import { bySlug } from './collections';
+import miniCollections from './collections';
+import { useNavigate } from 'react-router-dom';
 
 function filterImages(item) {
   return item.attachments.filter(
@@ -14,10 +16,12 @@ function getDate(item) {
 }
 
 export default function Announcement() {
+  const navigate = useNavigate();
   const { slug } = useParams();
   const [data, setData] = useState(null);
   const collection = bySlug(slug);
   const page = 0;
+  
 
   useEffect(() => {
     fetch(`https://cronosnft.club/cronos_club/news.php?channelid=${collection.id}&page=${page}`)
@@ -28,44 +32,15 @@ export default function Announcement() {
   return (
     <div className='main-container'>
         <div className='news-collections'>
-            <button className='news-item news-active'>
-                <img src='https://picsum.photos/30/30'></img>
-                <h2>Collection Name</h2>
-            </button>
+            {miniCollections.map((collection) => (
+             
+             <button onClick={() => navigate(`/announcement/${collection.slug}`)} className='news-item'>
+             <img src={collection.image}></img>
+             <h2>{collection.name}</h2>
+             </button>
+             
+             ))}
 
-            <button className='news-item'>
-                <img src='https://picsum.photos/30/30'></img>
-                <h2>Collection Name</h2>
-            </button>
-
-            <button className='news-item'>
-                <img src='https://picsum.photos/30/30'></img>
-                <h2>Collection Name</h2>
-            </button>
-
-            <button className='news-item'>
-                <img src='https://picsum.photos/30/30'></img>
-                <h2>Collection Name</h2>
-            </button>
-            <button className='news-item'>
-                <img src='https://picsum.photos/30/30'></img>
-                <h2>Collection Name</h2>
-            </button>
-
-            <button className='news-item'>
-                <img src='https://picsum.photos/30/30'></img>
-                <h2>Collection Name</h2>
-            </button>
-
-            <button className='news-item'>
-                <img src='https://picsum.photos/30/30'></img>
-                <h2>Collection Name</h2>
-            </button>
-
-            <button className='news-item'>
-                <img src='https://picsum.photos/30/30'></img>
-                <h2>Collection Name</h2>
-            </button>
         </div>
 
         <div className='news-container'>
@@ -77,13 +52,18 @@ export default function Announcement() {
                     key={announcement.url}
                     collectionImage = {collection.image}
                     annouImages={filterImages(announcement)}
-                    announcementTitle={announcement.authorid}
+                    announcementTitle={announcement.author.tag}
                     announcementDate={getDate(announcement)}
                     announcementDesc={announcement.content}
                     mentions={announcement.mentions}
+                    announcementAuthor = {`https://cdn.discordapp.com/avatars/${announcement.author.id}/${announcement.author.avatar}.png`}
                 />
             ))
         )}
+
+            {data && data.length  < 1 && 
+            <h2>NO ANNOUNCEMENTS YET</h2>
+            }
 
                 
 

@@ -19,7 +19,7 @@ function App() {
             <div className='banner-left'>
               <h2>TRADE <b>CRONOS</b> NFTS!</h2>
               <p>Welcome to decentralized NFT trading on Cronos Club.</p>
-              <p>We have made NFT trade transactions on the Cronos Network <br></br> <b>100% reliable</b> for you.</p>
+              <p>We have made NFT trade transactions on the  <br></br>Cronos Network <b>100% reliable</b> for you.</p>
               <p>Trade your NFTs safely with lowest fees!</p>
               <br></br>
               <button>TRADE NOW! &nbsp;&nbsp;<FontAwesomeIcon icon={faCircleArrowRight} /></button>

@@ -54,7 +54,7 @@ export default function AnnouncementItem(props) {
 
     const announcementImages = props.annouImages
     const { mentions, announcementDesc } = props;
-    const content = convertDCToHTML(announcementDesc, mentions);
+    const content = convertDCToHTML(announcementDesc, mentions || {});
 
     function nextImage(){
         console.log(announcementImages.length)
@@ -80,12 +80,15 @@ export default function AnnouncementItem(props) {
     }
 
   return (
-    <div>
+    <>
     {zoomImg && <Modal modalTitle= {"IMAGE "+(imageNum+1)} modalContent = {<img src={announcementImages[imageNum]}></img>} button = {zoomImage}/> }
 
     <div className='news-table-element'>
         <img src={props.collectionImage}></img>
-        <h3>{props.announcementTitle}</h3>
+        <div className='news-author'>
+        <img src={props.announcementAuthor}></img>
+        <h2>{props.announcementTitle}</h2>
+        </div>
         <h3>{props.announcementDate}</h3>
         <button onClick={announcementDetails}>{showDetails ? "HIDE" : "SHOW" }</button>
     </div>
@@ -111,6 +114,6 @@ export default function AnnouncementItem(props) {
     </div>
     </>
     }
-</div>
+</>
   )
 }

@@ -16,7 +16,7 @@ import { Link, Outlet } from 'react-router-dom';
 function App() {
   return (
     <div className='App'>
-
+      
       <div className='navigation'>
         <div className='logo'><a>CRONOS.CLUB <c>BETA</c></a></div>
 
