@@ -2,88 +2,167 @@ import React, { useState } from 'react'
 import '../App.css';
 import Modal from './Modal';
 
-function replaceJSX(text, regex, replacer) {
-    return text
-        .split(regex)
-        .flatMap((part, index) => index % 3 === 1 ? replacer(part) : part);
+const timestampFormats = {
+    'D': { dateStyle: 'long' },
+    't': { timeStyle: 'short' },
+    'd': { dateStyle: 'short' },
+    'T': { timeStyle: 'medium' },
+    'R': { style: 'long', numeric: 'auto' },
+    'f': { dateStyle: 'long', timeStyle: 'short' },
+    'F': { dateStyle: 'full', timeStyle: 'short' },
+};
+
+function automaticRelativeDifference(timestamp) {
+    const diff = -((Date.now() - timestamp)/1000)|0;
+    const absDiff = Math.abs(diff);
+    if (absDiff > 86400*30*10) {
+        return { duration: Math.round(diff/(86400*365)), unit: 'years' };
+    }
+    if (absDiff > 86400*25) {
+        return { duration: Math.round(diff/(86400*30)), unit: 'months' };
+    }
+    if (absDiff > 3600*21) {
+        return { duration: Math.round(diff/86400), unit: 'days' };
+    }
+    if (absDiff > 60*44) {
+        return { duration: Math.round(diff/3600), unit: 'hours' };
+    }
+    if (absDiff > 30) {
+        return { duration: Math.round(diff/60), unit: 'minutes' };
+    }
+    return { duration: diff, unit: 'seconds' };
 }
 
-function convertMentions(part, mentions) {
-    const mention = mentions[part];
-    if (!mention) {
-        return part;
-    }
+function convertTimestamp(type, timestamp) {
+    timestamp *= 1000;
 
-    if (mention.type === 'user') {
-        return <a class="dc-user">@{mention.tag}</a>
+    if (type === 'R') {
+        const formatter = new Intl.RelativeTimeFormat(navigator.language || 'en', timestampFormats[type] || {});
+        const format = automaticRelativeDifference(timestamp);
+        return formatter.format(format.duration, format.unit);
     }
-    else if (mention.type === 'role') {
-        return <a class="dc-role" style={{color: mention.color}}>@{mention.name}</a>
-    }
-    else if (mention.type === 'channel') {
-        return <a class="dc-channel">#{mention.name}</a>
-    }
-    else if (mention.type === 'emoji') {
-        return <img src={mention.url} alt={mention.name} />
-    }
-
-    return part;
+    
+    const formatter = new Intl.DateTimeFormat(navigator.language || 'en', timestampFormats[type] || {});
+    return formatter.format(new Date(timestamp));
 }
 
-function convertDCToHTML(text, mentions) {
-    return replaceJSX(text, /```(?:\w+\n)?(.+?)\n```/gs, part => <code class="dc-multi-code">{part}</code>)
-        .flatMap(
-            part => typeof(part) == 'string' ? part.split('\n')
-                .flatMap(part => [
-                    part, <br />
-                ])
-                .flatMap(part => typeof(part) == 'string' ? replaceJSX(part, /^>(.+?)$/gm, part => <blockquote class="dc-quote">{part}</blockquote>) : part)
-                .flatMap(part => typeof(part) == 'string' ? replaceJSX(part, /\*\*(.+?)\*\*/g, part => <b>{part}</b>) : part)
-                .flatMap(part => typeof(part) == 'string' ? replaceJSX(part, /\*(.+?)\*/g, part => <i>{part}</i>) : part)
-                .flatMap(part => typeof(part) == 'string' ? replaceJSX(part, /~~(.+?)~~/g, part => <s>{part}</s>) : part)
-                .flatMap(part => typeof(part) == 'string' ? replaceJSX(part, /\|\|(.+?)\|\|/g, part => <span class="dc-spoiler">{part}</span>) : part)
-                .flatMap(part => typeof(part) == 'string' ? replaceJSX(part, /`(.+?)`/g, part => <pre class="dc-code">{part}</pre>) : part)
-                .flatMap(part => typeof(part) == 'string' ? part.split(/(<.+?>)/g).flatMap(part => convertMentions(part, mentions)) : part) : part
-        )
+function convertNewsNode(node) {
+    if (typeof(node) === 'string') {
+        return node;
+    }
+
+    if (node.type === 'text') {
+        return node.content;
+    }
+
+    if (node.type === 'twemoji') {
+        return node.name;
+    }
+
+    if (node.type === 'br') {
+        return <br />;
+    }
+
+    if (node.type === 'user') {
+        return <a class="dc-user">@{node.tag}</a>;
+    }
+
+    if (node.type === 'role') {
+        return <a class="dc-role" style={{color: node.color}}>@{node.name}</a>;
+    }
+
+    if (node.type === 'channel') {
+        return <a class="dc-channel">#{node.name}</a>;
+    }
+
+    if (node.type === 'emoji') {
+        return <img src={node.url} alt={node.name} />
+    }
+
+    if (node.type === 'codeBlock') {
+        return <code class="dc-multi-code">{convertNews(node.content)}</code>;
+    }
+
+    if (node.type === 'blockQuote') {
+        return <code class="dc-multi-code">{convertNews(node.content)}</code>;
+    }
+
+    if (node.type === 'inlineCode') {
+        return <pre class="dc-code">{convertNews(node.content)}</pre>;
+    }
+
+    if (node.type === 'em') {
+        return <i>{convertNews(node.content)}</i>;
+    }
+
+    if (node.type === 'strong') {
+        return <b>{convertNews(node.content)}</b>;
+    }
+
+    if (node.type === 'strikethrough') {
+        return <s>{convertNews(node.content)}</s>;
+    }
+
+    if (node.type === 'spoiler') {
+        return <blockquote class="dc-quote">{convertNews(node.content)}</blockquote>;
+    }
+
+    if (node.type === 'url') {
+        return <a href={node.target} rel="noreferrer">{convertNews(node.content)}</a>;
+    }
+
+    if (node.type === 'timestamp') {
+        return <span class="dc-timestamp" title={new Date(node.timestamp * 1000).toLocaleString()}>{convertTimestamp(node.format, node.timestamp)}</span>;
+    }
+
+    return node.content || "<ERROR>";
+}
+
+function convertNews(nodes) {
+    if (typeof(nodes) === 'string') {
+        return nodes;
+    }
+
+    return nodes.flatMap(convertNewsNode);
 }
 
 export default function AnnouncementItem(props) {
     const [showDetails, setshowDetails] = useState(false)
     const [imageNum, setimageNum] = useState(0)
     const [zoomImg, setzoomImg] = useState(false)
-
+    
     const announcementImages = props.annouImages
-    const { mentions, announcementDesc } = props;
-    const content = convertDCToHTML(announcementDesc, mentions || {});
-
+    const { announcementDesc } = props;
+    const content = convertNews(announcementDesc);
+    
     function nextImage(){
         console.log(announcementImages.length)
         console.log(imageNum)
         if(imageNum === announcementImages.length-1){return}
         else{setimageNum(imageNum+1)}
     }
-
+    
     function prevImage(){
         console.log(announcementImages.length)
         console.log(imageNum)
         if(imageNum === 0){return}
         else{setimageNum(imageNum-1)}
     }
-
-
+    
+    
     function announcementDetails(){
         setshowDetails(!showDetails)
     }
-
+    
     function zoomImage(){
         setzoomImg(!zoomImg)
     }
-
-  return (
-    <>
-    {zoomImg && <Modal modalTitle= {"IMAGE "+(imageNum+1)} modalContent = {<img src={announcementImages[imageNum]}></img>} button = {zoomImage}/> }
-
-    <div className='news-table-element'>
+    
+    return (
+        <>
+        {zoomImg && <Modal modalTitle= {"IMAGE "+(imageNum+1)} modalContent = {<img src={announcementImages[imageNum]}></img>} button = {zoomImage}/> }
+        
+        <div className='news-table-element'>
         <img src={props.collectionImage}></img>
         <div className='news-author'>
         <img src={props.announcementAuthor}></img>
@@ -91,29 +170,30 @@ export default function AnnouncementItem(props) {
         </div>
         <h3>{props.announcementDate}</h3>
         <button onClick={announcementDetails}>{showDetails ? "HIDE" : "SHOW" }</button>
-    </div>
-
-    {showDetails &&
-    <>
-    <div className="news-details">
-    {announcementImages.length > 0 &&
-        <div className='news-image-gallery'>
-            <img onClick={zoomImage} src={announcementImages[imageNum]}></img>
-            {announcementImages.length > 1 &&
-            <div className='news-image-control-panel'>
-            <button onClick={prevImage} id='news-image-prev'> PREV </button>
-            <h3>{imageNum+1}/{announcementImages.length}</h3>
-            <button onClick={nextImage} id='news-image-next'> NEXT </button>
-            </div>
-            }
         </div>
-    }
+        
+        {showDetails &&
+            <>
+            <div className="news-details">
+            {announcementImages.length > 0 &&
+                <div className='news-image-gallery'>
+                <img onClick={zoomImage} src={announcementImages[imageNum]}></img>
+                {announcementImages.length > 1 &&
+                    <div className='news-image-control-panel'>
+                    <button onClick={prevImage} id='news-image-prev'> PREV </button>
+                    <h3>{imageNum+1}/{announcementImages.length}</h3>
+                    <button onClick={nextImage} id='news-image-next'> NEXT </button>
+                    </div>
+                }
+                </div>
+            }
             <p>
             {content}
             </p>
-    </div>
-    </>
+            </div>
+            </>
+        }
+        </>
+        )
     }
-</>
-  )
-}
+    
