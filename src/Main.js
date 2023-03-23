@@ -7,22 +7,20 @@ import ballies from './images/ballies.png'
 import twitter from './images/twitter.svg'
 import instagram from './images/instagram.svg'
 import discord from './images/discord.svg'
-
-
+import Typewriter from './components/TypeWriter';
 
 
 function App() {
+
+
   return (
     <div className="App">
       <div className='main-container'>
         <div className='banner'>
             <div className='banner-left'>
-              <h2>TRADE <b>CRONOS</b> NFTS!</h2>
-              <p>Welcome to decentralized NFT trading on Cronos Club.</p>
-              <p>We have made NFT trade transactions on the  <br></br>Cronos Network <b>100% reliable</b> for you.</p>
-              <p>Trade your NFTs safely with lowest fees!</p>
+            <Typewriter words={["SAFE TRADE", "BEST LAUNCHPAD", "COLLECTION NEWS"]} descriptions={["TRADE YOUR NFT WITHOUT ANY RISK", "SHARE YOUR REFFERAL LINK WITH YOUR COMMUNITY TO EARN $CRO FROM EVERY MINT", "FOLLOW COLLECTION ANNOUNCEMENTS EASILY",]}/>
               <br></br>
-              <button>TRADE NOW! &nbsp;&nbsp;<FontAwesomeIcon icon={faCircleArrowRight} /></button>
+              <button>CONNECT WALLET! &nbsp;&nbsp;<FontAwesomeIcon icon={faCircleArrowRight} /></button>
             </div>
 
             <div className='banner-right'>

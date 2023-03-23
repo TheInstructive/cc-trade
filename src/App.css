@@ -152,20 +152,24 @@ a{
   margin-left: 2em;
 }
 
-.banner-left h2{ 
-  color: white;
+.banner-title{
   font-family: 'Kanit', sans-serif;
-  font-size: 3em;
+  font-size: 4em;
   font-weight: 600;
-  margin-bottom: 0;
-  padding: 0;
+  color: #4a7dc0;
+}
+
+.blink-caret{
+  font-family: 'Kanit', sans-serif;
+  font-size: 4em;
+  font-weight: 200;
 }
 
 .banner-left p{ 
   font-family: 'Kanit', sans-serif;
   margin: 0;
-  color: #ffffff73;
-  font-weight: 200;
+  color: #ffffff;
+  font-weight: 400;
 }
 
 .banner-left b{ 
@@ -182,7 +186,6 @@ a{
   font-family: 'Kanit', sans-serif;
   font-size: 1.2em;
   font-weight: 600;
-  animation: .8s shake infinite alternate;
   border-radius: 10em;
   cursor: pointer;
 }
