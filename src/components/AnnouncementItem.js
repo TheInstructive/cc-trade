@@ -64,15 +64,19 @@ function convertNewsNode(node) {
     }
 
     if (node.type === 'user') {
-        return <a class="dc-user">@{node.tag}</a>;
+        return <span className="dc-user">@{node.tag}</span>;
+    }
+
+    if (node.type === 'here' || node.type === 'everyone') {
+        return <span className="dc-user">@{node.type}</span>;
     }
 
     if (node.type === 'role') {
-        return <a class="dc-role" style={{color: node.color}}>@{node.name}</a>;
+        return <span className="dc-role" style={{color: node.color}}>@{node.name}</span>;
     }
 
     if (node.type === 'channel') {
-        return <a class="dc-channel">#{node.name}</a>;
+        return <span className="dc-channel">#{node.name}</span>;
     }
 
     if (node.type === 'emoji') {
@@ -80,15 +84,15 @@ function convertNewsNode(node) {
     }
 
     if (node.type === 'codeBlock') {
-        return <code class="dc-multi-code">{convertNews(node.content)}</code>;
+        return <code className="dc-multi-code">{convertNews(node.content)}</code>;
     }
 
     if (node.type === 'blockQuote') {
-        return <code class="dc-multi-code">{convertNews(node.content)}</code>;
+        return <blockquote className="dc-quote">{convertNews(node.content)}</blockquote>;
     }
 
     if (node.type === 'inlineCode') {
-        return <pre class="dc-code">{convertNews(node.content)}</pre>;
+        return <pre className="dc-code">{convertNews(node.content)}</pre>;
     }
 
     if (node.type === 'em') {
@@ -103,19 +107,29 @@ function convertNewsNode(node) {
         return <s>{convertNews(node.content)}</s>;
     }
 
-    if (node.type === 'spoiler') {
-        return <blockquote class="dc-quote">{convertNews(node.content)}</blockquote>;
+    if (node.type === 'underline') {
+        return <u>{convertNews(node.content)}</u>;
     }
 
-    if (node.type === 'url') {
-        return <a href={node.target} rel="noreferrer">{convertNews(node.content)}</a>;
+    if (node.type === 'spoiler') {
+        return <span className="dc-spoiler">{convertNews(node.content)}</span>;
+    }
+
+    if (node.type === 'url' || node.type === 'autolink') {
+        return <a className="dc-link" href={node.target} rel="noreferrer">{convertNews(node.content)}</a>;
     }
 
     if (node.type === 'timestamp') {
-        return <span class="dc-timestamp" title={new Date(node.timestamp * 1000).toLocaleString()}>{convertTimestamp(node.format, node.timestamp)}</span>;
+        return <span className="dc-timestamp" title={new Date(node.timestamp * 1000).toLocaleString()}>{convertTimestamp(node.format, node.timestamp)}</span>;
     }
 
-    return node.content || "<ERROR>";
+    if (node.content) {
+        return convertNewsNode(node.content);
+    }
+
+    console.warn("parser missing node:", node);
+
+    return "<ERROR>";
 }
 
 function convertNews(nodes) {
@@ -123,7 +137,7 @@ function convertNews(nodes) {
         return nodes;
     }
 
-    return nodes.flatMap(convertNewsNode);
+    return nodes.flatMap((node, i) => <span key={i}>{convertNewsNode(node)}</span>);
 }
 
 export default function AnnouncementItem(props) {
@@ -160,12 +174,12 @@ export default function AnnouncementItem(props) {
     
     return (
         <>
-        {zoomImg && <Modal modalTitle= {"IMAGE "+(imageNum+1)} modalContent = {<img src={announcementImages[imageNum]}></img>} button = {zoomImage}/> }
+        {zoomImg && <Modal modalTitle= {"IMAGE "+(imageNum+1)} modalContent = {<img src={announcementImages[imageNum]} alt="Modal" />} button = {zoomImage}/> }
         
         <div className='news-table-element'>
-        <img src={props.collectionImage}></img>
+        <img src={props.collectionImage} alt="Collection"></img>
         <div className='news-author'>
-        <img src={props.announcementAuthor}></img>
+        <img src={props.announcementAuthor} alt="Author"></img>
         <h2>{props.announcementTitle}</h2>
         </div>
         <h3>{props.announcementDate}</h3>
@@ -177,7 +191,7 @@ export default function AnnouncementItem(props) {
             <div className="news-details">
             {announcementImages.length > 0 &&
                 <div className='news-image-gallery'>
-                <img onClick={zoomImage} src={announcementImages[imageNum]}></img>
+                <img onClick={zoomImage} src={announcementImages[imageNum]} alt={props.announcementTitle}></img>
                 {announcementImages.length > 1 &&
                     <div className='news-image-control-panel'>
                     <button onClick={prevImage} id='news-image-prev'> PREV </button>
@@ -187,9 +201,9 @@ export default function AnnouncementItem(props) {
                 }
                 </div>
             }
-            <p>
+            <div className="news-content">
             {content}
-            </p>
+            </div>
             </div>
             </>
         }

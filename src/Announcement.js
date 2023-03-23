@@ -28,8 +28,8 @@ export default function Announcement() {
         <div className='news-collections'>
             {miniCollections.map((collection) => (
              
-             <button onClick={() => navigate(`/announcement/${collection.slug}`)} className='news-item'>
-             <img src={collection.image}></img>
+             <button onClick={() => navigate(`/announcement/${collection.slug}`)} className='news-item' key={collection.slug}>
+             <img src={collection.image} alt={collection.name}></img>
              <h2>{collection.name}</h2>
              </button>
              
@@ -44,7 +44,7 @@ export default function Announcement() {
             data.map((announcement) => (
                 <AnnouncementItem
                     key={announcement.id}
-                    collectionImage = {collection.image}
+                    collectionImage={collection.image}
                     annouImages={announcement.images}
                     announcementTitle={announcement.author.tag}
                     announcementDate={getDate(announcement)}
