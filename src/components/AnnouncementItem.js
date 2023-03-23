@@ -67,6 +67,10 @@ function convertNewsNode(node) {
         return <a class="dc-user">@{node.tag}</a>;
     }
 
+    if (node.type === 'here' || node.type === 'everyone') {
+        return <a class="dc-user">@{node.type}</a>;
+    }
+
     if (node.type === 'role') {
         return <a class="dc-role" style={{color: node.color}}>@{node.name}</a>;
     }
@@ -84,7 +88,7 @@ function convertNewsNode(node) {
     }
 
     if (node.type === 'blockQuote') {
-        return <code class="dc-multi-code">{convertNews(node.content)}</code>;
+        return <blockquote class="dc-quote">{convertNews(node.content)}</blockquote>;
     }
 
     if (node.type === 'inlineCode') {
@@ -103,19 +107,29 @@ function convertNewsNode(node) {
         return <s>{convertNews(node.content)}</s>;
     }
 
-    if (node.type === 'spoiler') {
-        return <blockquote class="dc-quote">{convertNews(node.content)}</blockquote>;
+    if (node.type === 'underline') {
+        return <u>{convertNews(node.content)}</u>;
     }
 
-    if (node.type === 'url') {
-        return <a href={node.target} rel="noreferrer">{convertNews(node.content)}</a>;
+    if (node.type === 'spoiler') {
+        return <span class="dc-spoiler">{convertNews(node.content)}</span>;
+    }
+
+    if (node.type === 'url' || node.type === 'autolink') {
+        return <a class="dc-link" href={node.target} rel="noreferrer">{convertNews(node.content)}</a>;
     }
 
     if (node.type === 'timestamp') {
         return <span class="dc-timestamp" title={new Date(node.timestamp * 1000).toLocaleString()}>{convertTimestamp(node.format, node.timestamp)}</span>;
     }
 
-    return node.content || "<ERROR>";
+    if (node.content) {
+        return convertNewsNode(node.content);
+    }
+
+    console.warn("parser missing node:", node);
+
+    return "<ERROR>";
 }
 
 function convertNews(nodes) {

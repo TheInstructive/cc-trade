@@ -1286,3 +1286,9 @@ a{
   border-left: 3px solid #4E5058;
   padding-left: 6px;
 }
+.dc-link {
+  color: #00A8FC;
+}
+.dc-timestamp {
+  background-color: #3F4046;
+}
