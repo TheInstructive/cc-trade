@@ -1,88 +1,153 @@
-import React, { useState } from 'react'
-import './App.css';
-import {faCheck} from '@fortawesome/free-solid-svg-icons'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import TradeItem from './components/TradeItem';
+import { faArrowsLeftRight, faArrowLeft, faArrowRight} from '@fortawesome/free-solid-svg-icons'
 import loaded from './images/ll.jpg'
+import ballies from './images/ballies.png'
 
 
-export default function Trade() {
-    const [tradeStepClass, setradeStepClass] = useState('trade-bar-line trade-step-1');
-    const [currentTradeStep, setcurrentTradeStep] = useState(1);
-    const [warningClass, setwarningClass] = useState("warning")
-
-
-    function nextStep(){
-        if (currentTradeStep >= 3){return}
-        setcurrentTradeStep(currentTradeStep+1)
-        setradeStepClass("trade-bar-line trade-step-"+currentTradeStep)
-    }
-
-    function prevStep(){
-        if (currentTradeStep <= 1){return}
-        setcurrentTradeStep(currentTradeStep-1)
-        setradeStepClass("trade-bar-line trade-step-"+currentTradeStep)
-    }
-
-    function closeWarning(){
-        setwarningClass("displaynone")
-    }
-
+export default function TradePage() {
   return (
-    <div className='main-container'>
-        <div className={warningClass}>
-            <div>
-            <h2>Warning!</h2>
-            <p>Scammers send fake text messages to trick you into giving them your personal information — things like your password, account number, or Social Security number.</p>
-            </div>
-            <button onClick={closeWarning}>X</button>
-        </div>
-
-        <div className='trade-information'>
-            <h3>Please select at least one NFT you want to trade with <b>$USERNAME</b></h3>
-            <p>You'll able to see their NFTs in the next page, select an NFT and press Next Step button.</p>
-        </div>
-        <div className='trade-area'>
-            <div className='trade-line'></div>
-            <div className='trade-container'>
-            <TradeItem
-                nftid = "test"
-                nftimage = {loaded}
-                nftname = "Loaded Lion #1146"
-                />
-             <TradeItem
-                nftid = "test1"
-                nftimage = {loaded}
-                nftname = "Loaded Lion #1147"
-            />
-            </div>
-        </div>
-
-        <div className='trade-steps'>
-        <button onClick={prevStep}>PREV STEP</button>
-
-        <div className='trade-steps-container'>
-            <div className='trade-bar-container'>
-            <div className='trade-ghost-line'></div>
-            <div className={tradeStepClass}></div>
-                <div className='trade-dot-container'>
-                    <div className='trade-bar-dot'><FontAwesomeIcon icon={faCheck} /></div>
-                    <div className='trade-bar-dot'><FontAwesomeIcon icon={faCheck} /></div>
-                    <div className='trade-bar-dot'><FontAwesomeIcon icon={faCheck} /></div>
-                </div>
+    <div>
+         <div className='last-trades'>
+          <div className='last-trade-container'>
+            <div className='last-trade-item'>
+              <h4>Loaded Lion #1146</h4>
+              <img src={loaded}></img>
             </div>
 
-            <div className='trade-steps-text'>
-                <div className='trade-step'>Select an NFT</div>
-                <div className='trade-step'>Select an NFT</div>
-                <div className='trade-step'>Confirm Offer</div>
+            <FontAwesomeIcon icon={faArrowsLeftRight} />
+
+            <div className='last-trade-item'>
+              <h4>Ballie #1146</h4>
+              <img src={ballies}></img>
             </div>
+          </div>
+
+          <div className='last-trade-container'>
+            <div className='last-trade-item'>
+              <h4>Loaded Lion #1146</h4>
+              <img src={loaded}></img>
+            </div>
+            <FontAwesomeIcon icon={faArrowsLeftRight} />
+            <div className='last-trade-item'>
+              <h4>Ballie #1146</h4>
+              <img src={ballies}></img>
+            </div>
+          </div>
+
+          <div className='last-trade-container'>
+            <div className='last-trade-item'>
+              <h4>Loaded Lion #1146</h4>
+              <img src={loaded}></img>
+            </div>
+            <FontAwesomeIcon icon={faArrowsLeftRight} />
+            <div className='last-trade-item'>
+              <h4>Ballie #1146</h4>
+              <img src={ballies}></img>
+            </div>
+          </div>
+
+          <div className='last-trade-container'>
+            <div className='last-trade-item'>
+              <h4>Loaded Lion #1146</h4>
+              <img src={loaded}></img>
+            </div>
+            <FontAwesomeIcon icon={faArrowsLeftRight} />
+            <div className='last-trade-item'>
+              <h4>Ballie #1146</h4>
+              <img src={ballies}></img>
+            </div>
+          </div>
+
+          <div className='last-trade-container'>
+            <div className='last-trade-item'>
+              <h4>Loaded Lion #1146</h4>
+              <img src={loaded}></img>
+            </div>
+            <FontAwesomeIcon icon={faArrowsLeftRight} />
+            <div className='last-trade-item'>
+              <h4>Ballie #1146</h4>
+              <img src={ballies}></img>
+            </div>
+          </div>
+         </div>
+
+         <div className='feautured-nfts'>
+         <h2>Feautured NFTs</h2>
+         <div className='trade-item-container'>
+
+          <div className='trade-nft-item'>
+              <h4>Loaded Lion #1146</h4>
+              <img width={120} src={loaded}></img>
+              <button>OFFER</button>
+          </div>
+
+          <div className='trade-nft-item'>
+              <h4>Loaded Lion #1146</h4>
+              <img width={120} src={loaded}></img>
+              <button>OFFER</button>
+          </div>
+
+          <div className='trade-nft-item'>
+          <h4>Loaded Lion #1146</h4>
+              <img width={120} src={loaded}></img>
+              <button>OFFER</button>
+          </div>
+
+          <div className='trade-nft-item'>
+          <h4>Loaded Lion #1146</h4>
+              <img width={120} src={loaded}></img>
+              <button>OFFER</button>
+          </div>
+
+          <div className='trade-nft-item'>
+          <h4>Loaded Lion #1146</h4>
+              <img width={120} src={loaded}></img>
+              <button>OFFER</button>
+          </div>
+
+          <div className='trade-nft-item'>
+          <h4>Loaded Lion #1146</h4>
+              <img width={120} src={loaded}></img>
+              <button>OFFER</button>
+          </div>
+
+          <div className='trade-nft-item'>
+          <h4>Loaded Lion #1146</h4>
+              <img width={120} src={loaded}></img>
+              <button>OFFER</button>
+          </div>
+
+          <div className='trade-nft-item'>
+          <h4>Loaded Lion #1146</h4>
+              <img width={120} src={loaded}></img>
+              <button>OFFER</button>
+          </div>
+          
+         </div>
+
+
+
+         </div>
+         
+ {/* 
+         <div className='information-box'>
+          <div className='info-box'>
+            <h2>COMPLATED TRADES</h2>
+            <h1 id='counter'>878</h1>
+          </div>
+
+          <div className='info-box'>
+            <h2>CONNECTED WALLET</h2>
+            <h1 id='counter'>1456</h1>
+          </div>
+          
+          <div className='info-box'>
+            <h2>COMPLATED TRADES</h2>
+            <h1 id='counter'>421</h1>
+          </div>
         </div>
-
-            <button onClick={nextStep}>NEXT STEP</button>
-        </div>
-
-
+      */}
     </div>
   )
 }

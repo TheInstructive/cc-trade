@@ -2,25 +2,26 @@ import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleArrowRight, faArrowsLeftRight,faCheck} from '@fortawesome/free-solid-svg-icons'
 import animation from './images/animation.webp'
-import loaded from './images/ll.jpg'
-import ballies from './images/ballies.png'
+import nft from './images/trade.png'
 import twitter from './images/twitter.svg'
 import instagram from './images/instagram.svg'
 import discord from './images/discord.svg'
 import Typewriter from './components/TypeWriter';
-
+import Tutorial from './components/Tutorial';
+import testvideo from './images/testvideo.mp4'
+import { useState } from 'react';
 
 function App() {
-
+  const [tutorialRender, setTutorialRender] = useState(0)
 
   return (
     <div className="App">
       <div className='main-container'>
         <div className='banner'>
             <div className='banner-left'>
-            <Typewriter words={["SAFE TRADE", "BEST LAUNCHPAD", "COLLECTION NEWS"]} descriptions={["TRADE YOUR NFT WITHOUT ANY RISK", "SHARE YOUR REFFERAL LINK WITH YOUR COMMUNITY TO EARN $CRO FROM EVERY MINT", "FOLLOW COLLECTION ANNOUNCEMENTS EASILY",]}/>
+            <Typewriter words={["SAFE TRADE", "LAUNCHPAD", "COLLECTION NEWS"]} descriptions={["Trade your NFT without any risk.", "Share your refferal url with your community and earn.", "Follow collection announcements easily.",]}/>
               <br></br>
-              <button>CONNECT WALLET! &nbsp;&nbsp;<FontAwesomeIcon icon={faCircleArrowRight} /></button>
+              <button>CONNECT WALLET &nbsp;&nbsp;<FontAwesomeIcon icon={faCircleArrowRight} /></button>
             </div>
 
             <div className='banner-right'>
@@ -28,128 +29,91 @@ function App() {
             </div>
         </div>
 
-        <div className='information-box'>
-          <div className='info-box'>
-            <h2>COMPLATED TRADES</h2>
-            <h1 id='counter'>878</h1>
+        <div className='projects-container'>
+          <div className='project-item'>
+            <img width={100} src={nft}></img>
+            <h1>TRADE</h1>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <div><button>Trade Now</button> &nbsp; <button>Learn More</button></div>
           </div>
 
-          <div className='info-box'>
-            <h2>CONNECTED WALLET</h2>
-            <h1 id='counter'>1456</h1>
+          <div className='project-item'>
+          <img width={100} src={nft}></img>
+            <h1>LAUNCHPAD</h1>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <div><button>Launchpad</button> &nbsp; <button>Learn More</button></div>
           </div>
-          
-          <div className='info-box'>
-            <h2>COMPLATED TRADES</h2>
-            <h1 id='counter'>421</h1>
+
+          <div className='project-item'>
+          <img width={100} src={nft}></img>
+            <h1>NEWS</h1>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <div><button>Show News</button> &nbsp; <button>Learn More</button></div>
           </div>
         </div>
+        
+        <div className='note'>
+          <h2>
+            Our vision is to build a platform that not only simplifies NFT trading and launching, but also helps advance the potential of blockchain technology in new and exciting ways.
+          </h2>
+        </div>
 
-        <h2 id='trade-title'>LAST TRADES</h2>
+      {tutorialRender == 0 &&
+        <Tutorial
+        maintitle = "TRADE"
+        title1 = "Connect your wallet."
+        desc1 = "Connect your wallet top right."
+        title2 = "Connect your wallet."
+        desc2 = "Connect your wallet top right."
+        title3 = "Connect your wallet."
+        desc3 = "Connect your wallet top right."
+        title4 = "Connect your wallet."
+        desc4 = "Connect your wallet top right."
+        videosource = {testvideo}
+        />
+      }
 
-         <div className='last-trades'>
-          <div className='last-trade-container'>
-            <div className='last-trade-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img width={150} src={loaded}></img>
-              <button>Details</button>
-            </div>
-            <FontAwesomeIcon icon={faArrowsLeftRight} />
-            <div className='last-trade-item'>
-              <h4>Ballie #1146</h4>
-              <img width={150} src={ballies}></img>
-              <button>Details</button>
-            </div>
-          </div>
+      {tutorialRender == 1 &&
+        <Tutorial
+        maintitle = "LAUNCHPAD"
+        title1 = "Connect your wallet."
+        desc1 = "Connect your wallet top right."
+        title2 = "Connect your wallet."
+        desc2 = "Connect your wallet top right."
+        title3 = "Connect your wallet."
+        desc3 = "Connect your wallet top right."
+        title4 = "Connect your wallet."
+        desc4 = "Connect your wallet top right."
+        videosource = {testvideo}
+        />
+      }
 
-          <div className='last-trade-container'>
-            <div className='last-trade-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img width={150} src={loaded}></img>
-              <button>Details</button>
-            </div>
-            <FontAwesomeIcon icon={faArrowsLeftRight} />
-            <div className='last-trade-item'>
-              <h4>Ballie #1146</h4>
-              <img width={150} src={ballies}></img>
-              <button>Details</button>
-            </div>
-          </div>
 
-          <div className='last-trade-container'>
-            <div className='last-trade-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img width={150} src={loaded}></img>
-              <button>Details</button>
-            </div>
-            <FontAwesomeIcon icon={faArrowsLeftRight} />
-            <div className='last-trade-item'>
-              <h4>Ballie #1146</h4>
-              <img width={150} src={ballies}></img>
-              <button>Details</button>
-            </div>
-          </div>
+      {tutorialRender == 2 &&
+        <Tutorial
+        maintitle = "NEWS"
+        title1 = "Connect your wallet."
+        desc1 = "Connect your wallet top right."
+        title2 = "Connect your wallet."
+        desc2 = "Connect your wallet top right."
+        title3 = "Connect your wallet."
+        desc3 = "Connect your wallet top right."
+        title4 = "Connect your wallet."
+        desc4 = "Connect your wallet top right."
+        videosource = {testvideo}
+        />
+      }
 
-          <div className='last-trade-container'>
-            <div className='last-trade-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img width={150} src={loaded}></img>
-              <button>Details</button>
-            </div>
-            <FontAwesomeIcon icon={faArrowsLeftRight} />
-            <div className='last-trade-item'>
-              <h4>Ballie #1146</h4>
-              <img width={150} src={ballies}></img>
-              <button>Details</button>
-            </div>
-          </div>
+      <div className='tutorial-buttons'>
+        <button className={tutorialRender == 0 ? "tutorial-button activebutton" : "tutorial-button"} onClick={() => setTutorialRender(0)}>Trade</button>
+        <button className={tutorialRender == 1 ? "tutorial-button activebutton" : "tutorial-button"} onClick={() => setTutorialRender(1)}>Launchpad</button>
+        <button className={tutorialRender == 2 ? "tutorial-button activebutton" : "tutorial-button"} onClick={() => setTutorialRender(2)}>News</button>
 
-          
-
-         </div>
-         
-         <h2 id='trade-title'>HOW TO TRADE NFT?</h2>
-
-          <div className='tutorial'>
-            <div className='bar-container'>
-            <div className='ghost-line'></div>
-            <div className='bar-line'></div>
-              <div className='dot-container'>
-                <div id='dot1' className='bar-dot'><FontAwesomeIcon icon={faCheck} /></div>
-                <div id='dot2' className='bar-dot'><FontAwesomeIcon icon={faCheck} /></div>
-                <div id='dot3' className='bar-dot'><FontAwesomeIcon icon={faCheck} /></div>
-                <div id='dot4' className='bar-dot'><FontAwesomeIcon icon={faCheck} /></div>
-              </div>
-
-            </div>
-
-            <div className='tutorial-text'>
-              <div id='step1' className='tutorial-step'>
-              <h2>Connect your wallet.</h2>
-              <p>Connect your wallet on top right.</p>
-              </div>
-
-              <div id='step2' className='tutorial-step'>
-              <h2>Connect your wallet.</h2>
-              <p>Connect your wallet on top right. Connect your wallet on top right. Connect your wallet on top right. Connect your wallet on top right. </p>
-              </div>
-
-              <div id='step3' className='tutorial-step'>
-              <h2>Connect your wallet.</h2>
-              <p>Connect your wallet on top right.</p>
-              </div>
-
-              <div id='step4' className='tutorial-step'>
-              <h2>Connect your wallet.</h2>
-              <p>Connect your wallet on top right.</p>
-              </div>
-            </div>
-
-            <div className='tutorial-video'>
-              Video Area
-            </div>
-          </div>
       </div>
+        
+
+      </div>
+
 
       <div className='footer'>
         <div className='footer-menus'>
