@@ -125,13 +125,16 @@ a{
   align-items: center;
 }
 
-.logo img{
+.logo a img{
 height: 50%;
 }
 
 .logo a{
   font-size: 1.5em;
   margin-left: 0.5em;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
 .main-container{
@@ -412,18 +415,14 @@ max-width: 100px;
 
 
 .feautured-nfts{
-  margin-top: 1em;
-  border: 1px solid rgba(0, 0, 0, 0.603);
-  background: url(./images/lines.svg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: bottom;
+  margin-top: 1Em;
 }
 
 .feautured-nfts h2{
-  text-align: center;
+  text-align: left;
   color: white;
   font-family: 'Montserrat', sans-serif;
+  padding-left: 0.5em;
 }
 
 .trade-item-container{
@@ -433,36 +432,82 @@ max-width: 100px;
   max-width: 1280px;
   justify-content: center;
   flex-wrap: wrap;
-  padding-bottom: 2em;
+  border: 1px solid rgba(0, 0, 0, 0.603);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: bottom;
 }
 
 .trade-nft-item{
   display: flex;
   flex-direction: column;
   padding: 1em;
+  position: relative;
+  max-width: 200px;
+}
+
+.trade-nft-item img{
+  width: 200px;
 }
 
 .trade-nft-item h4{
-  font-size: 0.7em;
+  font-size: 1em;
   margin: 0;
   color: #fff;
   padding-bottom: 0.5em;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 400;
+  font-weight: 500;
   text-align: center;
+  background-color: #000000d8;
+  padding-top: 0.5em;
+
 }
 
-.trade-nft-item button{
+#featured-offer-button{
   width: 100%;
   border:0;
   background-color: #3a6eb1;
   color: white;
   font-family: 'Montserrat', sans-serif;
-  padding:0.5em;
+  padding:0.8em;
   border-bottom-left-radius: 1em;
   border-bottom-right-radius: 1em;
   font-weight: 600;
   cursor: pointer;
+}
+
+#featured-details-button{
+  color: white;
+  position: absolute;
+  top: 4.2em;
+  left: 1.2em;
+  border: 0;
+  background-color: #148647;
+  border-radius: 5em;
+  width: 30px;
+  height: 30px;
+  padding-bottom: 4px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+#featured-rank{
+  color: white;
+  position: absolute;
+  top: 4.2em;
+  right: 1.2em;
+  border: 0;
+  opacity: 0.9;
+  border-radius: 5em;
+  height: 30px;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #ac2c2c;
+  padding-left: 1em;
+  padding-right: 1em;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+
+
 }
 
 .tutorial{
@@ -1301,6 +1346,263 @@ max-width: 100px;
   align-items: center;
   justify-content: center;
 }
+
+.soon{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.soon h1{
+  white-space:pre-wrap;
+  text-align: center;
+  overflow: hidden;
+  color: var(--blue);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 4em;
+  margin-top: 0;
+}
+
+.dd-wrapper{
+background-color: pink;
+width: 200px;
+position: relative;
+}
+
+.dd-header{
+  background-color: #101010;
+  display: flex;
+  padding: 0.7em;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  color: white;
+}
+
+.dd-header-title{
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  color: white;
+}
+
+.dd-list{
+  background-color: rgb(255, 17, 0);
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+  z-index: 999;
+
+}
+
+.dd-list-item{
+  background-color: #181818;
+  padding: 0.8em;
+  border: 0;
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  display: flex;
+  text-align: left;
+}
+
+.dd-list-item:hover{
+  background-color: #303030;
+  cursor: pointer;
+}
+
+.filter-nfts{
+  margin-top: 5em;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border: 1px solid black;
+}
+
+.filter-search{
+  margin-right: 5em;
+  width: 20%;
+}
+
+.filter-search input{
+  border: 0;
+  background-color: #101010;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  height: 100%;
+  padding: 0.7em;
+  width: 100%;
+  padding-left: 2em;
+}
+
+.filter-search input:focus{
+  outline: none;
+  border-color: #4a7dc0;
+  box-shadow: 0 0 0 2px #4a7dc0;
+}
+
+.all-tradeable-nfts{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.slider-container {
+  margin-top: 2em;
+  position: relative;
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+  border-radius: 1em;
+
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+.slide-number {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 5;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9em;
+}
+
+.dots {
+  opacity: 0.5;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  z-index: 5;
+}
+
+.dots:hover{
+  opacity: 1;
+}
+
+.dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 100%;
+  background-color: white;
+  margin-right: 10px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.dot.active {
+  background-color: black;
+}
+
+.prev-button,
+.next-button {
+  z-index: 5;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background-color:transparent;
+  color: rgb(255, 255, 255);
+  background-color: #00000071;
+  font-size: 25px;
+  font-weight: bold;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  border: none;
+}
+
+.prev-button:hover,
+.next-button:hover {
+  background-color: black;
+  color: white;
+}
+
+.prev-button {
+  left: 0px;
+  border-top-right-radius: 1em;
+  border-bottom-right-radius: 1em;
+
+}
+
+.next-button {
+  right: 0px;
+  border-top-left-radius: 1em;
+  border-bottom-left-radius: 1em;
+}
+
+.learn-more-button {
+  z-index: 99;
+  position: absolute;
+  bottom: 5%;
+  right: 2%;
+  padding: 15px 20px;
+  background-color: var(--blue);
+  color: #333;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 4em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.learn-more-button:hover {
+  background-color: #4a7dc0;
+  color: #fff;
+}
+
+.launchpad-container{
+  margin-top: 5em;
+}
+
+.launchpad-container img{
+  width: 300px;
+}
+
+.launchpad-container h1{
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+
 
 @keyframes step{
   0%, 10% { color:#ffffff60;}

@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import Main from './Main'
 import Announcement from './Announcement';
 import Newsletter from './Newsletter';
+import Soon from './Soon';
+import Launchpad from './Launchpad';
 
 import {
   createBrowserRouter,
@@ -32,6 +34,18 @@ const router = createBrowserRouter([
       {
         path: "newsletter",
         element: <Newsletter />,
+      },
+      {
+        path: "/dao",
+        element: <Soon />,
+      },
+      {
+        path: "/launchpad",
+        element: <Launchpad />,
+      },
+      {
+        path: "/stake",
+        element: <Soon />,
       },
     ],
   },
