@@ -1,63 +1,25 @@
 import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowsLeftRight, faInfo} from '@fortawesome/free-solid-svg-icons'
+import { faArrowsLeftRight, faScaleBalanced, faArrowUpFromBracket, faHistory} from '@fortawesome/free-solid-svg-icons'
 import loaded from './images/ll.jpg'
 import ballies from './images/ballies.png'
-import Dropdown from './components/Dropdown'
+import ReceivedTrades from './components/ReceivedTrades'
+import SentTrades from './components/SentTrades'
+import TradeOffer from './TradeOffer'
+
+
 
 export default function TradePage() {
-  const [dropCollections, setDropCollections] = useState([
-    {
-      id: 0,
-      title: 'Aliens From Earth',
-      selected: false,
-      key: 'nft'
-    },
-    {
-      id: 1,
-      title: 'Ballies',
-      selected: false,
-      key: 'nft'
-    },
-    {
-      id: 2,
-      title: 'Loaded Lions',
-      selected: false,
-      key: 'nft'
-    },
-    {
-      id: 3,
-      title: 'CroSkull',
-      selected: false,
-      key: 'nft'
-    },
-    {
-      id: 4,
-      title: 'Cronos Cruisers',
-      selected: false,
-      key: 'nft'
-    },
-    {
-      id: 5,
-      title: 'Boomer Squad',
-      selected: false,
-      key: 'nft'
-    }
-  ]);
-
-  const resetThenSet = (id) => {
-    const temp = [...dropCollections];
-
-    if(temp[id].selected === true){
-    temp.forEach((item) => item.selected = false);
-    setDropCollections(temp);
-    }
-
-    else{
-    temp.forEach((item) => item.selected = false);
-    temp[id].selected = true;
-    setDropCollections(temp);
-    }
+  const [rederTab, setRenderTab] = useState(0)
+  const walletAddress = "https://cronos.club/createoffer/0x0000000000000000000000000000"
+  const [alertClas, setAlertClass] = useState("alert displaynone")
+  
+  const copyAddress = () => {
+    navigator.clipboard.writeText(walletAddress);
+    setAlertClass("alert")
+    setTimeout(() => {
+      setAlertClass("alert displaynone")
+    }, 2000);
   };
 
   return (
@@ -127,152 +89,57 @@ export default function TradePage() {
           </div>
          </div>
 
-         <div className='feautured-nfts'>
-          <h2>FEATURED</h2>
-         <div className='trade-item-container'>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
+        <div className='trade-wrapper'>
+
+          <div className='trade-header'>
+            <div className='wallet-info'>
+              <div className='wallet-pic'><img width={200} src={ballies}></img></div>
+              <div className='wallet-address'>0x00000000000000</div>
           </div>
 
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
+          <div className='trade-url'>
+            <h4>TRADE URL</h4>
+            <div className='trade-url-input'>
+            <input contentEditable={false} readOnly value={walletAddress}></input><button onClick={copyAddress}>COPY</button>
+            </div>
+            <p>Copy this URL and share anyone who want to trade with you!</p>
+            <div className={alertClas}>
+              <h2>YOUR TRADE URL COPIED TO THE CLIPBOARD</h2>
+            </div>
+
           </div>
 
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
           </div>
 
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
+            <div className='trade-nav-menu'>
+              <ul>
+              <li onClick={() => setRenderTab(0)} className={rederTab === 0 ? 'active-trade-menu' : ""}><a><FontAwesomeIcon icon={faScaleBalanced} /> &nbsp; Received Offers</a></li>
+              <li onClick={() => setRenderTab(1)} className={rederTab === 1 ? 'active-trade-menu' : ""}><a><FontAwesomeIcon icon={faArrowUpFromBracket} /> &nbsp; Sent Offers</a></li>
+              </ul>
+            </div>
 
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-         </div>
+            <div className='trade-page-container'>
+            {rederTab === 0 ?
+
+              <div className='trade-offers-tab'>
+                <ReceivedTrades></ReceivedTrades>
+              </div>
+              : ""
+            }
+            {rederTab === 1 ?
+              <div className='trade-offers-tab'>
+                  <SentTrades></SentTrades>
+              </div>
+              : ""
+            }
+            </div>
         </div>
 
-        <div className='filter-nfts'>
-          <div className='filter-search'>
-          <input placeholder='SEARCH' type="text"/>
-          </div>
-
-         <Dropdown
-          title="Select Collection"
-          list={dropCollections}
-          resetThenSet={resetThenSet}
-          />
-        </div>
-
-        <div className='all-tradeable-nfts'>
-        <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-          <div className='trade-nft-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
-              <button id='featured-details-button'><FontAwesomeIcon icon={faInfo} /></button>
-              <button id='featured-rank'>#RANK</button>
-              <button id='featured-offer-button'>OFFER</button>
-          </div>
-        </div>
+        
 
          
  {/* 
+ <TradeItem></TradeItem>
          <div className='information-box'>
           <div className='info-box'>
             <h2>COMPLATED TRADES</h2>

@@ -4,7 +4,9 @@ import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faCar
 import React, { useState, useEffect } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import logo from './images/logo1.png'
-
+import twitter from "./images/twitter.svg";
+import instagram from "./images/instagram.svg";
+import discord from "./images/discord.svg";
 
 function App() {
   return (
@@ -30,8 +32,75 @@ function App() {
 
     <div className='App'>
       <Outlet/>
+      <div className="footer">
+        <div className="footer-menus">
+          <div className="footer-menu">
+            <h4>About</h4>
+            <li>
+              <a>About US</a>
+            </li>
+            <li>
+              <a>FAQ</a>
+            </li>
+            <li>
+              <a>Help</a>
+            </li>
+            <li>
+              <a>AFE</a>
+            </li>
+          </div>
+
+          <div className="footer-menu">
+            <h4>Terms</h4>
+            <li>
+              <a>Privacy Policy</a>
+            </li>
+            <li>
+              <a>Terns of Use</a>
+            </li>
+            <li>
+              <a>Smart Contract</a>
+            </li>
+          </div>
+
+          <div className="footer-menu">
+            <h4>Profile</h4>
+            <li>
+              <a>Personal Area</a>
+            </li>
+            <li>
+              <a>Trade History</a>
+            </li>
+            <li>
+              <a>Secutiry</a>
+            </li>
+          </div>
+        </div>
+
+        <div className="social-box">
+          <a>
+            <img width={20} src={twitter}></img> Twitter
+          </a>
+          <a>
+            <img width={20} src={instagram}></img> Instagram
+          </a>
+          <a>
+            <img width={20} src={discord}></img> Discord
+          </a>
+        </div>
+
+        <div className="footer-info">
+          <p>
+            It is a long established fact that a reader will be distracted by
+            the readable content of a page when looking at its layout.
+            <br></br> Contact us at <a>support@cronos.club</a> or via{" "}
+            <a>Discord</a>.
+          </p>
+          <p>© 2023 CronosClub | All Rights Reserved.</p>
+        </div>
+      </div>
     </div>
-    </div>
+</div>
   );
 }
 

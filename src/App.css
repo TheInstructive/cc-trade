@@ -414,101 +414,300 @@ max-width: 100px;
 }
 
 
-.feautured-nfts{
-  margin-top: 1Em;
+.trade-wrapper{
+
 }
 
-.feautured-nfts h2{
-  text-align: left;
-  color: white;
-  font-family: 'Montserrat', sans-serif;
-  padding-left: 0.5em;
-}
-
-.trade-item-container{
+.trade-header{
   display: flex;
   flex-direction: row;
-  width: 100%;
-  max-width: 1280px;
-  justify-content: center;
-  flex-wrap: wrap;
-  border: 1px solid rgba(0, 0, 0, 0.603);
+  justify-content: space-around;
+  background: url(./images/lines.svg);
+  background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: bottom;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
-.trade-nft-item{
+.wallet-info{
   display: flex;
   flex-direction: column;
-  padding: 1em;
-  position: relative;
+  align-items: center;
+  justify-content: center;
+  padding-top: 2em;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  width: 50%;
+}
+
+.wallet-pic{
   max-width: 200px;
 }
-
-.trade-nft-item img{
-  width: 200px;
+.wallet-pic img{
+  max-width: 200px;
+  border-radius: 2em;
 }
 
-.trade-nft-item h4{
-  font-size: 1em;
-  margin: 0;
-  color: #fff;
-  padding-bottom: 0.5em;
+.trade-url{
+  width: 50%;
+  color: white;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  text-align: center;
-  background-color: #000000d8;
-  padding-top: 0.5em;
-
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-#featured-offer-button{
+.trade-url h4{
+  padding-left: 1em;
+  margin-bottom: 10px;
+}
+
+.trade-url p{
+  font-size: 0.8em;
+  padding-left: 1em;
+}
+
+.trade-url button{
+cursor: pointer;
+}
+
+.alert{
+  position: fixed;
   width: 100%;
-  border:0;
+  background-color: #208b4d;
+  height: 3em;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6em;
+  padding: 1em;
+  z-index: 9999;
+}
+
+
+
+.trade-url input{
+  width: 50%;
+  padding: 1em;
+  padding-left: 2em;
+  border-radius: 2em;
+  background-color: #000;
+  border: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.trade-url button{
+  padding: 1em;
+  border: 0;
+  margin-left: 0;
   background-color: #3a6eb1;
   color: white;
   font-family: 'Montserrat', sans-serif;
-  padding:0.8em;
-  border-bottom-left-radius: 1em;
-  border-bottom-right-radius: 1em;
   font-weight: 600;
+}
+
+.trade-nav-menu {
+  background-color: #0000005e;
+  margin-top: 1em;
+  padding: 0.05em;
+}
+
+.wallet-address{
+  margin-top: 0.5em;
+  margin-bottom: 1em;
+}
+
+.trade-nav-menu ul{
+  display: flex;
+  justify-content: space-around;
+  list-style-type:none;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  padding: 0;
+  margin: 0;
+}
+
+.trade-nav-menu li{
+  padding: 1em;
+  text-align: center;
+  margin: 0;
   cursor: pointer;
 }
 
-#featured-details-button{
-  color: white;
-  position: absolute;
-  top: 4.2em;
-  left: 1.2em;
-  border: 0;
-  background-color: #148647;
-  border-radius: 5em;
-  width: 30px;
-  height: 30px;
-  padding-bottom: 4px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+.active-trade-menu{
+  border-bottom: 2px solid #325d96;
 }
 
-#featured-rank{
-  color: white;
-  position: absolute;
-  top: 4.2em;
-  right: 1.2em;
-  border: 0;
-  opacity: 0.9;
-  border-radius: 5em;
-  height: 30px;
+.trade-page-container{
+  padding: 2em;
   font-family: 'Montserrat', sans-serif;
-  background-color: #ac2c2c;
+  color: white;
+  background-color: #00000080;
+}
+
+.trade-offer-wrapper{
+  width: 100%;
+  border: 1px solid rgb(13, 76, 136);
+  margin-bottom: 3em;
+}
+
+.trade-offer-header{
+  width: 100%;
+  background-color: #325d96;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  flex-wrap: wrap;
+  padding-top: 1em;
+  padding-bottom:1em ;
+  justify-content: space-around;
+  
+}
+
+.trade-offer-header h3{
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+}
+
+.offer-date{
+  display: flex;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #00000079;
+  margin-left: 1em;
+  margin-right: 2em;
   padding-left: 1em;
   padding-right: 1em;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-
-
 }
+
+.trade-status-active{
+  background-color: rgb(39, 167, 66);
+  padding: 0.5em;
+  border-radius: 1em;
+  padding-right: 2em;
+  padding-left: 2em;
+  font-weight: 600;
+}
+
+.trade-status-deactive{
+  position: absolute;
+  right: 2em;
+  background-color: rgb(255, 58, 58);
+  padding: 0.5em;
+  border-radius: 1em;
+  padding-right: 2em;
+  padding-left: 2em;
+  font-weight: 600;
+}
+
+.trade-offer-container{
+  width: 100%;
+  background-color: #414141;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.given-nfts-container{
+  background-color: #00000070;
+  width: 50%;
+  overflow:scroll;
+  overflow-x: hidden;
+  color: white;
+}
+
+.given-nfts-container h3{
+  font-family: 'Montserrat', sans-serif;
+  padding: 1em;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+}
+
+.given-nfts{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.trade-offer-buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  background-color: rgb(44, 44, 44);
+}
+
+.terms{
+  font-size: 0.8em;
+  padding: 1em;
+}
+
+.terms b{
+  color: #4a7dc0;
+  font-weight: 800;
+}
+
+.trade-offer-buttons button{
+  padding:1em;
+  border: 0;
+  width: 200px;
+  margin-right: 1em;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+#accept-button{
+  background-color: rgb(39, 167, 66);
+}
+
+#decline-button{
+  background-color: rgb(255, 58, 58);
+}
+
+.offered-nft-item{
+  padding: 1em;
+}
+
+.offered-nft-image, .offered-nft-image img{
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.offered-nft-image img{
+  border: 1px solid #000;
+}
+
+.offered-nft-information{
+  font-size: 0.7em;
+  margin-top: 0.3em;
+  text-align: center;
+}
+
+.received-nfts{
+  background-color: #584c4c;
+}
+
+.reveived-offer-buttons{
+  width: 100%;
+  background-color: white;
+}
+
 
 .tutorial{
   width: 100%;
@@ -683,6 +882,7 @@ max-width: 100px;
   max-width: 1280px;
   width: 100%;
   position: relative;
+  margin-top: 2em;
 }
 
 .footer-menus{
@@ -815,20 +1015,22 @@ max-width: 100px;
   border-top-right-radius: 1em;
   border-top-left-radius: 1em;
   font-family: 'Montserrat', sans-serif;
+  margin-top: 2em;
 }
 
 .trade-information h3{
   margin: 0;
   padding-top: 1em;
   font-weight: 200;
-  font-size: 1.5em;
+  font-size: 1.2em;
   text-align: center;
+  font-weight: 600;
 }
 
 .trade-information p{
   margin: 0rem;
   padding-bottom: 1em;
-  font-weight: 200;
+  font-weight: 400;
   text-align: center;
   color: #c7c7c7;
 }
@@ -904,11 +1106,10 @@ max-width: 100px;
   padding: 10px;
   width: 200px;
   height: 250px;
-  background-color: #252525;
+  background-color: #3b3b3b50;
   display: flex;
   flex-direction: column;
   margin: 0.5em;
-  border-radius: 0.5em;
 }
 
 .nft-information{
@@ -943,6 +1144,7 @@ max-width: 100px;
   color:white;
   font-family: 'Montserrat', sans-serif;
   font-weight: 500;
+  font-size: 0.7em;
 }
 
 .trade-bar-container{
@@ -1413,47 +1615,6 @@ position: relative;
   cursor: pointer;
 }
 
-.filter-nfts{
-  margin-top: 5em;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  border: 1px solid black;
-}
-
-.filter-search{
-  margin-right: 5em;
-  width: 20%;
-}
-
-.filter-search input{
-  border: 0;
-  background-color: #101010;
-  color: white;
-  font-family: 'Montserrat', sans-serif;
-  height: 100%;
-  padding: 0.7em;
-  width: 100%;
-  padding-left: 2em;
-}
-
-.filter-search input:focus{
-  outline: none;
-  border-color: #4a7dc0;
-  box-shadow: 0 0 0 2px #4a7dc0;
-}
-
-.all-tradeable-nfts{
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 .slider-container {
   margin-top: 2em;
   position: relative;
@@ -1590,16 +1751,86 @@ position: relative;
 }
 
 .launchpad-container{
-  margin-top: 5em;
+  margin-top: 4em;
 }
 
 .launchpad-container img{
-  width: 300px;
+  width: 100%;
+  border-radius: 1em;
+
+}
+
+.launchpad-collection-item{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .launchpad-container h1{
   color: white;
   font-family: 'Montserrat', sans-serif;
+}
+
+.launchpad-collection-image{
+  height: 300px;
+  position: relative;
+  width: 300px;
+  border-radius: 1em;
+}
+
+.launchpad-collection-details{
+  height: 250px;
+  padding: 1.2em;
+  width: 250px;
+  background-color: #00000050;
+  margin-left: -10px;
+  border-radius: 1em;
+  border-top-left-radius: 0; 
+  border-bottom-left-radius: 0;
+  color: white;
+  padding-left: 2em;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.launchpad-collection-details h2{
+  margin-top: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.launchpad-collection-details button {
+  border: 0;
+  padding: 1em;
+  width: 100%;
+  background-color: var(--blue);
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  border-radius: 2em;
+}
+
+.launchpad-time{
+  position: absolute;
+  background-color: rgb(255, 58, 58);
+  border-radius: 2em;
+  padding: 0.5em;
+  left: 10px;
+  top: 10px;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+}
+
+.launchpad-price{
+  position: absolute;
+  background-color: rgb(39, 167, 66);
+  border-radius: 2em;
+  padding: 0.5em;
+  right: 10px;
+  top: 10px;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
 }
 
 
@@ -1705,6 +1936,50 @@ position: relative;
   }
 }
 
+.dc-spoiler {
+  background-color: #444;
+  color: #444;
+  padding: 0.2em;
+}
+.dc-spoiler:hover {
+  background-color: none;
+  color: #fff;
+}
+.dc-code {
+  margin: 0;
+  background-color: #2B2D31;
+  color: #fff;
+  display: inline-block;
+}
+.dc-user, .dc-channel {
+  background-color: #3D4270;
+  color: #fff;
+  padding: 0 2px;
+  border-radius: 2px;
+}
+.dc-user:hover, .dc-channel:hover {
+  background-color: #5865F2;
+}
+.dc-multi-code {
+  background-color: #2B2D31;
+  border: 1px solid #1E1F22;
+  border-radius: 5px;
+  padding: 0.3em;
+  white-space: pre;
+  display: block;
+}
+.dc-quote {
+  margin: 0;
+  border-left: 3px solid #4E5058;
+  padding-left: 6px;
+}
+.dc-link {
+  color: #00A8FC;
+}
+.dc-timestamp {
+  background-color: #3F4046;
+}
+
 
 @media only screen and (max-width: 1000px) {
   .menu{display: none;}
@@ -1751,52 +2026,13 @@ position: relative;
   .news-details p{max-width: 90%;}
   .project-item{width: 100%;}
   .tutorial-button{width: 100%;}
-  .news-details .news-content{
-    max-width: 90%;
-
+  .news-details .news-content{max-width: 90%;}
+  .wallet-info{width: 100%;}
+  .trade-url{width: 100%; align-items:center;}
+  .trade-offer-buttons button{margin-top: 1em;}
+  .trade-offer-header h3{
+    font-size: 0.8em;
+    padding: 1em;
   }
-}
-
-.dc-spoiler {
-  background-color: #444;
-  color: #444;
-  padding: 0.2em;
-}
-.dc-spoiler:hover {
-  background-color: none;
-  color: #fff;
-}
-.dc-code {
-  margin: 0;
-  background-color: #2B2D31;
-  color: #fff;
-  display: inline-block;
-}
-.dc-user, .dc-channel {
-  background-color: #3D4270;
-  color: #fff;
-  padding: 0 2px;
-  border-radius: 2px;
-}
-.dc-user:hover, .dc-channel:hover {
-  background-color: #5865F2;
-}
-.dc-multi-code {
-  background-color: #2B2D31;
-  border: 1px solid #1E1F22;
-  border-radius: 5px;
-  padding: 0.3em;
-  white-space: pre;
-  display: block;
-}
-.dc-quote {
-  margin: 0;
-  border-left: 3px solid #4E5058;
-  padding-left: 6px;
-}
-.dc-link {
-  color: #00A8FC;
-}
-.dc-timestamp {
-  background-color: #3F4046;
+  .given-nfts-container{width: 100%; border-bottom: 4px solid #101010;}
 }

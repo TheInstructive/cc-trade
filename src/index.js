@@ -9,6 +9,7 @@ import Announcement from './Announcement';
 import Newsletter from './Newsletter';
 import Soon from './Soon';
 import Launchpad from './Launchpad';
+import TradeOffer from './TradeOffer';
 
 import {
   createBrowserRouter,
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "/stake",
         element: <Soon />,
+      },
+      {
+        path: "/createoffer",
+        element: <TradeOffer />,
       },
     ],
   },

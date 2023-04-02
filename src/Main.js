@@ -3,9 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {faCircleArrowRight} from "@fortawesome/free-solid-svg-icons";
 import animation from "./images/animation.webp";
 import nft from "./images/trade.png";
-import twitter from "./images/twitter.svg";
-import instagram from "./images/instagram.svg";
-import discord from "./images/discord.svg";
 import Typewriter from "./components/TypeWriter";
 import Tutorial from "./components/Tutorial";
 import testvideo from "./images/testvideo.mp4";
@@ -43,12 +40,9 @@ function App() {
           <div className="project-item">
             <img width={100} src={nft}></img>
             <h1>TRADE</h1>
-            <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </p>
+              <p>
+              Our trade system allows users to securely trade their NFTs without the risk of scams. Every user has a trade URL where their NFTs are stored, and other users can create offers to trade for any NFTs they are interested in. This system makes it easy and safe for users to trade their NFTs and expand their collections.
+              </p>
             <div>
               <button>Trade Now</button> &nbsp; <button>Learn More</button>
             </div>
@@ -58,10 +52,7 @@ function App() {
             <img width={100} src={nft}></img>
             <h1>LAUNCHPAD</h1>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+            Our launchpad system includes an affiliate program where every user is provided with a unique affiliate URL that can be shared with their community. When NFTs are minted from this URL, the affiliate owner earns a percentage of the profit. This system allows users to earn passive income by promoting NFT collections on our platform.
             </p>
             <div>
               <button>Launchpad</button> &nbsp; <button>Learn More</button>
@@ -72,10 +63,7 @@ function App() {
             <img width={100} src={nft}></img>
             <h1>NEWS</h1>
             <p>
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+            Newsletter page is regularly updated with the latest developments, announcements, and updates from various NFT collections on the chain. This ensures that our users are always in the know about the latest trends, releases, and upcoming events in the Cronos Chain, and helps them make informed decisions about their investments.
             </p>
             <div>
               <button>Show News</button> &nbsp; <button>Learn More</button>
@@ -170,73 +158,7 @@ function App() {
         </div>
       </div>
 
-      <div className="footer">
-        <div className="footer-menus">
-          <div className="footer-menu">
-            <h4>About</h4>
-            <li>
-              <a>About US</a>
-            </li>
-            <li>
-              <a>FAQ</a>
-            </li>
-            <li>
-              <a>Help</a>
-            </li>
-            <li>
-              <a>AFE</a>
-            </li>
-          </div>
-
-          <div className="footer-menu">
-            <h4>Terms</h4>
-            <li>
-              <a>Privacy Policy</a>
-            </li>
-            <li>
-              <a>Terns of Use</a>
-            </li>
-            <li>
-              <a>Smart Contract</a>
-            </li>
-          </div>
-
-          <div className="footer-menu">
-            <h4>Profile</h4>
-            <li>
-              <a>Personal Area</a>
-            </li>
-            <li>
-              <a>Trade History</a>
-            </li>
-            <li>
-              <a>Secutiry</a>
-            </li>
-          </div>
-        </div>
-
-        <div className="social-box">
-          <a>
-            <img width={20} src={twitter}></img> Twitter
-          </a>
-          <a>
-            <img width={20} src={instagram}></img> Instagram
-          </a>
-          <a>
-            <img width={20} src={discord}></img> Discord
-          </a>
-        </div>
-
-        <div className="footer-info">
-          <p>
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
-            <br></br> Contact us at <a>support@cronos.club</a> or via{" "}
-            <a>Discord</a>.
-          </p>
-          <p>© 2023 CronosClub | All Rights Reserved.</p>
-        </div>
-      </div>
+      
     </div>
   );
 }
