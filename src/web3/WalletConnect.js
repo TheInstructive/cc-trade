@@ -177,7 +177,7 @@ export async function getActiveOffers() {
 export async function createOffer(address, tokens) {
   try {
     const contract = TraderContract();
-    await contract.write('createOffer', [ address, tokens.map(id => BigNumber.from(id)) ], {
+    await contract.write('createOffer',[ address, tokens ], {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
   } catch (err) {
