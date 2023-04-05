@@ -19,7 +19,11 @@ const Trader = {
 
   abi(network) {
     return abi;
-  }
+  },
+
+  payment(network) {
+    return "10.0";
+  },
 }
 
 export default Trader;

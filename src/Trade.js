@@ -6,6 +6,7 @@ import ballies from './images/ballies.png'
 import ReceivedTrades from './components/ReceivedTrades'
 import SentTrades from './components/SentTrades'
 import TradeOffer from './TradeOffer'
+import { isWalletConnected, getWalletAddress, createOffer, getActiveOffers, acceptOffer, cancelOffer } from "./web3/WalletConnect";
 
 
 

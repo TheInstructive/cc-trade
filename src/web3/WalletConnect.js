@@ -10,9 +10,9 @@ import {
   readContract,
 } from '@wagmi/core';
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
-import { Web3Modal } from '@web3modal/html';
+import { Web3Modal } from "@web3modal/react";
 import { publicProvider } from '@wagmi/core/providers/public';
-import { BigNumber } from 'ethers';
+import { BigNumber, utils } from 'ethers';
 
 import { localNet, cronosMainnet, cronosTestnet } from "./Chains";
 import Trader from "./trader/Contract";
@@ -29,21 +29,22 @@ const { provider } = configureChains(chains, [
 ]);
 const wagmiClient = createClient({
   autoConnect: true,
-  connectors: w3mConnectors({ projectId, version: 1, chains }),
+  connectors: w3mConnectors({ version: 1, chains, projectId }),
   provider,
 });
 const ethereumClient = new EthereumClient(wagmiClient, chains);
 
-export const web3Modal = new Web3Modal(
-  {
-    projectId
-  },
-  ethereumClient
-);
+export const web3Modal = <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />;
+export { useWeb3Modal } from "@web3modal/react";
 
 export function getWalletAddress() {
   const { address } = getAccount();
   return address;
+}
+
+export function isWalletConnected() {
+  const { isConnected } = getAccount();
+  return isConnected;
 }
 
 export function onWalletChange(callback) {
@@ -64,13 +65,14 @@ function TraderContract() {
   const abi = Trader.abi(chain.name);
 
   return {
-    async write(functionName, args) {
+    async write(functionName, args, overrides) {
       const config = await prepareWriteContract({
         address: contractAddress,
         abi,
         functionName,
         args,
         overrides: {
+          ...(overrides || {}),
           from: address,
         }
       });
@@ -94,6 +96,10 @@ function TraderContract() {
 
     userAddress() {
       return address;
+    },
+
+    network() {
+      return chain.name;
     },
   }
 }
@@ -168,11 +174,25 @@ export async function getActiveOffers() {
     };
   }
 }
+export async function createOffer(address, tokens) {
+  try {
+    const contract = TraderContract();
+    await contract.write('createOffer', [ address, tokens.map(id => BigNumber.from(id)) ], {
+      value: utils.parseEther(Trader.payment(contract.network())),
+    });
+  } catch (err) {
+    return {
+      error: err.message,
+    };
+  }
+}
 
 export async function acceptOffer(id, index) {
   try {
     const contract = TraderContract();
-    contract.write('acceptOffer', [ BigNumber.from(id), BigNumber.from(index) ]);
+    await contract.write('acceptOffer', [ BigNumber.from(id), BigNumber.from(index) ], {
+      value: utils.parseEther(Trader.payment(contract.network())),
+    });
   } catch (err) {
     return {
       error: err.message,
@@ -183,7 +203,7 @@ export async function acceptOffer(id, index) {
 export async function cancelOffer(id, index) {
   try {
     const contract = TraderContract();
-    contract.write('cancelOffer', [ BigNumber.from(id), BigNumber.from(index) ]);
+    await contract.write('cancelOffer', [ BigNumber.from(id), BigNumber.from(index) ]);
   } catch (err) {
     return {
       error: err.message,

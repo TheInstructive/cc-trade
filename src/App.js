@@ -7,10 +7,31 @@ import logo from './images/logo1.png'
 import twitter from "./images/twitter.svg";
 import instagram from "./images/instagram.svg";
 import discord from "./images/discord.svg";
+import { web3Modal, useWeb3Modal, onWalletChange, isWalletConnected } from "./web3/WalletConnect";
 
 function App() {
+  const { isOpen: isModalOpen, open: openModal, close: closeModal } = useWeb3Modal();
+  const [ isConnected, setConnected ] = useState(false);
+
+  useEffect(() => {
+    setConnected(isWalletConnected());
+
+    onWalletChange((account) => {
+      setConnected(account.isConnected);
+    });
+  }, []);
+
+  function onConnectClick() {
+    if (isModalOpen) {
+      closeModal();
+    } else {
+      openModal();
+    }
+  }
+
   return (
     <div>
+      { web3Modal }
       <div style={{width:"100%", backgroundColor:"#212121", display:"flex", justifyContent:"center", borderBottom:'1px solid #181818'}}>
         <div className='navigation'>
           <div className='logo'><a href='/'><img src={logo}/></a></div>
@@ -25,7 +46,7 @@ function App() {
           </div>
 
           <div className='right'>
-            <button>CONNECT WALLET</button>
+            {!isConnected && <button onClick={onConnectClick}>CONNECT WALLET</button>}
           </div>
         </div>
       </div>
