@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../App.css';
 import Modal from './Modal';
 
@@ -144,37 +144,50 @@ export default function AnnouncementItem(props) {
     const [showDetails, setshowDetails] = useState(false)
     const [imageNum, setimageNum] = useState(0)
     const [zoomImg, setzoomImg] = useState(false)
-    
     const announcementImages = props.annouImages
     const { announcementDesc } = props;
     const content = convertNews(announcementDesc);
     
     function nextImage(){
-        console.log(announcementImages.length)
-        console.log(imageNum)
         if(imageNum === announcementImages.length-1){return}
         else{setimageNum(imageNum+1)}
     }
     
     function prevImage(){
-        console.log(announcementImages.length)
-        console.log(imageNum)
         if(imageNum === 0){return}
         else{setimageNum(imageNum-1)}
     }
+
+    useEffect(() => {
+        console.log(announcementImages)
+        setshowDetails(props.isDetailsShown);
+      }, [props.isDetailsShown]);
     
-    
-    function announcementDetails(){
-        setshowDetails(!showDetails)
-    }
+      const announcementDetails = () => {
+        props.onDetailsToggle();
+        setshowDetails(!showDetails);
+        scrollToElement()
+      };
     
     function zoomImage(){
         setzoomImg(!zoomImg)
     }
+
+    const myRef = useRef(null)
+    const scrollToElement = () => {
+        if (myRef.current) {
+          setTimeout(() => {
+            window.scrollTo({
+              top: myRef.current.offsetTop -50,
+              behavior: "smooth"
+            });
+          }, 200);
+        }
+      };
     
     return (
         <>
-        {zoomImg && <Modal modalTitle= {"IMAGE "+(imageNum+1)} modalContent = {<img src={announcementImages[imageNum]} alt="Modal" />} button = {zoomImage}/> }
+        {zoomImg && <Modal modalTitle= {"IMAGE "+(imageNum+1)} modalContent = {<img src={announcementImages[imageNum].url} alt="Modal" />} button = {zoomImage}/> }
         
         <div className='news-table-element'>
         <img src={props.collectionImage} alt="Collection"></img>
@@ -182,7 +195,7 @@ export default function AnnouncementItem(props) {
         <img src={props.announcementAuthor} alt="Author"></img>
         <h2>{props.announcementTitle}</h2>
         </div>
-        <h3>{props.announcementDate}</h3>
+        <h3 ref={myRef} >{props.announcementDate}</h3>
         <button onClick={announcementDetails}>{showDetails ? "HIDE" : "SHOW" }</button>
         </div>
         
@@ -191,7 +204,15 @@ export default function AnnouncementItem(props) {
             <div className="news-details">
             {announcementImages.length > 0 &&
                 <div className='news-image-gallery'>
-                <img onClick={zoomImage} src={announcementImages[imageNum]} alt={props.announcementTitle}></img>
+
+                {announcementImages[imageNum].type === 'image' && (
+                    <img onClick={zoomImage} src={announcementImages[imageNum].url} alt={props.announcementTitle} /> 
+                )}
+
+                {announcementImages[imageNum].type === 'video' && (
+                    <video muted autoPlay height={200} src={announcementImages[imageNum].url} controls />
+                )}
+
                 {announcementImages.length > 1 &&
                     <div className='news-image-control-panel'>
                     <button onClick={prevImage} id='news-image-prev'> PREV </button>

@@ -1,14 +1,31 @@
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faCaretRight, faCircleArrowRight, faArrowsLeftRight,faCheck} from '@fortawesome/free-solid-svg-icons'
-import React, { useState, useEffect } from 'react';
+import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faHome} from '@fortawesome/free-solid-svg-icons'
+import React, { useContext, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import logo from './images/logo1.png'
 import twitter from "./images/twitter.svg";
 import instagram from "./images/instagram.svg";
 import discord from "./images/discord.svg";
+import { useTranslation } from 'react-i18next';
+import Dropdown from './components/Dropdown'
+
+const languages = [
+  { id: 1, title: 'English', key: 'en', image:"https://flagicons.lipis.dev/flags/4x3/gb.svg" },
+  { id: 2, title: 'Español', key: 'es', image:"https://flagicons.lipis.dev/flags/4x3/es.svg" },
+  { id: 2, title: 'Italiano', key: 'it', image:"https://flagicons.lipis.dev/flags/4x3/it.svg" },
+  { id: 2, title: 'Turkish', key: 'tr', image:"https://flagicons.lipis.dev/flags/4x3/tr.svg" },
+];
+
 
 function App() {
+  const { t } = useTranslation();
+
+  const selectLanguage = (key) => {
+    localStorage.setItem('language', key);
+    window.location.reload();
+  };
+
   return (
     <div>
       <div style={{width:"100%", backgroundColor:"#212121", display:"flex", justifyContent:"center", borderBottom:'1px solid #181818'}}>
@@ -25,8 +42,15 @@ function App() {
           </div>
 
           <div className='right'>
-            <button>CONNECT WALLET</button>
+            <button>{t('connectwallet')}</button>
           </div>
+
+          <Dropdown
+            title="Select Collection"
+            list={languages}
+            selectLanguage={selectLanguage}
+            />
+
         </div>
       </div>
 
@@ -69,10 +93,10 @@ function App() {
               <a>Personal Area</a>
             </li>
             <li>
-              <a>Trade History</a>
+              <a>Trade</a>
             </li>
             <li>
-              <a>Secutiry</a>
+              <a>Security</a>
             </li>
           </div>
         </div>
@@ -100,6 +124,16 @@ function App() {
         </div>
       </div>
     </div>
+
+    <div className='mobile-menu'>
+    <button><Link to='/'><FontAwesomeIcon icon={faHome} /></Link></button>
+    <button><Link to='/trade'><FontAwesomeIcon icon={faHandshake} /></Link></button>
+    <button><Link to='/launchpad'><FontAwesomeIcon icon={faRocket} /></Link></button>
+    <button><Link to='/stake'><FontAwesomeIcon icon={faSackDollar} /></Link></button>
+    <button><Link to='/newsletter'><FontAwesomeIcon icon={faNewspaper} /></Link></button>
+    <button><Link to='/dao'><FontAwesomeIcon icon={faScaleBalanced} /></Link></button>
+    </div>
+
 </div>
   );
 }

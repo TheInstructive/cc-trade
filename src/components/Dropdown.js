@@ -1,68 +1,70 @@
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleUp, faAngleDown, faSquare, faSquareCheck} from '@fortawesome/free-solid-svg-icons'
+import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
 export default function Dropdown(props) {
-    const { resetThenSet } = props;
-    const [isListOpen, setIsListOpen] = useState(false);
-    const [headerTitle, setHeaderTitle] = useState(props.title);
-    const list = props.list
-    const staticTitle = props.title
-  
-    const toggleList = () => {
-        setIsListOpen(prevIsListOpen => !prevIsListOpen);
-    };
-  
-    const selectItem = (item) => {
-        const { title, id, key } = item;
+  const { selectLanguage } = props;
+  const [isListOpen, setIsListOpen] = useState(false);
+  const [headerImage, setHeaderImage] = useState(null);
+  const list = props.list;
 
-        if(item.selected === true)
-        {
-        setHeaderTitle(staticTitle)
-        }
-        else{
-            setHeaderTitle(title);
-        }
+  useEffect(() => {
+    // Check if a language is selected in local storage and set the header image accordingly
+    const selectedLanguage = localStorage.getItem('language');
+    if (selectedLanguage) {
+      const language = list.find(lang => lang.key === selectedLanguage);
+      if (language) {
+        setHeaderImage(language.image);
+      }
+    }
+  }, [list]);
 
-        setIsListOpen(false);
-        resetThenSet(id, key);
+  const toggleList = () => {
+    setIsListOpen(prevIsListOpen => !prevIsListOpen);
+  };
 
-      };
+  const selectItem = item => {
+    const { id, key, image } = item;
+
+    if (item.selected) {
+      return;
+    } else {
+      localStorage.setItem('language', key);
+      setHeaderImage(image);
+    }
+
+    setIsListOpen(false);
+    selectLanguage(key);
+  };
 
   return (
     <div className="dd-wrapper">
-      <button
-        type="button"
-        className="dd-header"
-        onClick={toggleList}
-      >
-        <div className="dd-header-title">{headerTitle} &nbsp;</div>
-        {isListOpen
-          ? <FontAwesomeIcon icon={faAngleUp} />
-
-          : <FontAwesomeIcon icon={faAngleDown} />}
+      <button type="button" className="dd-header" onClick={toggleList}>
+        <div className="dd-header-title">
+          {headerImage && <img src={headerImage} width={20} alt="" />} &nbsp;
+        </div>
+        {isListOpen ? (
+          <FontAwesomeIcon icon={faAngleUp} />
+        ) : (
+          <FontAwesomeIcon icon={faAngleDown} />
+        )}
       </button>
 
       {isListOpen && (
-        <div
-          role="list"
-          className="dd-list"
-        >
-          {list.map((item) => (
+        <div role="list" className="dd-list">
+          {list.map(item => (
             <button
               type="button"
               className="dd-list-item"
               key={item.id}
               onClick={() => selectItem(item)}
             >
-              {item.selected && <FontAwesomeIcon color='#4a7dc0' icon={faSquareCheck} />}
-              {!item.selected && <FontAwesomeIcon icon={faSquare} />}
-              &nbsp;&nbsp;
-              {item.title}
+              <div><img width={20} src={item.image} alt="" /></div>
             </button>
           ))}
         </div>
       )}
     </div>
-  )
+  );
 }
+

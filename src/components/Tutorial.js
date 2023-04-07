@@ -42,7 +42,7 @@ export default function Tutorial(props) {
             </div>
 
             <div className='tutorial-video'>
-            <video controls={false}>
+            <video autoPlay controls={false} loop>
             <source src={props.videosource} type="video/mp4" />
             </video>
             </div>

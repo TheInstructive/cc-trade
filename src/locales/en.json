@@ -1,0 +1,21 @@
+{
+  "connectwallet": "CONNECT WALLET",
+  "tradedesc": "Our trade system allows users to securely trade their NFTs without the risk of scams. Every user has a trade URL where their NFTs are stored, and other users can create offers to trade for any NFTs they are interested in. This system makes it easy and safe for users to trade their NFTs and expand their collections.",
+  "launchpaddesc": "Our launchpad system includes an affiliate program where every user is provided with a unique affiliate URL that can be shared with their community. When NFTs are minted from this URL, the affiliate owner earns a percentage of the profit. This system allows users to earn passive income by promoting NFT collections on our platform.",
+  "newsdesc": "Newsletter page is regularly updated with the latest developments, announcements, and updates from various NFT collections on the chain. This ensures that our users are always in the know about the latest trends, releases, and upcoming events in the Cronos Chain, and helps them make informed decisions about their investments.",
+  "safetrade": "SAFE TRADE",
+  "launchpad": "LAUNCHPAD",
+  "collectionnews": "COLLECTION NEWS",
+  "tradeyournft": "Trade your NFT without any risk.",
+  "shareyourref": "Share your refferal url with your community and earn.",
+  "followcollection": "Follow collection announcements easily.",
+  "ourvision":"Our vision is to build a platform that not only simplifies NFT trading and launching, but also helps advance the potential of blockchain technology in new and exciting ways.",
+  "tutorial1title1": "Go to the newsletter page",
+  "tutorial1desc1": "Go to the newsletter page from the top menu",
+  "tutorial1title2": "Search for a collection",
+  "tutorial1desc2": "Search for a collection using the search bar",
+  "tutorial1title3": "Select the collection",
+  "tutorial1desc3": "Select the collection you are looking for",
+  "tutorial1title4": "Check the announcements",
+  "tutorial1desc4": "Check all the announcements related to the collection you have selected"
+}
