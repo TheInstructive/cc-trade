@@ -1,0 +1,21 @@
+{
+  "connectwallet": "CÜZDANI BAĞLA",
+  "tradedesc": "Trade sistemimiz, kullanıcıların NFT'lerini dolandırıcılık riski olmadan güvenli bir şekilde takas etmelerine olanak tanır. Her kullanıcının bir takas URL'si vardır ve diğer kullanıcılar ilgilendikleri herhangi bir NFT için takas teklifleri oluşturabilir. Bu sistem, kullanıcıların NFT'lerini takas etmelerini ve koleksiyonlarını genişletmelerini kolay ve güvenli hale getirir.",
+  "launchpaddesc": "Launchpad sistemimiz, her kullanıcının topluluğuyla paylaşabileceği benzersiz bir affiliate URL'si sağlayan affiliate programını içerir. Bu URL'den NFT'ler basıldığında, affiliate sahibi karın bir yüzdesini kazanır. Bu sistem, kullanıcıların platformumuzdaki NFT koleksiyonlarını tanıtarak pasif gelir elde etmelerine olanak tanır.",
+  "newsdesc": "Bülten sayfamız, zincirdeki çeşitli NFT koleksiyonlarından en son gelişmeleri, duyuruları ve güncellemeleri düzenli olarak günceller. Bu, kullanıcılarımızın Cronos Zinciri'ndeki en son trendler, çıkışlar ve yaklaşan etkinlikler hakkında her zaman bilgili olmalarını sağlar ve yatırımları konusunda bilinçli kararlar vermelerine yardımcı olur.",
+  "safetrade": "GÜVENLİ TRADE",
+  "launchpad": "LAUNCHPAD",
+  "collectionnews": "KOLEKSİYON DUYURULARI",
+  "tradeyournft": "NFT'nizi herhangi bir risk olmadan takas edin.",
+  "shareyourref": "Topluluğunuzla affiliate URL'nizi paylaşın ve kazanın.",
+  "followcollection": "Koleksiyon duyurularını kolayca takip edin.",
+  "ourvision":"Vizyonumuz, NFT ticaretini ve launchpadini sadece basitleştirmekle kalmayıp, blok zinciri teknolojisinin potansiyelini yeni ve heyecan verici yollarla ilerletmeye yardımcı olan bir platform oluşturmaktır.",
+  "tutorial1title1": "Newsletter sayfasına git",
+  "tutorial1desc1": "Newsletter butonuna tıklayarak sayfaya git",
+  "tutorial1title2": "Arama çubuğunu kullan",
+  "tutorial1desc2": "Arama çubuğunu kullanarak koleksiyon ara",
+  "tutorial1title3": "Koleksiyon seç",
+  "tutorial1desc3": "Aradığın koleksiyonu seç",
+  "tutorial1title4": "Duyuruları kontrol et",
+  "tutorial1desc4": "Seçtiğin koleksiyonla ilgili bütün duyuruları kontrol et"
+}

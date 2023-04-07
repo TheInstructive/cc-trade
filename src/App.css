@@ -120,13 +120,14 @@ a{
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 100%;
+  height: 90%;
   display: flex;
   align-items: center;
+  margin-left: 0;
 }
 
 .logo a img{
-height: 50%;
+height: 40%;
 }
 
 .logo a{
@@ -135,6 +136,21 @@ height: 50%;
   height: 100%;
   display: flex;
   align-items: center;
+}
+
+.mobile-menu{
+  display: none;
+}
+
+.mobile-menu button{
+  background-color: #151515;
+  width: 100%;
+  font-size: 1.2em;
+  border: 0;
+  border-left: 1px solid rgba(0, 0, 0, 0.397);
+}
+.mobile-menu button a{
+  color: #ffffff;
 }
 
 .main-container{
@@ -180,6 +196,10 @@ height: 50%;
   text-align: center;
   padding: 1em;
   width: 25%;
+}
+
+.project-item a{
+  color: #ffffff;
 }
 
 .project-item h1{
@@ -1218,6 +1238,23 @@ cursor: pointer;
   margin-top: 0.5em;
 }
 
+.news-collections input{
+  padding: 1.2em;
+  border: 1px solid black;
+  background: rgb(0,0,0);
+  background: rgb(32,32,32);
+  background: linear-gradient(90deg, rgba(32,32,32,1) 0%, rgba(16,16,16,1) 100%);
+  border-radius: 5em;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
+  outline: 0;
+}
+
+.news-collections input::placeholder{
+  color: rgba(255, 255, 255, 0.644);
+}
+
 .news-item{
   display: flex;
   flex-direction: row;
@@ -1394,10 +1431,33 @@ cursor: pointer;
   color: white;
   font-family: 'Montserrat', sans-serif;
   border: 0;
-  background-color: #000000c7;
+  background-color: var(--blue);
   padding: 1em;
   border-radius: 10em;
   font-weight: 500;
+}
+
+.pagination{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.pagination button{
+  padding: 1em;
+  background-color: var(--blue);
+  border: 0;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  margin-bottom: 5em;
+  margin-top: 2em;
+}
+
+.pagination button:disabled{
+  padding: 1em;
+  background-color: #0355995b;
+  cursor:not-allowed;
 }
 
 .newsletter-container{
@@ -1484,6 +1544,14 @@ cursor: pointer;
   box-shadow: 0 0 0 2px #4a7dc0;
 }
 
+#loading-text{
+  margin-top: 2em;
+  padding: 1em;
+  background-color: var(--blue);
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+}
+
 .modal{
   width: 100%;
   height: 100%;
@@ -1568,9 +1636,9 @@ cursor: pointer;
 }
 
 .dd-wrapper{
-background-color: pink;
-width: 200px;
 position: relative;
+margin-right: 1em;
+margin-left: 0;
 }
 
 .dd-header{
@@ -1591,12 +1659,12 @@ position: relative;
 }
 
 .dd-list{
-  background-color: rgb(255, 17, 0);
   display: flex;
   flex-direction: column;
   position: absolute;
   width: 100%;
   z-index: 999;
+  align-items: center;
 
 }
 
@@ -1616,13 +1684,12 @@ position: relative;
 }
 
 .slider-container {
-  margin-top: 2em;
+  margin-top: 1em;
   position: relative;
   width: 100%;
-  height: 400px;
   overflow: hidden;
   border-radius: 1em;
-
+  min-height: 400px;
 }
 
 .slide {
@@ -1731,7 +1798,7 @@ position: relative;
 .learn-more-button {
   z-index: 99;
   position: absolute;
-  bottom: 5%;
+  bottom: 10%;
   right: 2%;
   padding: 15px 20px;
   background-color: var(--blue);
@@ -1764,17 +1831,19 @@ position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .launchpad-container h1{
   color: white;
+  padding-left: 0.5em;
   font-family: 'Montserrat', sans-serif;
 }
 
 .launchpad-collection-image{
-  height: 300px;
+  max-height: 300px;
   position: relative;
-  width: 300px;
+  max-width: 300px;
   border-radius: 1em;
 }
 
@@ -1783,10 +1852,8 @@ position: relative;
   padding: 1.2em;
   width: 250px;
   background-color: #00000050;
-  margin-left: -10px;
   border-radius: 1em;
-  border-top-left-radius: 0; 
-  border-bottom-left-radius: 0;
+
   color: white;
   padding-left: 2em;
   font-family: 'Montserrat', sans-serif;
@@ -1831,6 +1898,187 @@ position: relative;
   color: white;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
+}
+
+.affiliates-container{
+  margin-top: 2em;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.affiliates-title{
+  padding-bottom: 2em;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  color: white;
+}
+
+.affiliates-title h1{
+  color: #4a7dc0;
+}
+
+.affiliates-title p{
+  font-weight: 300;
+  padding: 0.5em;
+}
+
+.affiliates-link{
+  width: 100%;
+  text-align: center;
+  border: 1px solid black;
+  padding-bottom: 2em;
+}
+
+.affiliates-link p{
+  color: white;
+  padding: 0.5em;
+}
+
+.affiliates-link label{
+  font-size: 1.2em;
+  color: white;
+  font-weight: 600;
+}
+
+.affiliates-link button{
+  padding: 1.2em;
+  border: 0;
+  background-color:var(--blue);;
+  color: #FFFFFF;
+  padding-right: 2em;
+  padding-left: 2em;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600; 
+  border-radius: 2em;
+  margin-left: -5em;
+}
+
+.affiliates-link input{
+  border: 0;
+  padding: 1.2em;
+  width: 50%;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  border-radius: 2em;
+  background-color: #0000007a;
+}
+
+.affiliates-link input:focus{outline: 0;}
+
+.affiliates-information{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 4em;
+  flex-wrap: wrap;
+}
+
+.affiliates-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px solid var(--blue);;
+  padding-top: 2em;
+  background-color: #00000036;
+  padding: 1em;
+  width: 40%;
+  color: white;
+  text-align: center;
+  margin-bottom: 2em;
+  padding-bottom: 2em;
+}
+
+.affiliates-item h3{
+  font-size: 1.3em;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.affiliates-item h1{
+  margin-top: 0;
+  font-size: 1.7em;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #00000057;
+  padding: 0.3em;
+  padding-left: 1em;
+  padding-right: 1em;
+
+}
+
+.affiliates-item p{
+  font-size: 1em;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.affiliates-item button{
+  width: 50%;
+  background-color: var(--blue);;
+  border: 0;
+  padding: 1em;
+  color: white;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  border-radius: 2em;
+}
+
+.affiliates-help{
+  margin-top: 5em;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--blue);
+}
+
+.affiliates-steps{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2em;
+  flex-wrap: wrap;
+}
+
+.affiliates-step h3{
+  font-size: 1.5em;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0;
+  color: var(--blue);
+}
+
+.affiliates-step h1{
+  background-color: var(--blue);
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 10em;
+}
+
+.affiliates-step{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+  background-color: #00000036;
+  height: 100%;
+  min-height:250px;
+  padding: 1em;
+  border-top: 1px solid var(--blue);;
+  color: white;
+}
+
+.affiliates-step p{
+  font-size: 1em;
+  text-align: center;
+}
+
+#affiliate-title{
+  font-size: 1.6em;
+  padding-left: 0.5em;
 }
 
 
@@ -1991,10 +2239,19 @@ position: relative;
     width: 100%;
     height: auto;
   }
-
   .trade-steps-container{
     width: 100%;
     margin-bottom: 1em;
+  }
+
+  .mobile-menu{
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    height: 50px;
+    z-index: 99999;
   }
 
   .trade-steps {
@@ -2024,15 +2281,17 @@ position: relative;
   .tutorial-text{width: 65%;}
   .bar-container{margin-left: 2em;}
   .news-details p{max-width: 90%;}
-  .project-item{width: 100%;}
-  .tutorial-button{width: 100%;}
+  .project-item{width: 100%; margin-top: 2em;}
+  .tutorial-button{width: 90%;}
   .news-details .news-content{max-width: 90%;}
   .wallet-info{width: 100%;}
   .trade-url{width: 100%; align-items:center;}
   .trade-offer-buttons button{margin-top: 1em;}
-  .trade-offer-header h3{
-    font-size: 0.8em;
-    padding: 1em;
-  }
+  .trade-offer-header h3{font-size: 0.8em; padding: 1em;}
   .given-nfts-container{width: 100%; border-bottom: 4px solid #101010;}
+  .affiliates-step{width: 100%; margin-bottom: 1em;}
+  .news-collections input{width: 100px; margin-left: 0.5em;}
+  .banner-title, .blink-caret{font-size: 2.5em;}
+  .launchpad-collection-item{justify-content: center;}
+  .affiliates-item button{width: 90%;}
 }

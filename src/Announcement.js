@@ -10,24 +10,40 @@ function getDate(item) {
 }
 
 export default function Announcement() {
+  const [currentDetailsId, setCurrentDetailsId] = useState(null);
+
   const navigate = useNavigate();
   const { slug } = useParams();
   const [data, setData] = useState(null);
   const collection = bySlug(slug);
-  const page = 0;
-  
+  const [page, setPage] = useState(0);
+  const [searchTerm, setSearchTerm] = useState('');
+
 
   useEffect(() => {
     fetch(`https://mellifluous-centaur-e6602b.netlify.app/news?id=${collection.id}&page=${page}`)
       .then(response => response.json())
       .then(data => setData(data));
-  }, [collection.id]);
+  }, [collection.id, page]);
+
+  const handleDetailsToggle = (announcementId) => {
+    setCurrentDetailsId(currentDetailsId === announcementId ? null : announcementId);
+  };
+
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredCollections = miniCollections.filter((collection) => {
+    return collection.name.toLowerCase().includes(searchTerm.toLowerCase());
+  });
 
   return (
     <div className='main-container'>
         <div className='news-collections'>
-            {miniCollections.map((collection) => (
-             
+            <input placeholder='SEARCH' type="text" value={searchTerm} onChange={handleSearch} />
+            {filteredCollections.map((collection) => (
+            
              <button onClick={() => navigate(`/announcement/${collection.slug}`)} className='news-item' key={collection.slug}>
              <img src={collection.image} alt={collection.name}></img>
              <h2>{collection.name}</h2>
@@ -45,11 +61,13 @@ export default function Announcement() {
                 <AnnouncementItem
                     key={announcement.id}
                     collectionImage={collection.image}
-                    annouImages={announcement.images}
+                    annouImages={announcement.media}
                     announcementTitle={announcement.author.tag}
                     announcementDate={getDate(announcement)}
                     announcementDesc={announcement.content}
                     announcementAuthor = {`https://cdn.discordapp.com/avatars/${announcement.author.id}/${announcement.author.avatar}.png`}
+                    isDetailsShown={currentDetailsId === announcement.id}
+                    onDetailsToggle={() => handleDetailsToggle(announcement.id)}
                 />
             ))
         )}
@@ -61,6 +79,10 @@ export default function Announcement() {
                 
 
             </div>
+        </div>
+        <div className='pagination'>
+        <button disabled={page === 0} onClick={() => setPage(page - 1)}>Previous Page</button>
+        <button disabled={data && data.length  < 10} onClick={() => setPage(page + 1)}>Next Page</button>
         </div>
     </div>
   )

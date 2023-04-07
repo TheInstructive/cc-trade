@@ -10,11 +10,16 @@ import Newsletter from './Newsletter';
 import Soon from './Soon';
 import Launchpad from './Launchpad';
 import TradeOffer from './TradeOffer';
+import Affiliate from './Affiliate';
 
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
+
 
 const router = createBrowserRouter([
   {
@@ -37,30 +42,37 @@ const router = createBrowserRouter([
         element: <Newsletter />,
       },
       {
-        path: "/dao",
+        path: "dao",
         element: <Soon />,
       },
       {
-        path: "/launchpad",
+        path: "launchpad",
         element: <Launchpad />,
       },
       {
-        path: "/stake",
+        path: "stake",
         element: <Soon />,
       },
       {
-        path: "/createoffer",
+        path: "createoffer",
         element: <TradeOffer />,
+      },
+      {
+        path: "affiliate",
+        element: <Affiliate />,
       },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <RouterProvider
-    router={router}
-    fallbackElement={<Main />}
-  />
+  <I18nextProvider i18n={i18n}>
+    <RouterProvider
+      router={router}
+      fallbackElement={<Main />}
+    />
+  </I18nextProvider>
+
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -6,10 +6,15 @@ import nft from "./images/trade.png";
 import Typewriter from "./components/TypeWriter";
 import Tutorial from "./components/Tutorial";
 import testvideo from "./images/testvideo.mp4";
+import newslettervideo from "./images/newsletter.mp4";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
+
 
 function App() {
   const [tutorialRender, setTutorialRender] = useState(0);
+  const { t } = useTranslation();
 
   return (
     <div className="App">
@@ -17,16 +22,12 @@ function App() {
         <div className="banner">
           <div className="banner-left">
             <Typewriter
-              words={["SAFE TRADE", "LAUNCHPAD", "COLLECTION NEWS"]}
-              descriptions={[
-                "Trade your NFT without any risk.",
-                "Share your refferal url with your community and earn.",
-                "Follow collection announcements easily.",
-              ]}
+              words={[t('safetrade'), t('launchpad'), t('collectionnews')]}
+              descriptions={[t('tradeyournft'), t('shareyourref'), t('followcollection')]}
             />
             <br></br>
-            <button>
-              CONNECT WALLET &nbsp;&nbsp;
+          <button>
+          {t('connectwallet')} &nbsp;&nbsp;
               <FontAwesomeIcon icon={faCircleArrowRight} />
             </button>
           </div>
@@ -41,10 +42,10 @@ function App() {
             <img width={100} src={nft}></img>
             <h1>TRADE</h1>
               <p>
-              Our trade system allows users to securely trade their NFTs without the risk of scams. Every user has a trade URL where their NFTs are stored, and other users can create offers to trade for any NFTs they are interested in. This system makes it easy and safe for users to trade their NFTs and expand their collections.
+              {t('tradedesc')}
               </p>
             <div>
-              <button>Trade Now</button> &nbsp; <button>Learn More</button>
+              <button disabled>Trade Now</button> &nbsp; <button disabled>Learn More</button>
             </div>
           </div>
 
@@ -52,10 +53,10 @@ function App() {
             <img width={100} src={nft}></img>
             <h1>LAUNCHPAD</h1>
             <p>
-            Our launchpad system includes an affiliate program where every user is provided with a unique affiliate URL that can be shared with their community. When NFTs are minted from this URL, the affiliate owner earns a percentage of the profit. This system allows users to earn passive income by promoting NFT collections on our platform.
+            {t('launchpaddesc')}
             </p>
             <div>
-              <button>Launchpad</button> &nbsp; <button>Learn More</button>
+              <button disabled>Launchpad</button> &nbsp; <button disabled>Learn More</button>
             </div>
           </div>
 
@@ -63,66 +64,67 @@ function App() {
             <img width={100} src={nft}></img>
             <h1>NEWS</h1>
             <p>
-            Newsletter page is regularly updated with the latest developments, announcements, and updates from various NFT collections on the chain. This ensures that our users are always in the know about the latest trends, releases, and upcoming events in the Cronos Chain, and helps them make informed decisions about their investments.
+            {t('newsdesc')}
             </p>
             <div>
-              <button>Show News</button> &nbsp; <button>Learn More</button>
+              <button><Link to='/newsletter'>Show News</Link></button> &nbsp; <button><Link to='/newsletter'>Learn More</Link></button>
             </div>
           </div>
         </div>
 
         <div className="note">
           <h2>
-            Our vision is to build a platform that not only simplifies NFT
-            trading and launching, but also helps advance the potential of
-            blockchain technology in new and exciting ways.
+            {t('ourvision')}
           </h2>
         </div>
 
         {tutorialRender == 0 && (
           <Tutorial
-            maintitle="TRADE"
-            title1="Connect your wallet."
-            desc1="Connect your wallet top right."
-            title2="Connect your wallet."
-            desc2="Connect your wallet top right."
-            title3="Connect your wallet."
-            desc3="Connect your wallet top right."
-            title4="Connect your wallet."
-            desc4="Connect your wallet top right."
-            videosource={testvideo}
+            maintitle="NEWS"
+            title1={t('tutorial1title1')}
+            desc1={t('tutorial1desc1')}
+            title2={t('tutorial1title2')}
+            desc2={t('tutorial1desc2')}
+            title3={t('tutorial1title3')}
+            desc3={t('tutorial1desc3')}
+            title4={t('tutorial1title4')}
+            desc4={t('tutorial1desc4')}
+            videosource={newslettervideo}
           />
         )}
 
         {tutorialRender == 1 && (
           <Tutorial
             maintitle="LAUNCHPAD"
-            title1="Connect your wallet."
-            desc1="Connect your wallet top right."
-            title2="Connect your wallet."
-            desc2="Connect your wallet top right."
-            title3="Connect your wallet."
-            desc3="Connect your wallet top right."
-            title4="Connect your wallet."
-            desc4="Connect your wallet top right."
+            title1="Soon!"
+            desc1="Soon!"
+            title2="Soon!"
+            desc2="Soon!"
+            title3="Soon!"
+            desc3="Soon!"
+            title4="Soon!"
+            desc4="Soon!"
             videosource={testvideo}
           />
         )}
 
+        
         {tutorialRender == 2 && (
           <Tutorial
-            maintitle="NEWS"
-            title1="Connect your wallet."
-            desc1="Connect your wallet top right."
-            title2="Connect your wallet."
-            desc2="Connect your wallet top right."
-            title3="Connect your wallet."
-            desc3="Connect your wallet top right."
-            title4="Connect your wallet."
-            desc4="Connect your wallet top right."
+            maintitle="TRADE"
+            title1="Soon!"
+            desc1="Soon!"
+            title2="Soon!"
+            desc2="Soon!"
+            title3="Soon!"
+            desc3="Soon!"
+            title4="Soon!"
+            desc4="Soon!"
             videosource={testvideo}
           />
         )}
+
+
 
         <div className="tutorial-buttons">
           <button
@@ -133,7 +135,7 @@ function App() {
             }
             onClick={() => setTutorialRender(0)}
           >
-            Trade
+            News
           </button>
           <button
             className={
@@ -153,7 +155,7 @@ function App() {
             }
             onClick={() => setTutorialRender(2)}
           >
-            News
+            Trade
           </button>
         </div>
       </div>
