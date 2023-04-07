@@ -249,7 +249,7 @@ export async function acceptOffer(id, index) {
   try {
     const contract = TraderContract();
 
-    const tokens = await contract.read('offerTokens', [ id ]);
+    const tokens = await contract.read('offerItems', [ id ]);
     const missing = await missingApprovals(contract, tokens.filter(token => !token.have));
     const promises = missing.map(address => requestApproval(address));
     await Promise.all(promises);

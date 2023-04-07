@@ -1,29 +1,47 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowsLeftRight, faScaleBalanced, faArrowUpFromBracket, faHistory} from '@fortawesome/free-solid-svg-icons'
 import loaded from './images/ll.jpg'
 import ballies from './images/ballies.png'
 import ReceivedTrades from './components/ReceivedTrades'
 import SentTrades from './components/SentTrades'
-import TradeOffer from './TradeOffer'
-import { isWalletConnected, getWalletAddress, createOffer, getActiveOffers, acceptOffer, cancelOffer } from "./web3/WalletConnect";
-
+import { onWalletChange, isWalletConnected, getWalletAddress } from "./web3/WalletConnect";
+import { useTranslation } from 'react-i18next';
 
 
 export default function TradePage() {
+  const { t } = useTranslation();
+
   const [rederTab, setRenderTab] = useState(0)
-  const walletAddress = "https://cronos.club/createoffer/0x0000000000000000000000000000"
   const [alertClas, setAlertClass] = useState("alert displaynone")
-  
+  const [ isConnected, setConnected ] = useState(false);
+  const [ walletAddress, setWalletAddress ] = useState("");
+  const tradeURL = `https://cronos.club/createoffer/${walletAddress}`;
+
   const copyAddress = () => {
-    navigator.clipboard.writeText(walletAddress);
+    navigator.clipboard.writeText(tradeURL);
     setAlertClass("alert")
     setTimeout(() => {
       setAlertClass("alert displaynone")
     }, 2000);
   };
 
+  useEffect(() => {
+    setConnected(isWalletConnected());
+
+    setWalletAddress(getWalletAddress())
+    onWalletChange((account) => {
+      setConnected(account.isConnected);
+
+      if(account.address){
+        setWalletAddress(account.address)
+      }
+    });
+  }, []);
+
   return (
+    <>
+    {isConnected ?
     <div>
          <div className='last-trades'>
           
@@ -100,13 +118,13 @@ export default function TradePage() {
           <div className='trade-header'>
             <div className='wallet-info'>
               <div className='wallet-pic'><img width={200} src={ballies}></img></div>
-              <div className='wallet-address'>0x00000000000000</div>
+              <div className='wallet-address'>{walletAddress}</div>
           </div>
 
           <div className='trade-url'>
             <h4>TRADE URL</h4>
             <div className='trade-url-input'>
-            <input contentEditable={false} readOnly value={walletAddress}></input><button onClick={copyAddress}>COPY</button>
+            <input contentEditable={false} readOnly value={tradeURL}></input><button onClick={copyAddress}>COPY</button>
             </div>
             <p>Copy this URL and share anyone who want to trade with you!</p>
             <div className={alertClas}>
@@ -140,29 +158,19 @@ export default function TradePage() {
             }
             </div>
         </div>
-
-        
-
-         
- {/* 
- <TradeItem></TradeItem>
-         <div className='information-box'>
-          <div className='info-box'>
-            <h2>COMPLATED TRADES</h2>
-            <h1 id='counter'>878</h1>
-          </div>
-
-          <div className='info-box'>
-            <h2>CONNECTED WALLET</h2>
-            <h1 id='counter'>1456</h1>
-          </div>
-          
-          <div className='info-box'>
-            <h2>COMPLATED TRADES</h2>
-            <h1 id='counter'>421</h1>
-          </div>
-        </div>
-      */}
     </div>
+    : 
+    <div className='no-login-wrapper'>
+      <div className='no-login-container'>
+            <h2>please login to see trades</h2>
+            <button>
+          {t('connectwallet')}
+            </button>
+      </div>
+        
+    </div>
+    }
+    </>
+    
   )
 }

@@ -1,20 +1,39 @@
-import React from 'react'
-import trades from '../trades'
+import React, { useState, useEffect } from 'react'
+import { getActiveOffers, cancelOffer, onWalletChange } from "../web3/WalletConnect";
 
 export default function SentTrades() {
-const sentTrades = trades.filter(trade => !trade.received);
+const [ activeTrades, setActiveTrades ] = useState([]);
 
+useEffect(() => {
+  async function fetchData() {
+    const result = await getActiveOffers();
+    if (result.offers) {
+      setActiveTrades(result.offers);
+    } else {
+      console.error(result.error);
+    }
+  }
+  fetchData();
+
+  onWalletChange((account) => {
+    if(account.address){
+      fetchData();
+    }
+  });
+}, []);
+
+const receivedTrades = activeTrades.filter(trade => !trade.received);
 
 return (
 <div>
-{sentTrades.map((trade, index) => (
+{receivedTrades.map((offer, index) => (
 <div key={index} className="trade-offer-wrapper">
   <div className="trade-offer-header">
     <div className="offer-date">
       <h3>31.03.2023</h3>
     </div>
 
-    <h3>YOU OFFERED $WALLETADDRESS</h3>
+    <h3>YOU OFFERED <br/> <b>{offer.name}</b></h3>
     <div className="trade-status-active">WAITING FOR RESPONSE</div>
   </div>
 
@@ -23,7 +42,7 @@ return (
       <div className="given-nfts-container">
         <h3>YOUR NFT(S):</h3>
         <div className="given-nfts">
-        {trade.have.map((nft, i) => (
+        {offer.have.map((nft, i) => (
             <div key={i} className="offered-nft-item">
               <div className="offered-nft-image">
                 <img width={100} src={nft.image} alt={nft.name} />
@@ -39,7 +58,7 @@ return (
       <div className="given-nfts-container">
         <h3>THEIR NFT(S):</h3>
         <div className="given-nfts">
-        {trade.want.map((nft, i) => (
+        {offer.want.map((nft, i) => (
             <div key={i} className="offered-nft-item">
               <div className="offered-nft-image">
                 <img width={100} src={nft.image} alt={nft.name} />
@@ -53,12 +72,9 @@ return (
       </div>
     </div>
 
-    <div className="trade-offer-buttons">
-      <div className="terms">
-        This offer will be canceled in <b>89</b> hours.
-      </div>
-      <button id="decline-button">CANCEL OFFER</button>
-    </div>
+        <div className="trade-offer-buttons">
+                <button onClick={() => cancelOffer(offer.id, offer.index)} id="decline-button">CANCEL</button>
+        </div> 
 
 </div>
 ))}

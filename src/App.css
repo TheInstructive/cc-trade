@@ -477,6 +477,7 @@ max-width: 100px;
   border-radius: 2em;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
+  border: 2px solid rgba(0, 0, 0, 0.616);
 }
 
 .trade-url{
@@ -503,9 +504,28 @@ cursor: pointer;
 }
 
 .alert{
+  font-family: 'Montserrat', sans-serif;
+  color: white;
   position: fixed;
   width: 100%;
   background-color: #208b4d;
+  height: 3em;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.6em;
+  padding: 1em;
+  z-index: 9999;
+}
+
+.alert-error{
+  font-family: 'Montserrat', sans-serif;
+  color: white;
+  position: fixed;
+  width: 100%;
+  background-color: #a12211;
   height: 3em;
   top: 0;
   left: 0;
@@ -612,6 +632,39 @@ cursor: pointer;
   margin: 0;
   font-family: 'Montserrat', sans-serif;
   text-align: center;
+  font-size: 1em;
+}
+
+
+.trade-offer-header h3 b{
+  background-color: #00000060;
+  padding: 0.1em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.trade-offer-pagination{
+  width: 100%;
+  background-color: #00000057;
+  display: flex;
+  flex-direction: row;
+}
+
+.trade-offer-pagination button{
+  width: 100%;
+  min-height: 30px;
+  border: 0;
+  cursor: pointer;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  background-color: #0000007a;
+  border-right: 1px solid black;
+}
+
+.trade-offer-pagination button:disabled{
+  background-color: #9797977a;
 }
 
 .offer-date{
@@ -710,10 +763,25 @@ cursor: pointer;
 
 #accept-button{
   background-color: rgb(39, 167, 66);
+  cursor: pointer;
+}
+
+#accept-button:hover{
+  background-color: rgb(55, 184, 83);
+}
+
+#accept-button:disabled{
+  background-color: rgb(67, 134, 82);
+  cursor: not-allowed;
 }
 
 #decline-button{
   background-color: rgb(255, 58, 58);
+  cursor: pointer;
+}
+
+#decline-button:hover{
+  background-color: rgb(248, 73, 73);
 }
 
 .offered-nft-item{
@@ -1090,8 +1158,8 @@ cursor: pointer;
 .trade-container{
   width: 100%;
   display: flex;
-  max-height: 500px;
-  overflow-y: auto;
+  max-height: 600px;
+  overflow-y: scroll;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -1127,6 +1195,11 @@ cursor: pointer;
   cursor: pointer;
   margin-left: 1em;
   margin-right: 1em;
+}
+
+.trade-steps button:disabled{
+  cursor: not-allowed;
+  background-color: #2254968a;
 }
 
 .trade-steps h4{
@@ -1167,10 +1240,11 @@ cursor: pointer;
   height: 100%;
 }
 
-.nft-information a{
+.nft-information span{
   padding-left: 0.3em;
   margin-bottom: 0;
   padding-bottom: 0;
+  font-size: 0.8em;
 }
 
 
@@ -2109,6 +2183,45 @@ margin-left: 0;
   padding-left: 0.5em;
 }
 
+.no-login-wrapper{
+  width: 100%;
+  min-height: 20em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.no-login-container{
+  color: white;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+
+
+.no-login-container button{
+  background-color: var(--blue);
+  border: 0;
+  padding: 10px;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1em;
+  font-weight: 600;
+  padding-right: 1em;
+  padding-left: 1em;
+  border-radius: 10em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-login-container button:hover{
+  background-color: #3a6eb1;
+  transition: 1s;
+  cursor: pointer;
+}
 
 
 @keyframes step{
@@ -2285,11 +2398,14 @@ margin-left: 0;
   .trade-steps {
     justify-content: center;
   }
+
   .trade-steps button{
     margin-bottom: 1em;
     width: 100%;
     margin-top: 1em;
   }
+
+
   .App{
     display: block;
   }

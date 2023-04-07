@@ -18,7 +18,7 @@ const BalliesGear = {
 
   name(id) {
     validateId(id);
-    return names[id + 1];
+    return names[id - 1];
   },
 
   image(id) {

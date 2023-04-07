@@ -8,16 +8,15 @@ export default function TradeItem(props) {
 
   function handleCheckboxChange() {
       setIsChecked(!isChecked);
+      onSelectNFT();
     }
 
 
 return (
-  <label onClick={onSelectNFT} htmlFor={props.nftid} className={isChecked ? 'nft-trade-item selected-nft' : 'nft-trade-item'}>
+  <label onClick={() => handleCheckboxChange()} className={isChecked && showCheckbox ? 'nft-trade-item selected-nft' : 'nft-trade-item'}>
   <img width={200} src={nftimage}></img>
   <div className='nft-information'>
       <span>{nftname}</span>
-      &nbsp;&nbsp;
-     {showCheckbox ? <input onChange={() => handleCheckboxChange} type="checkbox" id={nftid} value={nftname} /> : ""}  
   </div>
   </label>
 )
@@ -28,7 +27,7 @@ TradeItem.propTypes = {
   nftname: PropTypes.string.isRequired,
   nftimage: PropTypes.string.isRequired,
   showCheckbox: PropTypes.bool,
-  onSelectNFT: PropTypes.func.isRequired,
+  onSelectNFT: PropTypes.func,
 };
 
 TradeItem.defaultProps = {

@@ -25,13 +25,16 @@ function App() {
   const [ isConnected, setConnected ] = useState(false);
   const [ walletAddress, setWalletAddress ] = useState("");
 
-
   useEffect(() => {
     setConnected(isWalletConnected());
 
     setWalletAddress(getWalletAddress())
     onWalletChange((account) => {
       setConnected(account.isConnected);
+
+      if(account.address){
+        setWalletAddress(account.address)
+      }
     });
   }, []);
 
