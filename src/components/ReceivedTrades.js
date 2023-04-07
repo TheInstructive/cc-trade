@@ -1,8 +1,26 @@
 import React, { useState } from 'react'
 import trades from '../trades'
+import { getActiveOffers } from "../web3/WalletConnect";
+import { useEffect } from 'react';
+
 
 export default function ReceivedTrades() {
-const receivedTrades = trades.filter(trade => trade.received);
+const [ activeTrades, setActiveTrades ] = useState([]);
+
+useEffect(() => {
+  async function fetchData() {
+    const result = await getActiveOffers();
+    if (result.offers) {
+      setActiveTrades(result.offers);
+    } else {
+      console.error(result.error);
+    }
+  }
+  fetchData();
+}, []);
+
+const receivedTrades = activeTrades.filter(trade => trade.received);
+
 
 const handleSubmit = (event) => {
     event.preventDefault();
@@ -11,14 +29,14 @@ const handleSubmit = (event) => {
 
 return (
 <div>
-{receivedTrades.map((trade, index) => (
-<div key={index} className="trade-offer-wrapper">
+{receivedTrades.map((offer) => (
+<div key={offer.index} className="trade-offer-wrapper">
   <div className="trade-offer-header">
     <div className="offer-date">
       <h3>31.03.2023</h3>
     </div>
 
-    <h3>$WALLETADDRESS OFFERED YOU</h3>
+    <h3>{offer.name} OFFERED YOU</h3>
     <div className="trade-status-active">ACTIVE</div>
   </div>
 
@@ -27,7 +45,7 @@ return (
       <div className="given-nfts-container">
         <h3>YOUR NFT(S):</h3>
         <div className="given-nfts">
-        {trade.have.map((nft, i) => (
+        {offer.have.map((nft, i) => (
             <div key={i} className="offered-nft-item">
               <div className="offered-nft-image">
                 <img width={100} src={nft.image} alt={nft.name} />
@@ -43,7 +61,7 @@ return (
       <div className="given-nfts-container">
         <h3>THEIR NFT(S):</h3>
         <div className="given-nfts">
-        {trade.want.map((nft, i) => (
+        {offer.want.map((nft, i) => (
             <div key={i} className="offered-nft-item">
               <div className="offered-nft-image">
                 <img width={100} src={nft.image} alt={nft.name} />

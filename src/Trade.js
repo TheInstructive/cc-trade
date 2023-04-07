@@ -26,6 +26,11 @@ export default function TradePage() {
   return (
     <div>
          <div className='last-trades'>
+          
+         <div className='last-trade-item'>
+              <h5>LAST TRADES</h5>
+        </div>
+
           <div className='last-trade-container'>
 
             <div className='last-trade-item'>
