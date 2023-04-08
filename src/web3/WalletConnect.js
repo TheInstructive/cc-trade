@@ -8,6 +8,8 @@ import {
   writeContract,
   waitForTransaction,
   readContract,
+  readContracts,
+  erc721ABI
 } from '@wagmi/core';
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
 import { Web3Modal } from "@web3modal/react";
@@ -120,6 +122,42 @@ function convertItem(address, id) {
   }
 }
 
+async function requestApproval(address) {
+  const config = await prepareWriteContract({
+    address,
+    abi: erc721ABI,
+    functionName: 'setApprovalForAll',
+    args: [ Trader.address(), true ],
+    overrides: {
+      from: getWalletAddress(),
+    }
+  });
+  const { hash } = await writeContract(config);
+  const txReceipt = await waitForTransaction({ hash });
+
+  if (!txReceipt) {
+    throw new Error("Transaction failed.");
+  }
+}
+
+async function missingApprovals(contract, tokens) {
+  const contracts = tokens.reduce((ret, token) => {
+    ret.push(token.contractAddress);
+    return ret;
+  }, new Set());
+  const userAddress = contract.userAddress();
+  const contractAddress = contract.address();
+  const results = await readContracts({
+    contracts: contracts.map(contract => ({
+      address: contract.address,
+      abi: erc721ABI,
+      functionName: 'isApprovedForAll',
+      args: [ userAddress, contractAddress ],
+    })),
+  });
+  return results.map((ok, index) => ok && contracts[index]).filter(Boolean);
+}
+
 export async function getActiveOffers() {
   try {
     const contract = TraderContract();
@@ -174,10 +212,16 @@ export async function getActiveOffers() {
     };
   }
 }
+
 export async function createOffer(address, tokens) {
   try {
     const contract = TraderContract();
-    await contract.write('createOffer', [ address, tokens.map(id => BigNumber.from(id)) ], {
+
+    const missing = await missingApprovals(contract, tokens.filter(token => token.have));
+    const promises = missing.map(address => requestApproval(address));
+    await Promise.all(promises);
+
+    await contract.write('createOffer', [ address, tokens ], {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
   } catch (err) {
@@ -190,6 +234,12 @@ export async function createOffer(address, tokens) {
 export async function acceptOffer(id, index) {
   try {
     const contract = TraderContract();
+
+    const tokens = await contract.read('offerTokens', [ id ]);
+    const missing = await missingApprovals(contract, tokens.filter(token => !token.have));
+    const promises = missing.map(address => requestApproval(address));
+    await Promise.all(promises);
+
     await contract.write('acceptOffer', [ BigNumber.from(id), BigNumber.from(index) ], {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
