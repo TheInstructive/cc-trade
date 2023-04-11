@@ -6,7 +6,11 @@ function validateId(id) {
 }
 
 const Lions = {
-  address() {
+  address(network) {
+    if (network === 'Private') {
+      return '0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0';
+    }
+
     return '0xEa1635a0E9344d933DF42c0Fd494d39bcE865Dc4';
   },
 
