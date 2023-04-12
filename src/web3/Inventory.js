@@ -1,5 +1,6 @@
 import Collections, { CollectionByAddress } from "./collections";
-import { Contract } from "./WalletConnect";
+import { Contract, getNetworkName } from "./WalletConnect";
+import { BigNumber } from 'ethers';
 
 function convertTokens(tokens, network) {
   return tokens.map(token => {
@@ -14,14 +15,28 @@ function convertTokens(tokens, network) {
   });
 }
 
-export async function getNFTs(address, network) {
+export async function getNFTs(address) {
+  if (!address || address.indexOf('0x') !== 0) {
+    return [];
+  }
+
+  const network = getNetworkName();
+  if (network === "Private") {
+    return await getNFTsFromChain(address);
+  }
+
   const resp = await fetch('https://wallet-nft-api-blush.vercel.app/api/wallet/' + address);
   const data = await resp.json();
   return convertTokens(data, network);
 }
 
-export async function getNFTsFromChain(address, network) {
-  const contracts = Collections.map(col => Contract(col.address(), [
+export async function getNFTsFromChain(address) {
+  if (!address || address.indexOf('0x') !== 0) {
+    return [];
+  }
+
+  const network = getNetworkName();
+  const contracts = Collections.map(col => Contract(col.address(network), [
     {
       "inputs": [
         {
@@ -69,7 +84,7 @@ export async function getNFTsFromChain(address, network) {
 
   const balances = await Promise.all(contracts.map(contract => contract.read('balanceOf', [ address ])));
   const tokenIdsByContract = await Promise.all(contracts.map((contract, index) => contract.readMulti(
-    new Array(balances[index]).fill(1).map((_, tokenIndex) => ([
+    new Array(BigNumber.from(balances[index]).toNumber()).fill(1).map((_, tokenIndex) => ([
       'tokenOfOwnerByIndex', [ address, tokenIndex ]
     ]))
   )));

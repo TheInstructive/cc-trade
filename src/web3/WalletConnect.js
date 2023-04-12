@@ -54,6 +54,14 @@ export function onWalletChange(callback) {
   return watchAccount(callback);
 };
 
+export function getNetworkName() {
+  const { chain } = getNetwork();
+  if (!chain) {
+    throw new Web3ClientError("Not connected.");
+  }
+  return chain.name;
+}
+
 
 // Contract
 export function Contract(contractAddress, abi) {
@@ -95,12 +103,14 @@ export function Contract(contractAddress, abi) {
     },
 
     async readMulti(params) {
-      const result = await readContracts(params.map(x => ({
-        address: contractAddress,
-        abi,
-        args: x[1],
-        functionName: x[0],
-      })));
+      const result = await readContracts({
+        contracts: params.map(x => ({
+          address: contractAddress,
+          abi,
+          args: x[1],
+          functionName: x[0],
+        }))
+      });
       return result;
     },
 
@@ -111,17 +121,17 @@ export function Contract(contractAddress, abi) {
     network() {
       return chain.name;
     },
+
+    address() {
+      return contractAddress;
+    },
   }
 }
 
 function TraderContract() {
-  const { chain } = getNetwork();
-  if (!chain) {
-    throw new Web3ClientError("Not connected.");
-  }
-
-  const contractAddress = Trader.address(chain.name);
-  const abi = Trader.abi(chain.name);
+  const network = getNetworkName();
+  const contractAddress = Trader.address(network);
+  const abi = Trader.abi(network);
 
   return Contract(contractAddress, abi);
 }

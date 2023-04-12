@@ -8,7 +8,11 @@ function validateId(id) {
 }
 
 const BalliesGear = {
-  address() {
+  address(network) {
+    if (network === "Private") {
+      return '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9';
+    }
+
     return '0x861C150f818A882AAA3aFA91694Fc9a6C5CCcA1C';
   },
 

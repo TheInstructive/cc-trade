@@ -4,7 +4,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TradeItem from "./components/TradeItem";
 import loaded from "./images/ll.jpg";
-import getNFTs from "./web3/Inventory"
+import { getNFTs } from "./web3/Inventory"
 import { getWalletAddress, createOffer } from "./web3/WalletConnect";
 import { useParams } from "react-router-dom";
 
@@ -27,7 +27,7 @@ export default function TradeOffer() {
     setWalletAddress(getWalletAddress())
 
     async function getHaveNFTs() {
-      const have = await getNFTs("0xb6ea6d126a2468786f11e1e09c9d283c03788753");
+      const have = await getNFTs(walletAddress);
       if (have) {
         setHaveNFTs(have);
       } else {
