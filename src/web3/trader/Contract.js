@@ -1,4 +1,5 @@
 import abi from './abi.json'
+import { Web3ClientError } from "../Error";
 
 const Trader = {
   address(network) {
@@ -14,7 +15,7 @@ const Trader = {
       return '0x0';
     }
   
-    throw new Error("Wrong network!");
+    throw new Web3ClientError("Wrong network!");
   },
 
   abi(network) {

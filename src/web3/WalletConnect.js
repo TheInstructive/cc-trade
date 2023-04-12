@@ -19,6 +19,7 @@ import { BigNumber, utils } from 'ethers';
 import { localNet, cronosMainnet, cronosTestnet } from "./Chains";
 import Trader from "./trader/Contract";
 import { CollectionByAddress } from "./collections";
+import { Web3ClientError, returnError } from "./Error";
 
 
 const chains = [localNet, cronosMainnet, cronosTestnet];
@@ -60,7 +61,7 @@ export function Contract(contractAddress, abi) {
   const { chain } = getNetwork();
 
   if (!isConnected || !address || !chain) {
-    throw new Error("Not connected.");
+    throw new Web3ClientError("Not connected.");
   }
 
   return {
@@ -79,7 +80,7 @@ export function Contract(contractAddress, abi) {
       const txReceipt = await waitForTransaction({ hash });
 
       if (!txReceipt) {
-        throw new Error("Transaction failed.");
+        throw new Web3ClientError("Transaction failed.");
       }
     },
 
@@ -116,7 +117,7 @@ export function Contract(contractAddress, abi) {
 function TraderContract() {
   const { chain } = getNetwork();
   if (!chain) {
-    throw new Error("Not connected.");
+    throw new Web3ClientError("Not connected.");
   }
 
   const contractAddress = Trader.address(chain.name);
@@ -126,19 +127,20 @@ function TraderContract() {
 }
 
 function convertItem(network) {
-  return (address, id) => {
-    const collection = CollectionByAddress(address, network);
+  return (item) => {
+    const { contractAddress, id } = item;
+    const collection = CollectionByAddress(contractAddress, network);
 
     if (!collection) {
-      throw new Error(`Unknown NFT: ${address}/${id}`);
+      throw new Web3ClientError(`Unknown NFT: ${contractAddress}/${id}`);
     }
 
     return {
-      address,
       id,
+      address: contractAddress,
       name: collection.name(id),
       image: collection.image(id),
-      cronoscan: `https://cronoscan.com/token/${address}?a=${id}`,
+      cronoscan: `https://cronoscan.com/token/${contractAddress}?a=${id}`,
     }
   }
 }
@@ -157,7 +159,7 @@ async function requestApproval(address) {
   const txReceipt = await waitForTransaction({ hash });
 
   if (!txReceipt) {
-    throw new Error("Transaction failed.");
+    throw new Web3ClientError("Transaction failed.");
   }
 }
 
@@ -194,6 +196,8 @@ export async function getActiveOffers(page) {
 
     // TODO mark invalid offers
 
+    const itemConverter = convertItem(contract.network());
+
     return {
       offers: offers.map((offer) => {
         const received = offer.toAddress === address;
@@ -205,15 +209,13 @@ export async function getActiveOffers(page) {
           received,
           address: otherAddress,
           name: otherAddress,
-          have: offer.items.filter(item => item.have).map(convertItem(contract.network())),
-          want: offer.items.filter(item => !item.have).map(convertItem(contract.network())),
+          have: offer.items.filter(item => item.have).map(itemConverter),
+          want: offer.items.filter(item => !item.have).map(itemConverter),
         };
       }),
     }
   } catch (err) {
-    return {
-      error: err.message,
-    };
+    return returnError(err);
   }
 }
 
@@ -229,9 +231,7 @@ export async function createOffer(address, tokens) {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
   } catch (err) {
-    return {
-      error: err.message,
-    };
+    return returnError(err);
   }
 }
 
@@ -248,9 +248,7 @@ export async function acceptOffer(id, index) {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
   } catch (err) {
-    return {
-      error: err.message,
-    };
+    return returnError(err);
   }
 }
 
@@ -259,8 +257,6 @@ export async function cancelOffer(id, index) {
     const contract = TraderContract();
     await contract.write('cancelOffer', [ BigNumber.from(id), BigNumber.from(index) ]);
   } catch (err) {
-    return {
-      error: err.message,
-    };
+    return returnError(err);
   }
 }
