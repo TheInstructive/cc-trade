@@ -6,7 +6,11 @@ function validateId(id) {
 }
 
 const Ballies = {
-  address() {
+  address(network) {
+    if (network === 'Private') {
+      return '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';
+    }
+
     return '0xF12B07570804c56B4ce8f63e7121BEC8C7CA1542';
   },
 

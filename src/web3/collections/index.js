@@ -11,6 +11,6 @@ const Collections = [
 
 export default Collections;
 
-export function CollectionByAddress(address) {
-  return Collections.filter(col => col.address() === address)[0];
+export function CollectionByAddress(address, network) {
+  return Collections.filter(col => col.address(network).toUpperCase() === address.toUpperCase())[0];
 }
