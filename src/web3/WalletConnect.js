@@ -204,18 +204,18 @@ export async function getActiveOffers(page) {
       items: x.tokens,
     }));
 
-    // TODO mark invalid offers
-
+    const isValid = await contract.readMulti(offers.map(offer => ['validateOffer', [ offer.id ]]));
     const itemConverter = convertItem(contract.network());
 
     return {
-      offers: offers.map((offer) => {
+      offers: offers.map((offer, index) => {
         const received = offer.toAddress === address;
         const otherAddress = received ? offer.fromAddress : offer.toAddress;
 
         return {
           id: offer.id,
           index: offer.index,
+          invalid: !isValid[index],
           received,
           address: otherAddress,
           name: otherAddress,
