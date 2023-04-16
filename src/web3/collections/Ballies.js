@@ -20,6 +20,10 @@ const Ballies = {
   },
 
   name(id) {
+    if (id === undefined) {
+      return "Ballies";
+    }
+
     validateId(id);
     return "Ballie #" + id;
   },

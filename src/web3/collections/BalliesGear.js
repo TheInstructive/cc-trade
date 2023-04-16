@@ -21,6 +21,10 @@ const BalliesGear = {
   },
 
   name(id) {
+    if (id === undefined) {
+      return "Ballies: The Gear";
+    }
+
     validateId(id);
     return names[id - 1];
   },

@@ -20,6 +20,10 @@ const Lions = {
   },
 
   name(id) {
+    if (id === undefined) {
+      return "Loaded Lions";
+    }
+
     validateId(id);
     return "Loaded Lion #" + id;
   },
