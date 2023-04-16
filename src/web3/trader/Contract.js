@@ -8,7 +8,7 @@ const Trader = {
     }
   
     if (network === "Cronos Testnet") {
-      return '0x4fC5e27c9882a30AC8Cda3DfbAA94a0f4a25F2b2';
+      return '0x5cA9b55CA60889695A0C520DfF72b9de534629E4';
     }
   
     if (network === "Cronos") {
