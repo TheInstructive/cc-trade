@@ -160,7 +160,7 @@ async function requestApproval(address) {
     address,
     abi: erc721ABI,
     functionName: 'setApprovalForAll',
-    args: [ Trader.address(), true ],
+    args: [ Trader.address(getNetworkName()), true ],
     overrides: {
       from: getWalletAddress(),
     }
@@ -179,16 +179,16 @@ async function missingApprovals(contract, tokens) {
     return ret;
   }, new Set())];
   const userAddress = contract.userAddress();
-  const contractAddress = contract.address();
+  const operatorAddress = contract.address();
   const results = await readContracts({
-    contracts: contracts.map(contract => ({
-      address: contract.address,
+    contracts: contracts.map(contractAddress => ({
+      address: contractAddress,
       abi: erc721ABI,
       functionName: 'isApprovedForAll',
-      args: [ userAddress, contractAddress ],
+      args: [ userAddress, operatorAddress ],
     })),
   });
-  return results.map((ok, index) => ok && contracts[index]).filter(Boolean);
+  return results.map((ok, index) => !ok && contracts[index]).filter(Boolean);
 }
 
 export async function getRemoteTokens(contractAddress, address) {
