@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import '../App.css';
 
 export default function TradeItem(props) {
-  const { nftid, nftname, nftimage, showCheckbox, onSelectNFT } = props;
+  const { nftname, nftimage, showCheckbox, onSelectNFT } = props;
   const [isChecked, setIsChecked] = useState(false);
 
   function handleCheckboxChange() {
@@ -23,7 +23,6 @@ return (
 }
 
 TradeItem.propTypes = {
-  nftid: PropTypes.string.isRequired,
   nftname: PropTypes.string.isRequired,
   nftimage: PropTypes.string.isRequired,
   showCheckbox: PropTypes.bool,

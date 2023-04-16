@@ -143,8 +143,6 @@ function App() {
 
         <div className="footer-info">
           <p>
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
             <br></br> Contact us at <a>support@cronos.club</a> or via{" "}
             <a>Discord</a>.
           </p>

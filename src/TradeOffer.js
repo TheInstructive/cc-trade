@@ -70,28 +70,12 @@ export default function TradeOffer() {
 
   useEffect(() => {
     setWalletAddress(getWalletAddress());
-    async function getHaveNFTs() {
-      const have = await getNFTs("0xf9a0ec34bfe68390067517758535e8757d02f392");
-      if (have) {
-        setHaveNFTs(have);
-      } else {
-        console.error(have);
-      }
-    }
-
-    async function getWantNFTs() {
-      const want = await getNFTs(walletadrs);
-      if (want) {
-        setWantNFTs(want);
-      } else {
-        console.error(want);
-      }
-    }
-
-    getHaveNFTs();
-    getWantNFTs();
-    console.log(haveNFTs);
+    getNFTs(walletadrs).then(want => want && setWantNFTs(want));
   }, []);
+
+  useEffect(() => {
+    getNFTs(walletAddress).then(have => have && setHaveNFTs(have));
+  }, [walletAddress]);
 
   function nextStep() {
     if (currentTradeStep === 1) {
@@ -192,7 +176,7 @@ export default function TradeOffer() {
       };
     });
 
-    createOffer([...finalizeWantArray, ...finalizeHaveArray])
+    createOffer(walletadrs, [...finalizeWantArray, ...finalizeHaveArray])
   }
 
   return (
@@ -230,7 +214,6 @@ export default function TradeOffer() {
               {currentHaveItems.map((have, idx) => (
                 <TradeItem
                   key={idx}
-                  nftid={have.name}
                   nftimage={have.image}
                   nftname={have.name}
                   showCheckbox={true}

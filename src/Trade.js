@@ -16,10 +16,10 @@ export default function TradePage() {
   const [alertClas, setAlertClass] = useState("alert displaynone")
   const [ isConnected, setConnected ] = useState(false);
   const [ walletAddress, setWalletAddress ] = useState("");
-  const tradeURL = `https://cronos.club/createoffer/${walletAddress}`;
+  const tradeURL = `https://${window.location.hostname}/createoffer/${walletAddress}`;
 
   const copyAddress = () => {
-    navigator.clipboard.writeText(tradeURL);
+    if (navigator.clipboard.writeText) navigator.clipboard.writeText(tradeURL);
     setAlertClass("alert")
     setTimeout(() => {
       setAlertClass("alert displaynone")

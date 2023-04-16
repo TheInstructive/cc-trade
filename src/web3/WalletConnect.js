@@ -174,10 +174,10 @@ async function requestApproval(address) {
 }
 
 async function missingApprovals(contract, tokens) {
-  const contracts = tokens.reduce((ret, token) => {
-    ret.push(token.contractAddress);
+  const contracts = [...tokens.reduce((ret, token) => {
+    ret.add(token.contractAddress);
     return ret;
-  }, new Set());
+  }, new Set())];
   const userAddress = contract.userAddress();
   const contractAddress = contract.address();
   const results = await readContracts({
@@ -189,6 +189,21 @@ async function missingApprovals(contract, tokens) {
     })),
   });
   return results.map((ok, index) => ok && contracts[index]).filter(Boolean);
+}
+
+export async function getRemoteTokens(contractAddress) {
+  try {
+    const contract = TraderContract();
+    const address = contract.userAddress();
+
+    const result = await contract.read('getRemoteTokens', [ contractAddress, address ]);
+
+    return {
+      tokens: result.map(x => BigNumber.from(x)),
+    }
+  } catch (err) {
+    return returnError(err);
+  }
 }
 
 export async function getActiveOffers(page) {
@@ -249,7 +264,7 @@ export async function acceptOffer(id, index) {
   try {
     const contract = TraderContract();
 
-    const tokens = await contract.read('offerItems', [ id ]);
+    const tokens = await contract.read('getOfferTokens', [ id ]);
     const missing = await missingApprovals(contract, tokens.filter(token => !token.have));
     const promises = missing.map(address => requestApproval(address));
     await Promise.all(promises);

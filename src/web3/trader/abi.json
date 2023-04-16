@@ -1,5 +1,16 @@
 [
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_paymentsCollector",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -142,6 +153,19 @@
       }
     ],
     "name": "PauseStateUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "wallet",
+        "type": "address"
+      }
+    ],
+    "name": "PaymentsCollectorUpdated",
     "type": "event"
   },
   {
@@ -310,6 +334,66 @@
     "type": "function"
   },
   {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOfferTokens",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "have",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "contractAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Trader.Token[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "contractAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "wallet",
+        "type": "address"
+      }
+    ],
+    "name": "getRemoteTokens",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [],
     "name": "offerFee",
     "outputs": [
@@ -463,72 +547,6 @@
         "type": "uint256"
       }
     ],
-    "name": "paginateActiveOffers",
-    "outputs": [
-      {
-        "internalType": "uint256[]",
-        "name": "",
-        "type": "uint256[]"
-      },
-      {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "fromAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "toAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "fromIndex",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "toIndex",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "fee",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "refund",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct Trader.Offer[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "wallet",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "page",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "limit",
-        "type": "uint256"
-      }
-    ],
     "name": "paginateOffers",
     "outputs": [
       {
@@ -612,52 +630,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "page",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "limit",
-        "type": "uint256"
-      }
-    ],
-    "name": "paginateTokens",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "bool",
-            "name": "have",
-            "type": "bool"
-          },
-          {
-            "internalType": "address",
-            "name": "contractAddress",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "id",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct Trader.Token[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "pauseState",
     "outputs": [
@@ -665,6 +637,19 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "paymentsCollector",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -735,6 +720,13 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "transferPayments",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -748,6 +740,19 @@
       }
     ],
     "name": "updateFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "wallet",
+        "type": "address"
+      }
+    ],
+    "name": "updatePaymentsCollector",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -788,13 +793,6 @@
       }
     ],
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdrawPayments",
-    "outputs": [],
-    "stateMutability": "nonpayable",
     "type": "function"
   }
 ]

@@ -51,7 +51,7 @@ return (
       <div className="given-nfts-container">
         <h3>YOUR NFT(S):</h3>
         <div className="given-nfts">
-        {offer.have.map((nft, i) => (
+        {offer.want.map((nft, i) => (
             <div key={i} className="offered-nft-item">
               <div className="offered-nft-image">
                 <img width={100} src={nft.image} alt={nft.name} />
@@ -67,7 +67,7 @@ return (
       <div className="given-nfts-container">
         <h3>THEIR NFT(S):</h3>
         <div className="given-nfts">
-        {offer.want.map((nft, i) => (
+        {offer.have.map((nft, i) => (
             <div key={i} className="offered-nft-item">
               <div className="offered-nft-image">
                 <img width={100} src={nft.image} alt={nft.name} />
@@ -83,7 +83,7 @@ return (
 
         <div className="trade-offer-buttons">
             <div className="terms">
-            <input checked={tradeTerms} onClick={() => acceptTerms()} required={true} type="checkbox"></input> I agreed to transfer
+            <input checked={tradeTerms} onChange={() => acceptTerms()} required={true} type="checkbox"></input> I agreed to transfer
             ownership of the specified NFT(s) to the user making the offer.
             </div>
 
