@@ -1619,6 +1619,7 @@ cursor: pointer;
 
 .soon{
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1632,6 +1633,15 @@ cursor: pointer;
   color: var(--blue);
   font-family: 'Montserrat', sans-serif;
   font-size: 4em;
+  margin-top: 0;
+}
+
+.soon h2{
+  white-space:pre-wrap;
+  text-align: center;
+  overflow: hidden;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
   margin-top: 0;
 }
 

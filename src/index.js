@@ -23,7 +23,7 @@ import i18n from './i18n';
 
 const router = createBrowserRouter([
   {
-    element: <App />,
+    element: <Soon />,
     children: [
       {
         path: "/",

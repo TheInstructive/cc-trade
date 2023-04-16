@@ -5,8 +5,8 @@ export default function Soon() {
   return (
     <div className='soon'>
         <img width={550} src={animation} />
-
-        <h1>SOON</h1>
+        <h2>TRADE - NEWSLETTER - LAUNCHPAD</h2>
+        <h1>COMING SOON</h1>
     </div>
   )
 }
