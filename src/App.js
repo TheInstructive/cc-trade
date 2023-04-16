@@ -7,7 +7,7 @@ import logo from './images/logo1.png'
 import twitter from "./images/twitter.svg";
 import instagram from "./images/instagram.svg";
 import discord from "./images/discord.svg";
-import { web3Modal, useWeb3Modal, onWalletChange, isWalletConnected } from "./web3/WalletConnect";
+import { web3Modal, useWeb3Modal, onWalletChange, isWalletConnected, getWalletAddress } from "./web3/WalletConnect";
 
 
 import { useTranslation } from 'react-i18next';
@@ -23,12 +23,18 @@ const languages = [
 function App() {
   const { isOpen: isModalOpen, open: openModal, close: closeModal } = useWeb3Modal();
   const [ isConnected, setConnected ] = useState(false);
+  const [ walletAddress, setWalletAddress ] = useState("");
 
   useEffect(() => {
     setConnected(isWalletConnected());
 
+    setWalletAddress(getWalletAddress())
     onWalletChange((account) => {
       setConnected(account.isConnected);
+
+      if(account.address){
+        setWalletAddress(account.address)
+      }
     });
   }, []);
 
@@ -64,7 +70,7 @@ function App() {
           </div>
 
           <div className='right'>
-            {!isConnected && <button onClick={onConnectClick}>{t('connectwallet')}</button>}
+            {!isConnected ? <button onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress'>{walletAddress}</div> }
           </div>
 
           <Dropdown
@@ -137,8 +143,6 @@ function App() {
 
         <div className="footer-info">
           <p>
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout.
             <br></br> Contact us at <a>support@cronos.club</a> or via{" "}
             <a>Discord</a>.
           </p>

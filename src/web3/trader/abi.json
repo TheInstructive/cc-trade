@@ -1,22 +1,14 @@
 [
   {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
         "internalType": "address",
-        "name": "userAddress",
+        "name": "_paymentsCollector",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
       }
     ],
-    "name": "BalanceDeposit",
-    "type": "event"
+    "stateMutability": "nonpayable",
+    "type": "constructor"
   },
   {
     "anonymous": false,
@@ -24,17 +16,17 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "userAddress",
+        "name": "collection",
         "type": "address"
       },
       {
         "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
+        "internalType": "bool",
+        "name": "allowed",
+        "type": "bool"
       }
     ],
-    "name": "BalanceWithdraw",
+    "name": "CollectionUpdated",
     "type": "event"
   },
   {
@@ -44,6 +36,12 @@
         "indexed": false,
         "internalType": "uint256",
         "name": "newFee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newRefund",
         "type": "uint256"
       }
     ],
@@ -149,12 +147,12 @@
     "inputs": [
       {
         "indexed": false,
-        "internalType": "address",
-        "name": "account",
-        "type": "address"
+        "internalType": "uint256",
+        "name": "newState",
+        "type": "uint256"
       }
     ],
-    "name": "Paused",
+    "name": "PauseStateUpdated",
     "type": "event"
   },
   {
@@ -163,11 +161,11 @@
       {
         "indexed": false,
         "internalType": "address",
-        "name": "account",
+        "name": "wallet",
         "type": "address"
       }
     ],
-    "name": "Unpaused",
+    "name": "PaymentsCollectorUpdated",
     "type": "event"
   },
   {
@@ -185,7 +183,7 @@
     ],
     "name": "acceptOffer",
     "outputs": [],
-    "stateMutability": "nonpayable",
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -234,25 +232,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "name": "balance",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
@@ -266,6 +245,25 @@
     "name": "cancelOffer",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "contracts",
+        "type": "address[]"
+      }
+    ],
+    "name": "checkApprovals",
+    "outputs": [
+      {
+        "internalType": "bool[]",
+        "name": "",
+        "type": "bool[]"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -299,15 +297,27 @@
       }
     ],
     "name": "createOffer",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "payable",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "depositBalance",
-    "outputs": [],
-    "stateMutability": "payable",
+    "name": "feeRefund",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -321,6 +331,66 @@
     "name": "forceCancelOffer",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOfferTokens",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "bool",
+            "name": "have",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "contractAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct Trader.Token[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "contractAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "wallet",
+        "type": "address"
+      }
+    ],
+    "name": "getRemoteTokens",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -418,6 +488,16 @@
         "internalType": "uint256",
         "name": "toIndex",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "fee",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "refund",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -450,20 +530,126 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "pause",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "wallet",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "page",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "limit",
+        "type": "uint256"
+      }
+    ],
+    "name": "paginateOffers",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "id",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "index",
+            "type": "uint256"
+          },
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "fromAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "address",
+                "name": "toAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "fromIndex",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "toIndex",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "fee",
+                "type": "uint256"
+              },
+              {
+                "internalType": "uint256",
+                "name": "refund",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct Trader.Offer",
+            "name": "offer",
+            "type": "tuple"
+          },
+          {
+            "components": [
+              {
+                "internalType": "bool",
+                "name": "have",
+                "type": "bool"
+              },
+              {
+                "internalType": "address",
+                "name": "contractAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "id",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct Trader.Token[]",
+            "name": "tokens",
+            "type": "tuple[]"
+          }
+        ],
+        "internalType": "struct Trader.FullOffer[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
-    "name": "paused",
+    "name": "pauseState",
     "outputs": [
       {
-        "internalType": "bool",
+        "internalType": "uint256",
         "name": "",
-        "type": "bool"
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "paymentsCollector",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -472,6 +658,37 @@
   {
     "inputs": [],
     "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "collection",
+        "type": "address"
+      },
+      {
+        "internalType": "bool",
+        "name": "allowed",
+        "type": "bool"
+      }
+    ],
+    "name": "setContractAllowed",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newState",
+        "type": "uint256"
+      }
+    ],
+    "name": "setPauseState",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -504,7 +721,7 @@
   },
   {
     "inputs": [],
-    "name": "unPause",
+    "name": "transferPayments",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -515,9 +732,27 @@
         "internalType": "uint256",
         "name": "newFee",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "newRefund",
+        "type": "uint256"
       }
     ],
     "name": "updateFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "wallet",
+        "type": "address"
+      }
+    ],
+    "name": "updatePaymentsCollector",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -544,21 +779,20 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "",
+        "type": "address"
       }
     ],
-    "name": "withdrawBalance",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "withdrawPayments",
-    "outputs": [],
-    "stateMutability": "nonpayable",
+    "name": "whitelistedContracts",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]

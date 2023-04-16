@@ -1,4 +1,5 @@
 import abi from './abi.json'
+import { Web3ClientError } from "../Error";
 
 const Trader = {
   address(network) {
@@ -7,14 +8,14 @@ const Trader = {
     }
   
     if (network === "Cronos Testnet") {
-      return '0x0';
+      return '0x5bE3Cf8f2994A4b0AA445d54C7D52f92db8aF2b3';
     }
   
     if (network === "Cronos") {
       return '0x0';
     }
   
-    throw new Error("Wrong network!");
+    throw new Web3ClientError("Wrong network!");
   },
 
   abi(network) {
@@ -22,7 +23,7 @@ const Trader = {
   },
 
   payment(network) {
-    return "10.0";
+    return "5.0";
   },
 }
 

@@ -54,7 +54,7 @@ const router = createBrowserRouter([
         element: <Soon />,
       },
       {
-        path: "createoffer",
+        path: "createoffer/:walletadrs",
         element: <TradeOffer />,
       },
       {

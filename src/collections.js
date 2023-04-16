@@ -1,5 +1,4 @@
 const collections = [
-  {id: "1087099967161774111", slug: "test", name: "TEST", image: require('./images/collections/loadedlions.webp') },
   {id: "970110042424610886", slug: "afe", name: "Aliens From Earth", image: require('./images/collections/afe.webp') },
   {id: "903875726418268220", slug: "ballies",name: "Ballies", image: require('./images/collections/ballies.webp') },
   {id: "", slug: "loaded-lions", name: "Loaded Lions", image: require('./images/collections/loadedlions.webp') },

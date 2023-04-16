@@ -8,6 +8,8 @@ import {
   writeContract,
   waitForTransaction,
   readContract,
+  readContracts,
+  erc721ABI
 } from '@wagmi/core';
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
 import { Web3Modal } from "@web3modal/react";
@@ -17,6 +19,7 @@ import { BigNumber, utils } from 'ethers';
 import { localNet, cronosMainnet, cronosTestnet } from "./Chains";
 import Trader from "./trader/Contract";
 import { CollectionByAddress } from "./collections";
+import { Web3ClientError, returnError } from "./Error";
 
 
 const chains = [localNet, cronosMainnet, cronosTestnet];
@@ -51,18 +54,23 @@ export function onWalletChange(callback) {
   return watchAccount(callback);
 };
 
+export function getNetworkName() {
+  const { chain } = getNetwork();
+  if (!chain) {
+    throw new Web3ClientError("Not connected.");
+  }
+  return chain.name;
+}
 
-// Trader Contract
-function TraderContract() {
+
+// Contract
+export function Contract(contractAddress, abi) {
   const { isConnected, address } = getAccount();
   const { chain } = getNetwork();
 
   if (!isConnected || !address || !chain) {
-    throw new Error("Not connected.");
+    throw new Web3ClientError("Not connected.");
   }
-
-  const contractAddress = Trader.address(chain.name);
-  const abi = Trader.abi(chain.name);
 
   return {
     async write(functionName, args, overrides) {
@@ -80,7 +88,7 @@ function TraderContract() {
       const txReceipt = await waitForTransaction({ hash });
 
       if (!txReceipt) {
-        throw new Error("Transaction failed.");
+        throw new Web3ClientError("Transaction failed.");
       }
     },
 
@@ -94,6 +102,18 @@ function TraderContract() {
       return result;
     },
 
+    async readMulti(params) {
+      const result = await readContracts({
+        contracts: params.map(x => ({
+          address: contractAddress,
+          abi,
+          args: x[1],
+          functionName: x[0],
+        }))
+      });
+      return result;
+    },
+
     userAddress() {
       return address;
     },
@@ -101,102 +121,168 @@ function TraderContract() {
     network() {
       return chain.name;
     },
+
+    address() {
+      return contractAddress;
+    },
   }
 }
 
-function convertItem(address, id) {
-  const collection = CollectionByAddress(address);
+function TraderContract() {
+  const network = getNetworkName();
+  const contractAddress = Trader.address(network);
+  const abi = Trader.abi(network);
 
-  if (!collection) {
-    throw new Error(`Unknown NFT: ${address}/${id}`);
-  }
+  return Contract(contractAddress, abi);
+}
 
-  return {
-    address,
-    id,
-    name: collection.name(id),
-    image: collection.image(id),
-    cronoscan: `https://cronoscan.com/token/${address}?a=${id}`,
+function convertItem(network) {
+  return (item) => {
+    const { contractAddress, id } = item;
+    const collection = CollectionByAddress(contractAddress, network);
+
+    if (!collection) {
+      throw new Web3ClientError(`Unknown NFT: ${contractAddress}/${id}`);
+    }
+
+    return {
+      id,
+      address: contractAddress,
+      name: collection.name(id),
+      image: collection.image(id),
+      cronoscan: `https://cronoscan.com/token/${contractAddress}?a=${id}`,
+    }
   }
 }
 
-export async function getActiveOffers() {
+export async function requestApproval(collection) {
+  try {
+    const address = collection.address(getNetworkName());
+    const config = await prepareWriteContract({
+      address,
+      abi: erc721ABI,
+      functionName: 'setApprovalForAll',
+      args: [ Trader.address(getNetworkName()), true ],
+      overrides: {
+        from: getWalletAddress(),
+      }
+    });
+    const { hash } = await writeContract(config);
+    const txReceipt = await waitForTransaction({ hash });
+
+    if (!txReceipt) {
+      throw new Web3ClientError("Transaction failed.");
+    }
+  } catch (err) {
+    return returnError(err);
+  }
+}
+
+async function missingApprovals(contract, tokens) {
+  const contracts = [...tokens.reduce((ret, token) => {
+    ret.add(token.contractAddress);
+    return ret;
+  }, new Set())];
+  const userAddress = contract.userAddress();
+  const operatorAddress = contract.address();
+  const results = await readContracts({
+    contracts: contracts.map(contractAddress => ({
+      address: contractAddress,
+      abi: erc721ABI,
+      functionName: 'isApprovedForAll',
+      args: [ userAddress, operatorAddress ],
+    })),
+  });
+  return results.map((ok, index) => !ok && contracts[index]).filter(Boolean);
+}
+
+export async function getRemoteTokens(contractAddress, address) {
+  try {
+    const contract = TraderContract();
+    const result = await contract.read('getRemoteTokens', [ contractAddress, address ]);
+
+    return {
+      tokens: result.map(x => BigNumber.from(x)),
+    }
+  } catch (err) {
+    return returnError(err);
+  }
+}
+
+export async function getActiveOffers(page) {
   try {
     const contract = TraderContract();
     const address = contract.userAddress();
 
-    const offerCount = await contract.read('activeOffersCount', [ address ]);
-    const offers = [];
+    const result = await contract.read('paginateOffers', [ address, page || 0, 10 ]);
+    const offers = result.map(x => ({
+      ...x.offer,
+      id: x.id,
+      index: x.index,
+      items: x.tokens,
+    }));
 
-    // TODO paginate offers
-
-    for (let index = 0; index < offerCount; index ++) {
-      const offerId = await contract.read('activeOffers', [ address, index ]);
-      const details = await contract.read('offers', [ offerId ]);
-
-      const itemsCount = await contract.read('offerItemsCount', [ offerId ]);
-      const items = [];
-
-      for (let itemIndex = 0; itemIndex < itemsCount; itemIndex ++) {
-        const item = await contract.read('offerItems', [ offerId, itemIndex ]);
-        items.push(item);
-      }
-  
-      offers.push({
-        ...details,
-        id: offerId,
-        index,
-        items,
-      });
-    }
-
-    // TODO mark invalid offers
+    const isValid = await contract.readMulti(offers.map(offer => ['validateOffer', [ offer.id ]]));
+    const itemConverter = convertItem(contract.network());
 
     return {
-      offers: offers.map((offer) => {
+      offers: offers.map((offer, index) => {
         const received = offer.toAddress === address;
         const otherAddress = received ? offer.fromAddress : offer.toAddress;
 
         return {
           id: offer.id,
           index: offer.index,
+          invalid: !isValid[index],
           received,
           address: otherAddress,
           name: otherAddress,
-          have: offer.items.filter(item => item.have).map(convertItem),
-          want: offer.items.filter(item => !item.have).map(convertItem),
+          have: offer.items.filter(item => item.have).map(itemConverter),
+          want: offer.items.filter(item => !item.have).map(itemConverter),
         };
       }),
     }
   } catch (err) {
-    return {
-      error: err.message,
-    };
+    return returnError(err);
   }
 }
+
+export async function getMissingApprovals(options) {
+  try {
+    const { have } = options;
+    const contract = TraderContract();
+
+    const tokens = options.tokens || await contract.read('getOfferTokens', [ options.id ]);
+    const missing = await missingApprovals(contract, tokens.filter(token => have ? token.have : !token.have));
+
+    return {
+      missing: missing.map(address => CollectionByAddress(address, getNetworkName())),
+    }
+  } catch (err) {
+    return returnError(err);
+  }
+}
+
 export async function createOffer(address, tokens) {
   try {
     const contract = TraderContract();
-    await contract.write('createOffer',[ address, tokens ], {
+    await contract.write('createOffer', [ address, tokens ], {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
   } catch (err) {
-    return {
-      error: err.message,
-    };
+    return returnError(err);
   }
 }
 
 export async function acceptOffer(id, index) {
   try {
     const contract = TraderContract();
+
     await contract.write('acceptOffer', [ BigNumber.from(id), BigNumber.from(index) ], {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
   } catch (err) {
-    return {
-      error: err.message,
-    };
+    return returnError(err);
   }
 }
 
@@ -205,8 +291,6 @@ export async function cancelOffer(id, index) {
     const contract = TraderContract();
     await contract.write('cancelOffer', [ BigNumber.from(id), BigNumber.from(index) ]);
   } catch (err) {
-    return {
-      error: err.message,
-    };
+    return returnError(err);
   }
 }
