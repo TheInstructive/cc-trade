@@ -20,7 +20,7 @@ export async function getNFTs(address) {
   }
 
   const network = getNetworkName();
-  if (network === "Private") {
+  if (network !== "Cronos") {
     return await getNFTsFromChain(address);
   }
 
