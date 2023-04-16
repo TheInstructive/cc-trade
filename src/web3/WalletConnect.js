@@ -155,21 +155,26 @@ function convertItem(network) {
   }
 }
 
-async function requestApproval(address) {
-  const config = await prepareWriteContract({
-    address,
-    abi: erc721ABI,
-    functionName: 'setApprovalForAll',
-    args: [ Trader.address(getNetworkName()), true ],
-    overrides: {
-      from: getWalletAddress(),
-    }
-  });
-  const { hash } = await writeContract(config);
-  const txReceipt = await waitForTransaction({ hash });
+export async function requestApproval(collection) {
+  try {
+    const address = collection.address(getNetworkName());
+    const config = await prepareWriteContract({
+      address,
+      abi: erc721ABI,
+      functionName: 'setApprovalForAll',
+      args: [ Trader.address(getNetworkName()), true ],
+      overrides: {
+        from: getWalletAddress(),
+      }
+    });
+    const { hash } = await writeContract(config);
+    const txReceipt = await waitForTransaction({ hash });
 
-  if (!txReceipt) {
-    throw new Web3ClientError("Transaction failed.");
+    if (!txReceipt) {
+      throw new Web3ClientError("Transaction failed.");
+    }
+  } catch (err) {
+    return returnError(err);
   }
 }
 
@@ -242,14 +247,25 @@ export async function getActiveOffers(page) {
   }
 }
 
+export async function getMissingApprovals(options) {
+  try {
+    const { have } = options;
+    const contract = TraderContract();
+
+    const tokens = options.tokens || await contract.read('getOfferTokens', [ options.id ]);
+    const missing = await missingApprovals(contract, tokens.filter(token => have ? token.have : !token.have));
+
+    return {
+      missing: missing.map(address => CollectionByAddress(address, getNetworkName())),
+    }
+  } catch (err) {
+    return returnError(err);
+  }
+}
+
 export async function createOffer(address, tokens) {
   try {
     const contract = TraderContract();
-
-    const missing = await missingApprovals(contract, tokens.filter(token => token.have));
-    const promises = missing.map(address => requestApproval(address));
-    await Promise.all(promises);
-
     await contract.write('createOffer', [ address, tokens ], {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
@@ -261,11 +277,6 @@ export async function createOffer(address, tokens) {
 export async function acceptOffer(id, index) {
   try {
     const contract = TraderContract();
-
-    const tokens = await contract.read('getOfferTokens', [ id ]);
-    const missing = await missingApprovals(contract, tokens.filter(token => !token.have));
-    const promises = missing.map(address => requestApproval(address));
-    await Promise.all(promises);
 
     await contract.write('acceptOffer', [ BigNumber.from(id), BigNumber.from(index) ], {
       value: utils.parseEther(Trader.payment(contract.network())),
