@@ -13,6 +13,10 @@ const BalliesGear = {
       return '0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9';
     }
 
+    if (network === 'Cronos Testnet') {
+      return '0xe6cCbf40C2A1B9815ca189e6cad9B96C1292112a';
+    }
+
     return '0x861C150f818A882AAA3aFA91694Fc9a6C5CCcA1C';
   },
 

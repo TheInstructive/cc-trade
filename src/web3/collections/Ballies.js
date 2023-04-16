@@ -12,6 +12,10 @@ const Ballies = {
       return '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';
     }
 
+    if (network === 'Cronos Testnet') {
+      return '0xfBF9245C44daBfC5E6B575f8f03dBD4381bB4DA5';
+    }
+
     return '0xF12B07570804c56B4ce8f63e7121BEC8C7CA1542';
   },
 
