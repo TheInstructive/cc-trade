@@ -70,11 +70,11 @@ export default function TradeOffer() {
 
   useEffect(() => {
     setWalletAddress(getWalletAddress());
-    getNFTs(walletadrs).then(want => want && setWantNFTs(want));
-  }, []);
+    getNFTs(walletadrs).then(want => want && setWantNFTs(want)).catch(console.error);
+  }, [walletadrs]);
 
   useEffect(() => {
-    getNFTs(walletAddress).then(have => have && setHaveNFTs(have));
+    getNFTs(walletAddress).then(have => have && setHaveNFTs(have)).catch(console.error);
   }, [walletAddress]);
 
   function nextStep() {

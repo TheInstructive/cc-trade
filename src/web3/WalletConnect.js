@@ -191,11 +191,9 @@ async function missingApprovals(contract, tokens) {
   return results.map((ok, index) => ok && contracts[index]).filter(Boolean);
 }
 
-export async function getRemoteTokens(contractAddress) {
+export async function getRemoteTokens(contractAddress, address) {
   try {
     const contract = TraderContract();
-    const address = contract.userAddress();
-
     const result = await contract.read('getRemoteTokens', [ contractAddress, address ]);
 
     return {
