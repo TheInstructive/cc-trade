@@ -23,7 +23,7 @@ import i18n from './i18n';
 
 const router = createBrowserRouter([
   {
-    element: <Soon />,
+    element: <App />,
     children: [
       {
         path: "/",
@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: "trade",
-        element: <Trade />,
+        element: <Soon />,
       },
       {
         path: "announcement/:slug",
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
       },
       {
         path: "launchpad",
-        element: <Launchpad />,
+        element: <Soon />,
       },
       {
         path: "stake",
@@ -55,11 +55,11 @@ const router = createBrowserRouter([
       },
       {
         path: "createoffer/:walletadrs",
-        element: <TradeOffer />,
+        element: <Soon />,
       },
       {
         path: "affiliate",
-        element: <Affiliate />,
+        element: <Soon />,
       },
     ],
   },
