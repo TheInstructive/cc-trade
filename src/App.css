@@ -1747,6 +1747,18 @@ cursor: pointer;
   margin-top: 0;
 }
 
+.soon p{
+  text-align: center;
+  color: white;
+  max-width: 400px;
+}
+
+.soon h4{
+  color: white;
+  margin: 0;
+  font-size: 2em;
+}
+
 .dd-wrapper{
 position: relative;
 margin-right: 1em;

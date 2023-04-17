@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: "trade",
-        element: <Soon />,
+        element: <Soon title = "ABOUT TRADE" desc = "Our trade system allows users to securely trade their NFTs without the risk of scams. Every user has a trade URL where their NFTs are stored, and other users can create offers to trade for any NFTs they are interested in. This system makes it easy and safe for users to trade their NFTs and expand their collections."/>,
       },
       {
         path: "announcement/:slug",
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
       },
       {
         path: "launchpad",
-        element: <Soon />,
+        element: <Soon title = "ABOUT LAUNCHPAD" desc = "Our launchpad system includes an affiliate program where every user is provided with a unique affiliate URL that can be shared with their community. When NFTs are minted from this URL, the affiliate owner earns a percentage of the profit. This system allows users to earn passive income by promoting NFT collections on our platform." />,
       },
       {
         path: "stake",
