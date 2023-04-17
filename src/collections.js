@@ -1,10 +1,10 @@
 const collections = [
   {id: "970110042424610886", slug: "afe", name: "Aliens From Earth", image: require('./images/collections/afe.webp') },
   {id: "903875726418268220", slug: "ballies",name: "Ballies", image: require('./images/collections/ballies.webp') },
-  {id: "", slug: "loaded-lions", name: "Loaded Lions", image: require('./images/collections/loadedlions.webp') },
+  {id: "910134816568127488", slug: "loaded-lions", name: "Loaded Lions", image: require('./images/collections/loadedlions.webp') },
   {id: "905038556140036106", slug:"miner-mole", name: "VVS Miner Mole", image: require('./images/collections/minermole.webp') },
   {id: "896483719295156274", slug:"cronos-chimp-club", name: "Cronos Chimp Club", image: require('./images/collections/chimpclub.webp') },
-  {id: "0", slug:"croskull", name: "CroSkull", image: require('./images/collections/croskull.webp') },
+  {id: "913035213670612992", slug:"croskull", name: "CroSkull", image: require('./images/collections/croskull.webp') },
   {id: "1009732055648714813", slug:"cronos-cruisers", name: "Cronos Cruisers", image: require('./images/collections/cruisers.webp') },
   {id: "0", slug:"boomer-squad", name: "Boomer Squad", image: require('./images/collections/boomersquad.webp')},
   {id: "1044839682057453639", slug:"eyeball", name: "Eyeball Games", image: require('./images/collections/eyeball.webp') },
@@ -22,7 +22,7 @@ const collections = [
   {id: "911246161233457172", slug:"crxillion", name: "Crxillion", image: require('./images/collections/crxillion.webp') },
   {id: "967089657475121254", slug:"exodus", name: "Exodus", image: require('./images/collections/exodus.webp') },
   {id: "969658754838720556", slug:"crogenft", name: "CrogeNFT", image: require('./images/collections/croge.webp') },
-  {id: "0", slug:"bored-candy", name: "Bored Candy", image: require('./images/collections/boredcandy.webp') },
+  {id: "1016711439131623454", slug:"bored-candy", name: "Bored Candy", image: require('./images/collections/boredcandy.webp') },
   {id: "911705542995636255", slug:"weird-apes-club", name: "Weird Apes Club", image: require('./images/collections/weirdapes.webp') },
   {id: "1056245905994559595", slug:"cr00ts", name: "Cr00ts", image: require('./images/collections/cr00ts.webp') },
   {id: "0", slug:"cronodesnft", name: "CroNodesNFT", image: require('./images/collections/cronodes.webp') },
@@ -42,7 +42,7 @@ const collections = [
   {id: "1042850385670447114", slug:"veno", name: "Veno Finance", image: require('./images/collections/veno.webp') },
   {id: "0", slug:"ferro", name: "Ferro Protocol", image: require('./images/collections/ferro.webp') },
   {id: "0", slug:"tectonic", name: "Tectonic Finance", image: require('./images/collections/tectonic.webp')},
-  {id: "0", slug:"the-void", name: "The Void", image: require('./images/collections/void.webp') },
+  {id: "994223754219638927", slug:"the-void", name: "The Void", image: require('./images/collections/void.webp') },
 ];
 
 export default collections;
