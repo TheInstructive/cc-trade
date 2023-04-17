@@ -130,13 +130,13 @@ function App() {
         </div>
 
         <div className="social-box">
-          <a target='_blank' src='https://twitter.com/CronosClubAFE'>
+          <a target='_blank' href='https://twitter.com/CronosClubAFE'>
             <img width={20} src={twitter}></img> Twitter
           </a>
-          <a target='_blank' src='https://discord.gg/Nn3hqfmZgT'>
+          <a target='_blank' href='https://discord.gg/Nn3hqfmZgT'>
             <img width={20} src={discord}></img> Discord
           </a>
-          <a target='_blank' src='https://cronosclub.gitbook.io/'>
+          <a target='_blank' href='https://cronosclub.gitbook.io/'>
             <FontAwesomeIcon icon={faBook} /> &nbsp; Gitbook
           </a>
         </div>
