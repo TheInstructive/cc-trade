@@ -47,7 +47,7 @@ const router = createBrowserRouter([
       },
       {
         path: "launchpad",
-        element: <Launchpad />,
+        element: <Soon title = "ABOUT LAUNCHPAD" desc = "Our launchpad system includes an affiliate program where every user is provided with a unique affiliate URL that can be shared with their community. When NFTs are minted from this URL, the affiliate owner earns a percentage of the profit. This system allows users to earn passive income by promoting NFT collections on our platform." />,
       },
       {
         path: "stake",
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
       },
       {
         path: "affiliate",
-        element: <Affiliate />,
+        element: <Soon />,
       },
     ],
   },

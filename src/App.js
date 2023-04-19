@@ -1,6 +1,6 @@
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faHome} from '@fortawesome/free-solid-svg-icons'
+import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faHome, faBook} from '@fortawesome/free-solid-svg-icons'
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import logo from './images/logo1.png'
@@ -124,14 +124,14 @@ function App() {
         </div>
 
         <div className="social-box">
-          <a>
+          <a target='_blank' href='https://twitter.com/CronosClubAFE'>
             <img width={20} src={twitter}></img> Twitter
           </a>
-          <a>
-            <img width={20} src={instagram}></img> Instagram
-          </a>
-          <a>
+          <a target='_blank' href='https://discord.gg/Nn3hqfmZgT'>
             <img width={20} src={discord}></img> Discord
+          </a>
+          <a target='_blank' href='https://cronosclub.gitbook.io/'>
+            <FontAwesomeIcon icon={faBook} /> &nbsp; Gitbook
           </a>
         </div>
 

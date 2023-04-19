@@ -1771,6 +1771,7 @@ cursor: pointer;
 
 .soon{
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1785,6 +1786,27 @@ cursor: pointer;
   font-family: 'Montserrat', sans-serif;
   font-size: 4em;
   margin-top: 0;
+}
+
+.soon h2{
+  white-space:pre-wrap;
+  text-align: center;
+  overflow: hidden;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  margin-top: 0;
+}
+
+.soon p{
+  text-align: center;
+  color: white;
+  max-width: 400px;
+}
+
+.soon h4{
+  color: white;
+  margin: 0;
+  font-size: 2em;
 }
 
 .dd-wrapper{
@@ -2446,7 +2468,7 @@ margin-left: 0;
 
   .mobile-menu{
     position: sticky;
-    bottom: 0;
+    bottom: -2px;
     width: 100%;
     display: flex;
     flex-direction: row;
