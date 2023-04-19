@@ -11,7 +11,7 @@ export default function Affiliate() {
     <div className='affiliates-link'>
         <br></br>
         <label>YOUR REFFERAL LINK</label><br></br><br></br>
-        <input value='https://aliensfromearth.com/?ref=ernewnk23km23mf'></input>
+        <input value='https://afe.cronos.club/?ref=ernewnk23km23mf'></input>
         <button>COPY</button>
         <p>Share your referral code with your community and receive a percentage of their every mint.</p>
     </div>
@@ -28,21 +28,21 @@ export default function Affiliate() {
             <h3>YOUR SHARE</h3>
             <p>Your current commission</p>
             <br/>
-            <h1>30%</h1>
+            <h1>10%</h1>
         </div>
 
         <div className='affiliates-item'>
             <h3>TOTAL REVENUE</h3>
             <p>Your affiliate earnings</p>
             <br/>
-            <h1>0.00 CRO</h1>
+            <h1>1540.00 CRO</h1>
         </div>
 
         <div className='affiliates-item'>
             <h3>AVAILABLE REVENUE</h3>
             <p>Total claimable revenue</p>
             <br/>
-            <h1>0.00 CRO</h1>
+            <h1>1540.00 CRO</h1>
             <br/>
             <button>Claim</button>
         </div>

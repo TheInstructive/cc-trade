@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowsLeftRight, faScaleBalanced, faArrowUpFromBracket, faHistory} from '@fortawesome/free-solid-svg-icons'
-import loaded from './images/ll.jpg'
-import ballies from './images/ballies.png'
+import { faArrowsLeftRight, faScaleBalanced, faArrowUpFromBracket, faWallet} from '@fortawesome/free-solid-svg-icons'
+import logo from './images/logos.png'
 import ReceivedTrades from './components/ReceivedTrades'
 import SentTrades from './components/SentTrades'
 import { onWalletChange, isWalletConnected, getWalletAddress } from "./web3/WalletConnect";
 import { useTranslation } from 'react-i18next';
+import Inventory from './components/Inventory'
 
 
 export default function TradePage() {
@@ -52,63 +52,63 @@ export default function TradePage() {
           <div className='last-trade-container'>
 
             <div className='last-trade-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
 
             <FontAwesomeIcon icon={faArrowsLeftRight} />
 
             <div className='last-trade-item'>
-              <h4>Ballie #1146</h4>
-              <img src={ballies}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
           </div>
 
           <div className='last-trade-container'>
             <div className='last-trade-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
             <FontAwesomeIcon icon={faArrowsLeftRight} />
             <div className='last-trade-item'>
-              <h4>Ballie #1146</h4>
-              <img src={ballies}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
           </div>
 
           <div className='last-trade-container'>
             <div className='last-trade-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
             <FontAwesomeIcon icon={faArrowsLeftRight} />
             <div className='last-trade-item'>
-              <h4>Ballie #1146</h4>
-              <img src={ballies}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
           </div>
 
           <div className='last-trade-container'>
             <div className='last-trade-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
             <FontAwesomeIcon icon={faArrowsLeftRight} />
             <div className='last-trade-item'>
-              <h4>Ballie #1146</h4>
-              <img src={ballies}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
           </div>
 
           <div className='last-trade-container'>
             <div className='last-trade-item'>
-              <h4>Loaded Lion #1146</h4>
-              <img src={loaded}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
             <FontAwesomeIcon icon={faArrowsLeftRight} />
             <div className='last-trade-item'>
-              <h4>Ballie #1146</h4>
-              <img src={ballies}></img>
+              <h4>Cronos Club #1234</h4>
+              <img src={logo}></img>
             </div>
           </div>
          </div>
@@ -117,7 +117,7 @@ export default function TradePage() {
 
           <div className='trade-header'>
             <div className='wallet-info'>
-              <div className='wallet-pic'><img width={200} src={ballies}></img></div>
+              <div className='wallet-pic'><img src={logo}></img></div>
               <div className='wallet-address'>{walletAddress}</div>
           </div>
 
@@ -139,6 +139,7 @@ export default function TradePage() {
               <ul>
               <li onClick={() => setRenderTab(0)} className={rederTab === 0 ? 'active-trade-menu' : ""}><a><FontAwesomeIcon icon={faScaleBalanced} /> &nbsp; Received Offers</a></li>
               <li onClick={() => setRenderTab(1)} className={rederTab === 1 ? 'active-trade-menu' : ""}><a><FontAwesomeIcon icon={faArrowUpFromBracket} /> &nbsp; Sent Offers</a></li>
+              <li onClick={() => setRenderTab(2)} className={rederTab === 2 ? 'active-trade-menu' : ""}><a><FontAwesomeIcon icon={faWallet} /> &nbsp; Inventory</a></li>
               </ul>
             </div>
 
@@ -153,6 +154,12 @@ export default function TradePage() {
             {rederTab === 1 ?
               <div className='trade-offers-tab'>
                   <SentTrades></SentTrades>
+              </div>
+              : ""
+            }
+            {rederTab === 2 ?
+              <div className='trade-offers-tab'>
+                  <Inventory></Inventory>
               </div>
               : ""
             }

@@ -11,9 +11,8 @@ export default function TradeItem(props) {
       onSelectNFT();
     }
 
-
 return (
-  <label onClick={() => handleCheckboxChange()} className={isChecked && showCheckbox ? 'nft-trade-item selected-nft' : 'nft-trade-item'}>
+  <label onClick={() => handleCheckboxChange()} className={props.class}>
   <img width={200} src={nftimage}></img>
   <div className='nft-information'>
       <span>{nftname}</span>
