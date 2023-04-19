@@ -4,7 +4,7 @@ const collections = [
   {id: "910134816568127488", slug: "loaded-lions", name: "Loaded Lions", image: require('./images/collections/loadedlions.webp') },
   {id: "940705475165577226", slug:"cronos", name: "Cronos", image: require('./images/collections/cronos.webp') },
   {id: "783271884451872780", slug:"crypto-org", name: "Crypto.org", image: require('./images/collections/cryptoorg.webp') },
-  {id: "905038556140036106", slug:"miner-mole", name: "VVS Miner Mole", image: require('./images/collections/minermole.webp') },
+  {id: "993365676150509730", slug:"miner-mole", name: "VVS Miner Mole", image: require('./images/collections/minermole.webp') },
   {id: "896483719295156274", slug:"cronos-chimp-club", name: "Cronos Chimp Club", image: require('./images/collections/chimpclub.webp') },
   {id: "913035213670612992", slug:"croskull", name: "CroSkull", image: require('./images/collections/croskull.webp') },
   {id: "1009732055648714813", slug:"cronos-cruisers", name: "Cronos Cruisers", image: require('./images/collections/cruisers.webp') },
