@@ -31,7 +31,7 @@ const router = createBrowserRouter([
       },
       {
         path: "trade",
-        element: <Soon title = "ABOUT TRADE" desc = "Our trade system allows users to securely trade their NFTs without the risk of scams. Every user has a trade URL where their NFTs are stored, and other users can create offers to trade for any NFTs they are interested in. This system makes it easy and safe for users to trade their NFTs and expand their collections."/>,
+        element: <Trade />,
       },
       {
         path: "announcement/:slug",
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
       },
       {
         path: "createoffer/:walletadrs",
-        element: <Soon />,
+        element: <TradeOffer />,
       },
       {
         path: "affiliate",

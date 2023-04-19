@@ -70,7 +70,7 @@ function App() {
           </div>
 
           <div className='right'>
-            {!isConnected ? <button disabled onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress'>{walletAddress}</div> }
+            {!isConnected ? <button onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress'>{walletAddress}</div> }
           </div>
 
           <Dropdown
