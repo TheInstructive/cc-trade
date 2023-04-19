@@ -89,16 +89,13 @@ function App() {
           <div className="footer-menu">
             <h4>About</h4>
             <li>
-              <a>About US</a>
+              <a target='blank' href='https://docs.cronos.club/cronos.club/about-us/'>About US</a>
             </li>
             <li>
               <a>FAQ</a>
             </li>
             <li>
-              <a>Help</a>
-            </li>
-            <li>
-              <a>AFE</a>
+              <a target='blank' href='https://aliensfromearth.com/'>AFE</a>
             </li>
           </div>
 
@@ -108,7 +105,7 @@ function App() {
               <a>Privacy Policy</a>
             </li>
             <li>
-              <a>Terns of Use</a>
+              <a>Terms of Use</a>
             </li>
             <li>
               <a>Smart Contract</a>
@@ -117,9 +114,6 @@ function App() {
 
           <div className="footer-menu">
             <h4>Profile</h4>
-            <li>
-              <a>Personal Area</a>
-            </li>
             <li>
               <a>Trade</a>
             </li>

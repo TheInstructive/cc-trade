@@ -173,6 +173,7 @@ export async function requestApproval(collection) {
     if (!txReceipt) {
       throw new Web3ClientError("Transaction failed.");
     }
+    return {};
   } catch (err) {
     return returnError(err);
   }
@@ -269,6 +270,7 @@ export async function createOffer(address, tokens) {
     await contract.write('createOffer', [ address, tokens ], {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
+    return {};
   } catch (err) {
     return returnError(err);
   }
@@ -281,6 +283,7 @@ export async function acceptOffer(id, index) {
     await contract.write('acceptOffer', [ BigNumber.from(id), BigNumber.from(index) ], {
       value: utils.parseEther(Trader.payment(contract.network())),
     });
+    return {};
   } catch (err) {
     return returnError(err);
   }
@@ -290,6 +293,7 @@ export async function cancelOffer(id, index) {
   try {
     const contract = TraderContract();
     await contract.write('cancelOffer', [ BigNumber.from(id), BigNumber.from(index) ]);
+    return {};
   } catch (err) {
     return returnError(err);
   }
