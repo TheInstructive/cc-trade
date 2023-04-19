@@ -155,25 +155,38 @@ function convertItem(network) {
   }
 }
 
+async function setApprovalForAll(address, yes) {
+  const config = await prepareWriteContract({
+    address,
+    abi: erc721ABI,
+    functionName: 'setApprovalForAll',
+    args: [ Trader.address(getNetworkName()), yes ],
+    overrides: {
+      from: getWalletAddress(),
+    }
+  });
+  const { hash } = await writeContract(config);
+  const txReceipt = await waitForTransaction({ hash });
+
+  if (!txReceipt) {
+    throw new Web3ClientError("Transaction failed.");
+  }
+  return {};
+}
+
 export async function requestApproval(collection) {
   try {
     const address = collection.address(getNetworkName());
-    const config = await prepareWriteContract({
-      address,
-      abi: erc721ABI,
-      functionName: 'setApprovalForAll',
-      args: [ Trader.address(getNetworkName()), true ],
-      overrides: {
-        from: getWalletAddress(),
-      }
-    });
-    const { hash } = await writeContract(config);
-    const txReceipt = await waitForTransaction({ hash });
+    return await setApprovalForAll(address, true);
+  } catch (err) {
+    return returnError(err);
+  }
+}
 
-    if (!txReceipt) {
-      throw new Web3ClientError("Transaction failed.");
-    }
-    return {};
+export async function revokeApproval(collection) {
+  try {
+    const address = collection.address(getNetworkName());
+    return await setApprovalForAll(address, false);
   } catch (err) {
     return returnError(err);
   }
