@@ -2,9 +2,10 @@ import Collections, { CollectionByAddress } from "./collections";
 import { getNetworkName, getRemoteTokens } from "./WalletConnect";
 
 function convertTokens(tokens, network) {
-  return tokens.map(token => {
+  return tokens.map((token, index) => {
     const collection = CollectionByAddress(token.address, network);
     return {
+      index,
       id: token.id,
       address: token.address,
       collection: collection,

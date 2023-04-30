@@ -23,10 +23,12 @@ useEffect(() => {
 }, []);
 
 const receivedTrades = activeTrades.filter(trade => !trade.received);
+const reversedTrades = [...receivedTrades].reverse();
+
 
 return (
 <div>
-{receivedTrades.map((offer, index) => (
+{reversedTrades.map((offer, index) => (
 <div key={index} className="trade-offer-wrapper">
   <div className="trade-offer-header">
     <div className="offer-date">
@@ -78,6 +80,11 @@ return (
 
 </div>
 ))}
+
+{receivedTrades.length < 1 &&
+ <div>You have no offers.</div>
+}
+
 
 </div>
 
