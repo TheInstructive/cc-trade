@@ -4,20 +4,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;500;600;700;800&display=swap');
 
 :root {
-  --black: #212121;
+  --main: #fdfdfd;
+  --main1: #f2f2f2;
+  --main2: #dddddd;
+  --main3: #cecece;
   --blue: #325d96;
+  --header: #002D74;
+  --text: #262626;
+  --text-one: #fff;
+  --both-white:#fff;
+  --both-black:#000;
+  --step:#999999;
+  --step1:#000;
+  --newsletter:#f2f2f2;
+  --news-title: #002D74;
+  --tutorial-button:#f2f2f2;
+  --connect-wallet:#ffffff;
+  --note-color:#1a4283;
+  --dropdown-color:#1a4283;
+  --collection-item-color:#F2F2F2;
+
+}
+
+[data-theme=dark]{
+  --main: #212121;
+  --main1: #101010;
+  --main2: #050505;
+  --main3: #010101;
+  --blue: #325d96;
+  --header: #191919;
+  --text: #fff;
+  --text-one: #000;
+  --both-white:#fff;
+  --both-black:#000;
+  --step:#3b3b3b;
+  --step1:#fff;
+  --newsletter:#000;
+  --news-title: #1a4283;
+  --tutorial-button:#191919;
+  --connect-wallet:#1a4283;
+  --note-color:#3671d3;
+  --dropdown-color:#101010;
+  --collection-item-color:#00000080;
+
 }
 
 body{
-  background-color: var(--black);
+  background-color: var(--main);
 }
 
 a{
   text-decoration: none;
-  color: white;
 }
-
-
 
 /* ===== Scrollbar CSS ===== */
   /* Firefox */
@@ -42,10 +80,16 @@ a{
     border: 0px;
   }
 
-
 .App{
   max-width: 1280px;
   margin: 0 auto;
+}
+
+.navigation-container{
+  width:100%;
+  background-color: var(--header);
+  display:flex;
+  justify-content: center;
 }
 
 .navigation{
@@ -56,15 +100,15 @@ a{
   width: 100%;
   height: 5em;
   align-items: center;
-  color: white;
+  color: var(--text);
   max-width: 1280px;
 }
 
 .right button{
-  background-color: var(--blue);
+  background-color: var(--connect-wallet);
   border: 0;
   padding: 10px;
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   font-size: 1em;
   font-weight: 600;
@@ -77,7 +121,6 @@ a{
 }
 
 .right button:hover{
-  background-color: #3a6eb1;
   transition: 1s;
   cursor: pointer;
 }
@@ -85,7 +128,7 @@ a{
 .menu ul{
   display: flex;
   flex-direction: row;
-  color: white;
+  color: var(--text);
 
 }
 
@@ -97,18 +140,19 @@ a{
 }
 
 .menu ul li a{
-  -webkit-mask-image: linear-gradient(45deg,#000 25%,rgba(0,0,0,.2) 50%,#000 75%);
-  mask-image: linear-gradient(45deg,#000 25%,rgba(0,0,0,.2) 50%,#000 75%);
+  -webkit-mask-image: linear-gradient(45deg,#FFF 25%,rgba(0,0,0,.2) 50%,#FFF 75%);
+  mask-image: linear-gradient(45deg,#FFF 25%,rgba(0,0,0,.2) 50%,#FFF 75%);
   -webkit-mask-size: 800%;
   mask-size: 800%;
   -webkit-mask-position: 0;
   mask-position: 0;
-  font-weight: 500;
+  font-weight: 800;
   font-size:1em;
+  color: var(--both-white);
 }
 
 .menu ul li a:hover{
-  color: #ffffff;
+  color: var(--both-white);
   font-size: 1.05em;
   transition: mask-position 3s ease,-webkit-mask-position 3s ease, font-size 1s ease;
   -webkit-mask-position: 120%;
@@ -127,7 +171,7 @@ a{
 }
 
 .logo a img{
-height: 40%;
+height: 50%;
 }
 
 .logo a{
@@ -150,14 +194,14 @@ height: 40%;
   border-left: 1px solid rgba(0, 0, 0, 0.397);
 }
 .mobile-menu button a{
-  color: #ffffff;
+  color: var(--text);
 }
 
 .main-container{
   position: relative;
   max-width: 1280px;
   width: 100%;
-  background-color: var(--black);
+  background-color: var(--main);
   flex-direction: column;
   justify-content: center;
 }
@@ -181,7 +225,6 @@ height: 40%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  color: white;
   font-family: 'Montserrat', sans-serif;
   flex-wrap: wrap;
   border-bottom: 1px solid #1717179f;
@@ -199,12 +242,26 @@ height: 40%;
   width: 25%;
 }
 
-.project-item a{
-  color: #ffffff;
+#project-item1 a{
+  color:white;
+}
+
+#project-item2{
+  color: var(--text);
+  background-color: var(--tutorial-button);
+}
+
+#project-item2 a{
+  color: var(--text);
 }
 
 .project-item h1{
   margin-bottom: 0;
+  color: var(--news-title);
+}
+
+.project-item p{
+  color: var(--text);
 }
 
 .project-item button{
@@ -212,8 +269,7 @@ height: 40%;
   padding: 1em;
   padding-left: 2em;
   padding-right: 2em;
-  background-color: #ffffff9c;
-  color: rgb(0, 0, 0);
+  background-color: #f2f2f2;
   font-family: 'Montserrat', sans-serif;
   margin-top: 1em;
   font-weight: 600;
@@ -226,7 +282,7 @@ height: 40%;
   padding: 1em;
   padding-left: 2em;
   padding-right: 2em;
-  background-color: var(--blue);
+  background-color: var(--news-title);
   color: white;
   font-family: 'Montserrat', sans-serif;
   margin-top: 1em;
@@ -236,7 +292,7 @@ height: 40%;
 }
 
 .note{
-  color: #4a7dc0;
+  color: var(--note-color);
   text-align: center;
   font-family: 'Montserrat', sans-serif;
   border-bottom: 1px solid #1717179f;
@@ -249,10 +305,9 @@ height: 40%;
   font-weight: 500;
 }
 
-
 .banner-left{
   width: 100%;
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   margin-left: 2em;
 }
@@ -261,7 +316,7 @@ height: 40%;
   font-family: 'Montserrat', sans-serif;
   font-size: 3.5em;
   font-weight: 800;
-  color: #4a7dc0;
+  color: var(--news-title);
 }
 
 .blink-caret{
@@ -281,7 +336,7 @@ height: 40%;
 .banner-left p{ 
   font-family: 'Montserrat', sans-serif;
   margin: 0;
-  color: #ffffff;
+  color: var(--text);
   font-weight: 400;
   max-width: 500px;
 }
@@ -294,7 +349,7 @@ height: 40%;
   padding: 0.5em;
   padding-left: 2em;
   padding-right: 2em;
-  background-color: var(--blue);
+  background-color: var(--news-title);
   border: 0;
   color: white;
   font-family: 'Montserrat', sans-serif;
@@ -347,7 +402,7 @@ height: 40%;
 
 
 .info-box h2{
-  color: #ffffff;
+  color: var(--text);
   font-size: 1.7em;
   font-weight: 400;
   font-family: 'Montserrat', sans-serif;
@@ -383,8 +438,7 @@ height: 40%;
   overflow:scroll;
   overflow-y: hidden;
   margin-top: 0;
-  background: rgb(33,33,33);
-  background: radial-gradient(circle, rgba(33,33,33,1) 0%, rgba(36,36,36,1) 50%, rgba(33,33,33,1) 100%);
+  background-color: var(--main);
 }
 
 .last-trade-container{
@@ -428,7 +482,7 @@ max-width: 100px;
 .last-trade-item h4{
   font-size: 0.3em;
   margin: 0;
-  color: #fff;
+  color: var(--text);
   padding-bottom: 0.5em;
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
@@ -438,7 +492,7 @@ max-width: 100px;
 .last-trade-item h5{
   font-size: 0.4em;
   margin: 0;
-  color: #fff;
+  color: var(--text);
   padding-bottom: 0.5em;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
@@ -484,7 +538,7 @@ max-width: 100px;
 
 .trade-url{
   width: 50%;
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   display: flex;
   flex-direction: column;
@@ -539,18 +593,16 @@ cursor: pointer;
   z-index: 9999;
 }
 
-
-
 .trade-url input{
   width: 50%;
   padding: 1em;
   padding-left: 2em;
   border-radius: 2em;
-  background-color: #000;
+  background-color: var(--main1);
   border: 0;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -558,14 +610,14 @@ cursor: pointer;
   padding: 1em;
   border: 0;
   margin-left: 0;
-  background-color: #3a6eb1;
+  background-color: var(--news-title);
   color: white;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
 }
 
 .trade-nav-menu {
-  background-color: #0000005e;
+  background-color: var(--main2);
   margin-top: 1em;
   padding: 0.05em;
 }
@@ -578,6 +630,7 @@ cursor: pointer;
   padding-right: 1em;
   padding-left: 1em;
   font-size: 0.8em;
+  color: var(--text);
 }
 
 .right-walletaddress{
@@ -585,6 +638,7 @@ cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--both-white);
 }
 
 .trade-nav-menu ul{
@@ -605,6 +659,7 @@ cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--text);
 }
 
 .active-trade-menu{
@@ -614,8 +669,8 @@ cursor: pointer;
 .trade-page-container{
   padding: 2em;
   font-family: 'Montserrat', sans-serif;
-  color: white;
-  background-color: #00000080;
+  color: var(--text);
+  background-color: var(--main1);
 }
 
 .trade-offer-wrapper{
@@ -626,7 +681,7 @@ cursor: pointer;
 
 .trade-offer-header{
   width: 100%;
-  background-color: #325d96;
+  background-color: var(--news-title);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -646,6 +701,7 @@ cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--both-white);
 }
 
 
@@ -660,9 +716,10 @@ cursor: pointer;
 
 .trade-offer-pagination{
   width: 100%;
-  background-color: #00000057;
   display: flex;
   flex-direction: row;
+  margin-top: 2em;
+  border: 1px solid var(--news-title);
 }
 
 .trade-offer-pagination button{
@@ -672,13 +729,18 @@ cursor: pointer;
   cursor: pointer;
   color: white;
   font-family: 'Montserrat', sans-serif;
-  background-color: #0000007a;
+  background-color: var(--main);
   border-right: 1px solid black;
+  color: var(--text);
   font-weight: 800;
 }
 
+.trade-offer-pagination button:first-child{
+  border-left: 1px solid black;
+}
+
 .trade-offer-pagination button:disabled{
-  background-color: #000000;
+  background-color: var(--main2);
 }
 
 .offer-date{
@@ -698,6 +760,7 @@ cursor: pointer;
   padding-right: 2em;
   padding-left: 2em;
   font-weight: 600;
+  color: var(--both-white);
 }
 
 .trade-status-deactive{
@@ -709,11 +772,13 @@ cursor: pointer;
   padding-right: 2em;
   padding-left: 2em;
   font-weight: 600;
+  color: var(--both-white);
+
 }
 
 .trade-offer-container{
+  background-color: var(--main1);
   width: 100%;
-  background-color: #414141;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -721,11 +786,11 @@ cursor: pointer;
 }
 
 .given-nfts-container{
-  background-color: #00000070;
+  background-color: var(--main2);
   width: 50%;
   overflow:scroll;
   overflow-x: hidden;
-  color: white;
+  color: var(--text);
 }
 
 .given-nfts-container h3{
@@ -752,7 +817,7 @@ cursor: pointer;
   text-align: center;
   padding-top: 1em;
   padding-bottom: 1em;
-  background-color: rgb(44, 44, 44);
+  background-color: var(--main3);
 }
 
 .terms{
@@ -812,9 +877,10 @@ cursor: pointer;
 }
 
 .offered-nft-information{
-  font-size: 0.7em;
+  font-size: 0.8em;
   margin-top: 0.3em;
   text-align: center;
+  font-weight: 600;
 }
 
 .received-nfts{
@@ -862,7 +928,6 @@ cursor: pointer;
   flex-direction: row;
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
-  color:white;
   border-radius: 1em;
   padding-top: 2em;
   padding-bottom: 2em;
@@ -883,10 +948,10 @@ cursor: pointer;
 .tutorial-button{
   padding: 0.5em;
   width: 20%;
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   font-size: 1.3em;
-  background-color: #181818;
+  background-color: var(--tutorial-button);
   border: 0;
   cursor: pointer;
   margin-top: 1em;
@@ -894,7 +959,8 @@ cursor: pointer;
 }
 
 .activebutton{
-  background-color: var(--blue);
+  color: white;
+  background-color: var(--news-title);
   box-shadow: #000 1px 1px 1px 1px inset
 }
 
@@ -907,13 +973,13 @@ cursor: pointer;
     white-space: pre-wrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: white;
+    color: var(--text);
     margin-bottom: 0;
     font-family: 'Montserrat', sans-serif;
     font-size: 3em;
     border-style: solid;
     border-width: 3px;
-    border-image: linear-gradient(to left, var(--black) 0%, rgba(50,93,150,1) 50%, var(--black) 100%) 0% 0 100% 0/3px 0 3px 0 stretch;
+    border-image: linear-gradient(to left, var(--main) 0%, rgba(50,93,150,1) 50%, var(--main) 100%) 0% 0 100% 0/3px 0 3px 0 stretch;
 }
 
 
@@ -981,7 +1047,7 @@ cursor: pointer;
 .bar-line{
   transition: all 5s;
   width: 5px;
-  background-color: var(--blue);
+  background-color: var(--news-title);
   position:absolute;
   z-index: 1;
   animation: slideDown 9s infinite linear;
@@ -998,7 +1064,7 @@ cursor: pointer;
 }
 
 .tutorial-step{
-  color: #c5c4c441;
+  color: var(--step);
 }
 
 .tutorial-video{
@@ -1044,7 +1110,7 @@ cursor: pointer;
 }
 
 .footer-menu{
-  color: white;
+  color: var(--text);
   padding: 2em;
 }
 
@@ -1063,7 +1129,7 @@ cursor: pointer;
 }
 
 .footer-menu li a{
-  color: #ffffff93;
+  color: var(--text);
   cursor: pointer;
 }
 
@@ -1083,9 +1149,9 @@ cursor: pointer;
 .social-box a{
   display: flex;
   font-family: 'Montserrat', sans-serif;
-  background-color: #00000000;
   padding: 1em;
   border-radius: 2em;
+  color: var(--text);
 }
 
 .social-box a:hover{
@@ -1104,15 +1170,16 @@ cursor: pointer;
 .footer-info{
   font-family: 'Montserrat', sans-serif;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.288);
+  color: var(--text);
   margin-top: 3em;
   padding: 2em;
   padding-top: 0;
 }
 
 .footer-info a{
-  color: var(--blue);
+  color: var(--news-title);
   cursor: pointer;
+  font-weight: 600;
 }
 
 .displaynone{
@@ -1159,6 +1226,7 @@ cursor: pointer;
 }
 
 .trade-information{
+  position: relative;
   width: 100%;
   color: white;
   background-color: #00000057;
@@ -1184,11 +1252,14 @@ cursor: pointer;
   font-weight: 400;
   text-align: center;
   color: #c7c7c7;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .trade-information b{
   color: #4a7dc0;
 }
+
 
 .trade-area{
   position: relative;
@@ -1244,10 +1315,16 @@ cursor: pointer;
   margin-right: 1em;
 }
 
+.trade-steps button:hover{
+  background-color: #417ac5;
+}
+
 .trade-steps button:disabled{
   cursor: not-allowed;
   background-color: #1b2f49;
 }
+
+
 
 .trade-steps h4{
   color:white;
@@ -1259,15 +1336,15 @@ cursor: pointer;
 }
 
 .nft-trade-item{
+  border-top: 1px solid var(--blue);
   padding: 10px;
   width: 200px;
-  height: 250px;
-  background-color: #101010;
+  min-height: 230px;
+  background-color: var(--main2);
   display: flex;
   flex-direction: column;
   margin: 0.5em;
   align-items: center;
-  border-radius: 0.5em;
   justify-content: center;
   box-sizing: border-box;
 }
@@ -1276,22 +1353,39 @@ cursor: pointer;
 .nft-trade-item img{
   width: 90%;
   border-radius: 0.2em;
+  cursor: pointer;
 }
 
 .nft-information{
-  color: white;
+  color:var(--text);
+  font-weight: 600;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   height: 100%;
+  position: relative;
 }
 
 .nft-information span{
   padding-left: 0.3em;
   margin-bottom: 0;
-  padding-bottom: 0;
   font-size: 0.8em;
+  padding-top: 1em;
+}
+
+.nft-information span a{
+  cursor: pointer;
+  z-index: 99;
+}
+
+.nft-information span a:hover::after{
+  content: "provided by minted.network";
+  position: absolute;
+  background-color: #000000;
+  padding: 1em;
+  font-family: 'Montserrat', sans-serif;
+  z-index: 1;
 }
 
 
@@ -1393,11 +1487,9 @@ cursor: pointer;
 .news-collections input{
   padding: 1.2em;
   border: 1px solid black;
-  background: rgb(0,0,0);
-  background: rgb(32,32,32);
-  background: linear-gradient(90deg, rgba(32,32,32,1) 0%, rgba(16,16,16,1) 100%);
+  background-color: var(--header);
   border-radius: 5em;
-  color: white;
+  color: var(--text-one);
   font-family: 'Montserrat', sans-serif;
   font-size: 1em;
   outline: 0;
@@ -1411,9 +1503,7 @@ cursor: pointer;
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: rgb(0,0,0);
-  background: rgb(32,32,32);
-  background: linear-gradient(90deg, rgba(32,32,32,1) 0%, rgba(16,16,16,1) 100%);
+  background-color: var(--newsletter);
   margin-left: 0.5em;
   margin-right: 0.5em;
   min-width: 250px;
@@ -1426,7 +1516,7 @@ cursor: pointer;
 
 
 .news-item h2{
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
   font-size: 1.2em;
@@ -1446,23 +1536,21 @@ cursor: pointer;
   white-space: pre-wrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   font-size: 3em;
   border-style: solid;
   border-width: 3px;
-  border-image: linear-gradient(to left, var(--black) 0%, rgba(50,93,150,1) 50%, var(--black) 100%) 0% 0 100% 0/3px 0 3px 0 stretch;
+  border-image: linear-gradient(to left, var(--main) 0%, rgba(50,93,150,1) 50%, var(--main) 100%) 0% 0 100% 0/3px 0 3px 0 stretch;
 }
 
 .news-container b{
-  color: #4a7dc0;
+  color: var(--news-title);
 }
 
 .news-table-element{
   width: 100%;
-  background: rgb(0,0,0);
-  background: rgb(12, 12, 12);
-  background: linear-gradient(90deg, rgb(12, 12, 12) 0%, rgba(16,16,16,1) 100%);
+  background-color: var(--newsletter);
   height: 60px;
   display: flex;
   flex-direction: row;
@@ -1473,7 +1561,7 @@ cursor: pointer;
 
 
 .news-table h2{
-  color: #ffffff;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   white-space: nowrap;
   overflow: hidden;
@@ -1489,6 +1577,7 @@ cursor: pointer;
   height: 100%;
   align-items: center;
   width: 15%;
+  color: var(--text);
 }
 
 .news-author h2{
@@ -1497,14 +1586,8 @@ cursor: pointer;
 
 }
 
-.news-author img{
-  height: 40%;
-  margin-right: 1em;
-}
-
-
 .news-details{
-  background-color: #000;
+  background-color: var(--newsletter);
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -1513,7 +1596,7 @@ cursor: pointer;
 }
 
 .news-details .news-content{
-  color: white;  
+  color: var(--text);  
   font-family: 'Montserrat', sans-serif;
   word-wrap: break-word;
   max-width: 50%;
@@ -1562,7 +1645,7 @@ cursor: pointer;
 
 
 .news-image-gallery h3{
-  color: white;
+  color: var(--text);
 }
 
 
@@ -1571,7 +1654,7 @@ cursor: pointer;
 }
 
 .news-table-element h3{
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   white-space: nowrap;
   overflow: hidden;
@@ -1583,7 +1666,7 @@ cursor: pointer;
   color: white;
   font-family: 'Montserrat', sans-serif;
   border: 0;
-  background-color: var(--blue);
+  background-color: var(--news-title);
   padding: 1em;
   border-radius: 10em;
   font-weight: 500;
@@ -1632,7 +1715,7 @@ cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #00000080;
+  background-color: var(--collection-item-color);
   color: white;
   margin-left: 1.5em;
   margin-right: 1.5em;
@@ -1648,12 +1731,12 @@ cursor: pointer;
   white-space:pre-wrap;
   text-align: center;
   overflow: hidden;
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   font-size: 2em;
   border-style: solid;
   border-width: 3px;
-  border-image: linear-gradient(to left, var(--black) 0%, rgba(50,93,150,1) 50%, var(--black) 100%) 0% 0 100% 0/3px 0 3px 0 stretch;
+  border-image: linear-gradient(to left, var(--main) 0%, rgba(50,93,150,1) 50%, var(--main) 100%) 0% 0 100% 0/3px 0 3px 0 stretch;
 }
 
 .collection-item img{
@@ -1663,7 +1746,11 @@ cursor: pointer;
   padding-bottom: 1em;
 }
 
-.collection-item h3{margin-top: 0; font-weight: 500;}
+.collection-item h3{
+  margin-top: 0; 
+  font-weight: 600;
+  color: var(--text);
+}
 
 .collection-item button{
   font-family: 'Montserrat', sans-serif;
@@ -1671,24 +1758,31 @@ cursor: pointer;
   padding-left: 2.5em;
   padding-right: 2.5em;
   border: 0;
-  background-color: var(--blue);
+  background-color: var(--news-title);
   color: white;
   cursor: pointer;
   margin-top: 2em;
   text-align: center;
   width: 80%;
+  font-weight: 600;
 }
 
 .newsletter-container input{
   width: 50%;
   padding: 1.2em;
   border: 0;
-  background-color: #101010;
+  background-color: var(--header);
   border-radius: 5em;
   color: white;
   font-family: 'Montserrat', sans-serif;
   font-size: 1em;
+  font-weight: 500;
 }
+
+.newsletter-container input::placeholder{
+  color: white;
+}
+
 
 .newsletter-container input:focus{
   outline: none;
@@ -1746,14 +1840,14 @@ cursor: pointer;
 .modal-top h2{
   margin-left: 2em;
   font-family: 'Montserrat', sans-serif;
-  color: #fff;
+  color: var(--text);
 }
 
 .modal-top button{
   margin-right: 2em;
   border: 1px solid var(--blue);
   background-color: transparent;
-  color: #fff;
+  color: var(--text);
   padding-right: 1em;
   padding-left: 1em;
   font-family: 'Montserrat', sans-serif;
@@ -1799,12 +1893,12 @@ cursor: pointer;
 
 .soon p{
   text-align: center;
-  color: white;
+  color: var(--text);
   max-width: 400px;
 }
 
 .soon h4{
-  color: white;
+  color: var(--text);
   margin: 0;
   font-size: 2em;
 }
@@ -1816,7 +1910,7 @@ margin-left: 0;
 }
 
 .dd-header{
-  background-color: #101010;
+  background-color: var(--dropdown-color);
   display: flex;
   padding: 0.7em;
   width: 100%;
@@ -1843,7 +1937,7 @@ margin-left: 0;
 }
 
 .dd-list-item{
-  background-color: #181818;
+  background-color: var(--dropdown-color);
   padding: 0.8em;
   border: 0;
   font-family: 'Montserrat', sans-serif;
@@ -1988,7 +2082,7 @@ margin-left: 0;
 
 .learn-more-button:hover {
   background-color: #4a7dc0;
-  color: #fff;
+  color: var(--text);
 }
 
 .launchpad-container{
@@ -2122,7 +2216,7 @@ margin-left: 0;
   padding: 1.2em;
   border: 0;
   background-color:var(--blue);;
-  color: #FFFFFF;
+  color: var(--text);
   padding-right: 2em;
   padding-left: 2em;
   font-family: 'Montserrat', sans-serif;
@@ -2135,7 +2229,7 @@ margin-left: 0;
   border: 0;
   padding: 1.2em;
   width: 50%;
-  color: white;
+  color: var(--text);
   font-family: 'Montserrat', sans-serif;
   border-radius: 2em;
   background-color: #0000007a;
@@ -2264,14 +2358,12 @@ margin-left: 0;
 }
 
 .no-login-container{
-  color: white;
+  color: var(--text);
   padding: 1em;
   display: flex;
   align-items: center;
   flex-direction: column;
 }
-
-
 
 .no-login-container button{
   background-color: var(--blue);
@@ -2297,49 +2389,49 @@ margin-left: 0;
 
 
 @keyframes step{
-  0%, 10% { color:#ffffff60;}
-  11%, 32% { color:#fff;}
-  33%, 34% { color:#ffffff60;}
+  0%, 10% { color:var(--step);}
+  11%, 32% {color: var(--step1);}
+  33%, 34% { color:var(--step);}
 }
 
 @keyframes step1{
-  0%, 35% { color:#ffffff60;}
-  36%, 57% { color:#fff;}
-  58%, 59% { color:#ffffff60;}
+  0%, 35% { color:var(--step);}
+  36%, 57% {color: var(--step1);}
+  58%, 59% { color:var(--step);}
 }
 
 @keyframes step2{
-  0%, 60% { color:#ffffff60;}
-  61%, 82% { color:#fff;}
-  83%, 84% { color:#ffffff60;}
+  0%, 60% { color:var(--step);}
+  61%, 82% {color: var(--step1);}
+  83%, 84% { color:var(--step);}
 }
 
 @keyframes step3{
-  0%, 85% { color:#ffffff60;}
-  86%, 100% { color:#fff;}
+  0%, 85% { color:var(--step);}
+  86%, 100% {color: var(--step1);}
 }
 
 @keyframes beat{
   0%, 10% { transform: scale(1); background-color:#353535; }
-  11%, 32% { transform: scale(1.4); background-color: #4a7dc0;}
+  11%, 32% { transform: scale(1.4); background-color: var(--news-title);}
   33%, 34% { transform: scale(1); background-color:#353535; }
 }
 
 @keyframes beat1{
   0%, 35% { transform: scale(1); background-color:#353535; }
-  36%, 57% { transform: scale(1.4); background-color: #4a7dc0; }
+  36%, 57% { transform: scale(1.4); background-color: var(--news-title); }
   58%, 59% { transform: scale(1); background-color:#353535; }
 }
 
 @keyframes beat2{
   0%, 60% { transform: scale(1); background-color:#353535; }
-  61%, 82% { transform: scale(1.4); background-color: #4a7dc0;}
+  61%, 82% { transform: scale(1.4); background-color: var(--news-title);}
   83%, 84% { transform: scale(1); background-color:#353535;  }
 }
 
 @keyframes beat3{
   0%, 85% { transform: scale(1); background-color:#353535; }
-  86%, 100% { transform: scale(1.4); background-color: #4a7dc0;}
+  86%, 100% { transform: scale(1.4); background-color: var(--news-title);}
 }
 
 @keyframes slideDown{
@@ -2450,6 +2542,18 @@ margin-left: 0;
   background-color: #3F4046;
 }
 
+.theme-button{
+  font-size: 2em;
+  background: none;
+  border: 0;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+}
+
 
 @media only screen and (max-width: 1000px) {
   .menu{display: none;}
@@ -2519,4 +2623,7 @@ margin-left: 0;
   .banner-title, .blink-caret{font-size: 2.5em;}
   .launchpad-collection-item{justify-content: center;}
   .affiliates-item button{width: 90%;}
+  .nft-trade-item{
+    width: 170px;
+  }
 }

@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import '../App.css';
 import Modal from './Modal';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faUser} from '@fortawesome/free-solid-svg-icons'
 
 const timestampFormats = {
     'D': { dateStyle: 'long' },
@@ -192,7 +194,7 @@ export default function AnnouncementItem(props) {
         <div className='news-table-element'>
         <img src={props.collectionImage} alt="Collection"></img>
         <div className='news-author'>
-        <img src={props.announcementAuthor} alt="Author"></img>
+        <FontAwesomeIcon size='1x' icon={faUser} /> &nbsp;&nbsp;&nbsp;
         <h2>{props.announcementTitle}</h2>
         </div>
         <h3 ref={myRef} >{props.announcementDate}</h3>

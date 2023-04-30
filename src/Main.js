@@ -45,7 +45,7 @@ function App() {
               {t('tradedesc')}
               </p>
             <div>
-              <button disabled>Trade Now</button> &nbsp; <button disabled>Learn More</button>
+              <button disabled>Trade Now</button> &nbsp; <button id="project-item2" disabled>Learn More</button>
             </div>
           </div>
 
@@ -56,7 +56,7 @@ function App() {
             {t('launchpaddesc')}
             </p>
             <div>
-              <button disabled>Launchpad</button> &nbsp; <button disabled>Learn More</button>
+              <button disabled>Launchpad</button> &nbsp; <button id="project-item2" disabled>Learn More</button>
             </div>
           </div>
 
@@ -67,7 +67,7 @@ function App() {
             {t('newsdesc')}
             </p>
             <div>
-              <button><Link to='/newsletter'>Show News</Link></button> &nbsp; <button><Link to='/newsletter'>Learn More</Link></button>
+              <button id="project-item1"><Link to='/newsletter'>Show News</Link></button> &nbsp; <button id="project-item2"><Link to='/newsletter' >Learn More</Link></button>
             </div>
           </div>
         </div>

@@ -1,17 +1,16 @@
 import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faHome, faBook} from '@fortawesome/free-solid-svg-icons'
+import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faHome, faBook, faMoon, faLightbulb} from '@fortawesome/free-solid-svg-icons'
+import {faDiscord, faTwitter} from '@fortawesome/free-brands-svg-icons'
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import logo from './images/logo1.png'
-import twitter from "./images/twitter.svg";
-import instagram from "./images/instagram.svg";
-import discord from "./images/discord.svg";
+import logo from './images/logos.svg'
 import { web3Modal, useWeb3Modal, onWalletChange, isWalletConnected, getWalletAddress } from "./web3/WalletConnect";
 
 
 import { useTranslation } from 'react-i18next';
 import Dropdown from './components/Dropdown'
+import DarkMode from './theme/DarkMode';
 
 const languages = [
   { id: 1, title: 'English', key: 'en', image:"https://flagicons.lipis.dev/flags/4x3/gb.svg" },
@@ -56,7 +55,7 @@ function App() {
   return (
     <div>
       { web3Modal }
-      <div style={{width:"100%", backgroundColor:"#212121", display:"flex", justifyContent:"center", borderBottom:'1px solid #181818'}}>
+      <div className='navigation-container'>
         <div className='navigation'>
           <div className='logo'><a href='/'><img src={logo}/></a></div>
           <div className='menu'>
@@ -65,7 +64,6 @@ function App() {
             <li><Link to='/launchpad'><FontAwesomeIcon icon={faRocket} /> &nbsp;&nbsp;LAUNCHPAD</Link></li>
             <li><Link to='/stake'><FontAwesomeIcon icon={faSackDollar} /> &nbsp;&nbsp;STAKE</Link></li>
             <li><Link to='/newsletter'><FontAwesomeIcon icon={faNewspaper} /> &nbsp;&nbsp;NEWSLETTER</Link></li>
-            <li><Link to='/dao'><FontAwesomeIcon icon={faScaleBalanced} /> &nbsp;&nbsp;DAO</Link></li>
             </ul>
           </div>
 
@@ -78,6 +76,8 @@ function App() {
             list={languages}
             selectLanguage={selectLanguage}
             />
+
+          <DarkMode></DarkMode>
 
         </div>
       </div>
@@ -125,10 +125,10 @@ function App() {
 
         <div className="social-box">
           <a target='_blank' href='https://twitter.com/CronosClubAFE'>
-            <img width={20} src={twitter}></img> Twitter
+          <FontAwesomeIcon icon={faTwitter} /> &nbsp; Twitter
           </a>
           <a target='_blank' href='https://discord.gg/Nn3hqfmZgT'>
-            <img width={20} src={discord}></img> Discord
+          <FontAwesomeIcon icon={faDiscord} /> &nbsp; Discord
           </a>
           <a target='_blank' href='https://cronosclub.gitbook.io/'>
             <FontAwesomeIcon icon={faBook} /> &nbsp; Gitbook

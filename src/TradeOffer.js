@@ -4,10 +4,12 @@ import { faCheck, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TradeItem from "./components/TradeItem";
 import { getNFTs } from "./web3/Inventory";
-import { getWalletAddress, createOffer, getMissingApprovals, requestApproval } from "./web3/WalletConnect";
+import { getWalletAddress, createOffer, getMissingApprovals, requestApproval, revokeApproval } from "./web3/WalletConnect";
 import { useParams } from "react-router-dom";
 import animation from "./images/animation.webp";
 import { Link } from 'react-router-dom';
+import Collections from "./web3/collections"
+
 
 export default function TradeOffer() {
   const { walletadrs } = useParams();
@@ -24,6 +26,8 @@ export default function TradeOffer() {
   const [nftHaveIndex, setNftHaveIndex] = useState([]);
   const [nftWantIndex, setNftWantIndex] = useState([]);
   const [confirmButton, setConfirmButton] = useState(false);
+  const [showOfferApproval, setShowOfferApproval] = useState(false);
+
 
 
 
@@ -87,6 +91,8 @@ export default function TradeOffer() {
 
   useEffect(() => {
     getNFTs(walletAddress).then(have => have && setHaveNFTs(have)).catch(console.error);
+    console.log(haveNFTs)
+
   }, [walletAddress]);
 
   function nextStep() {
@@ -232,15 +238,18 @@ export default function TradeOffer() {
         setOfferError(missingError);
         setAlertMessage(offerError)
         setOfferLoading(false);
+        setConfirmButton(false)
         return showAlert();
       }
     
       for (let i=0; i<missing.length; i++) {
         setConfirmButton(true)
+        setShowOfferApproval(true)
         setOfferApproval(missing[i].name());
 
         const { error } = await requestApproval(missing[i]);
         if (error) {
+          setConfirmButton(false)
           setOfferError(error);
           setAlertMessage(error)
           setOfferLoading(false);
@@ -248,10 +257,13 @@ export default function TradeOffer() {
         }
       }
 
+      setConfirmButton(true)
+      setShowOfferApproval(false)
       setOfferLoading(true);
     
       const { error } = await createOffer(walletadrs, tokens);
       if (error) {
+        setConfirmButton(false)
         setOfferError(error);
         setAlertMessage(error);
         setOfferLoading(false);
@@ -262,6 +274,10 @@ export default function TradeOffer() {
       setOfferComplated(true);
       setradeStepClass("trade-bar-line trade-step-4");   
     });
+  }
+
+  function revokeCollection(){
+    revokeApproval(Collections[0])
   }
 
   return (
@@ -275,13 +291,14 @@ export default function TradeOffer() {
         </div>
         <button onClick={closeWarning}>X</button>
       </div>
+      <button onClick={revokeCollection}>revoke</button>
       <div className={alertClas}>
         <h2>{alertMessage}</h2>
       </div>
 
 
       {currentTradeStep === 1 && (
-        <div style={{minHeight:'600px'}}>
+        <div>
           <div className="trade-information">
             <h3>
               SELECT <b>YOUR</b> NFT(s)
@@ -300,6 +317,7 @@ export default function TradeOffer() {
                   nftimage={have.image}
                   nftname={have.name}
                   showCheckbox={true}
+                  mintedURL={`https://minted.network/collections/cronos/${have.address}/${have.id}`}
                   onSelectNFT={() =>
                     nftSelected(
                       have.address,
@@ -329,7 +347,7 @@ export default function TradeOffer() {
       )}
 
       {currentTradeStep === 2 && (
-      <div style={{minHeight:'600px'}}>
+      <div>
           <div className="trade-information">
             <h3>SELECT <b>THEIR</b> NFT(s)</h3>
             <p>These are the NFT(s) that you will receive when the other party accepts your offer.</p>
@@ -344,6 +362,7 @@ export default function TradeOffer() {
                   nftid={want.id}
                   nftimage={want.image}
                   nftname={want.name}
+                  mintedURL={`https://minted.network/collections/cronos/${want.address}/${want.id}`}
                   onSelectNFT={() =>
                     nftSelected(
                       want.address,
@@ -381,7 +400,7 @@ export default function TradeOffer() {
           </div>
           <div className="trade-area">
 
-          {offerApproval &&
+          {showOfferApproval &&
           <div className="trade-loading">
             <img width={200} src={animation} />
             Waiting approval for {offerApproval} collection...
@@ -448,6 +467,7 @@ export default function TradeOffer() {
         <button disabled={currentTradeStep === 1 || offerComplated} onClick={prevStep}>
           PREV STEP
         </button>
+        
 
         <div className="trade-steps-container">
           <div className="trade-bar-container">

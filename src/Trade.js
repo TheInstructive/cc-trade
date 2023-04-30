@@ -116,7 +116,7 @@ export default function TradePage() {
         <div className='trade-wrapper'>
 
           <div className='trade-header'>
-            <div className='wallet-info'>
+          <div className='wallet-info'>
               <div className='wallet-pic'><img src={logo}></img></div>
               <div className='wallet-address'>{walletAddress}</div>
           </div>
