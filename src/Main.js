@@ -10,6 +10,7 @@ import newslettervideo from "./images/newsletter.mp4";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
+import { Player } from '@lottiefiles/react-lottie-player';
 
 
 function App() {
@@ -39,46 +40,110 @@ function App() {
 
         <div className="projects-container">
           <div className="project-item">
-            <img width={100} src={nft}></img>
+            <Player 
+            src={require("./images/lottie/trade.json")}
+            style={{ height: '200px'}}
+            loop
+            autoplay
+            />
+
             <h1>TRADE</h1>
               <p>
               {t('tradedesc')}
               </p>
-            <div>
-              <button disabled>Trade Now</button> &nbsp; <button id="project-item2" disabled>Learn More</button>
-            </div>
+              <button disabled>Trade Now</button>
           </div>
 
           <div className="project-item">
-            <img width={100} src={nft}></img>
+            <Player 
+            src={require("./images/lottie/launchpad.json")}
+            style={{ height: '200px'}}
+            loop
+            autoplay
+            />
+
             <h1>LAUNCHPAD</h1>
             <p>
             {t('launchpaddesc')}
             </p>
-            <div>
-              <button disabled>Launchpad</button> &nbsp; <button id="project-item2" disabled>Learn More</button>
-            </div>
+              <button disabled>Launchpad</button>
           </div>
 
           <div className="project-item">
-            <img width={100} src={nft}></img>
+            <Player 
+            src={require("./images/lottie/newsletter.json")}
+            style={{ height: '200px'}}
+            loop
+            autoplay
+            />
+
             <h1>NEWS</h1>
             <p>
             {t('newsdesc')}
             </p>
-            <div>
-              <button id="project-item1"><Link to='/newsletter'>Show News</Link></button> &nbsp; <button id="project-item2"><Link to='/newsletter' >Learn More</Link></button>
-            </div>
+              <button id="project-item1"><Link to='/newsletter'>Show News</Link></button>
           </div>
         </div>
 
-        <div className="note">
-          <h2>
-            {t('ourvision')}
-          </h2>
+
+        <div className="statements-container">
+        <h2 style={{marginTop:0, paddingBottom:'10px'}} id='tutorial-title'>DIRECTION</h2>
+          <div className="statement-item">
+          <div className="statement-image">
+            <Player 
+            src={require("./images/lottie/vision.json")}
+            style={{ height: '200px'}}
+            loop
+            autoplay
+            />
+          </div>
+          <div className="statement-desc">
+              <h1>VISION</h1>
+              <p>
+              Our vision for Cronos Club goes beyond just providing a user-friendly platform for NFT trading and launching. We see ourselves as pioneers in the blockchain industry, aiming to leverage the potential of this revolutionary technology to its fullest extent. Our ultimate goal is to create an ecosystem that empowers creators, collectors, and enthusiasts alike, while also contributing to the broader adoption of blockchain technology. We believe that by continuously improving and enhancing our systems, such as our Trade, Launchpad, Staking and Newsletter systems, we can unlock new and exciting use cases for blockchain technology and take the industry to new heights.              </p>
+          </div>
+          </div>
+
+          <div id="mission" className="statement-item">
+            <div className="statement-desc">
+            <h1>MISSION</h1>
+            <p>
+            Our mission is to provide a user-friendly and secure platform that enables seamless NFT trading and launching for creators and collectors alike. We strive to promote the adoption and advancement of blockchain technology by fostering an inclusive community that values innovation, creativity, and transparency. Our goal is to empower individuals and businesses to leverage the power of blockchain to unlock new opportunities and redefine the future of digital ownership.
+            </p>
+            </div>
+
+            <div className="statement-image">
+            <Player 
+            src={require("./images/lottie/mission.json")}
+            style={{ height: '200px'}}
+            loop
+            autoplay
+            />
+            </div>
+          </div>
+
+          <div className="statement-item">
+          <div className="statement-image">
+            <Player 
+            src={require("./images/lottie/focus.json")}
+            style={{ height: '200px'}}
+            loop
+            autoplay
+            />
+          </div>
+
+          <div className="statement-desc">
+            <h1>FOCUS</h1>
+            <p>
+            At our core, we are committed to providing a seamless and secure NFT trading and launching experience for our users. Our team is dedicated to continuously innovating and expanding the platform's capabilities to meet the evolving needs of the blockchain community. We strive to be a trusted and transparent partner for all our users, helping them unlock the full potential of this exciting new technology.
+            </p>
+          </div>
+
+          </div>
         </div>
 
-        {tutorialRender == 0 && (
+
+        {tutorialRender == 5 && (
           <Tutorial
             maintitle="NEWS"
             title1={t('tutorial1title1')}
@@ -93,7 +158,7 @@ function App() {
           />
         )}
 
-        {tutorialRender == 1 && (
+        {tutorialRender == 5 && (
           <Tutorial
             maintitle="LAUNCHPAD"
             title1="Soon!"
@@ -109,7 +174,7 @@ function App() {
         )}
 
         
-        {tutorialRender == 2 && (
+        {tutorialRender == 5 && (
           <Tutorial
             maintitle="TRADE"
             title1="Soon!"
@@ -125,7 +190,7 @@ function App() {
         )}
 
 
-
+{tutorialRender == 5 && (
         <div className="tutorial-buttons">
           <button
             className={
@@ -158,8 +223,9 @@ function App() {
             Trade
           </button>
         </div>
+        )}
       </div>
-
+      
       
     </div>
   );
