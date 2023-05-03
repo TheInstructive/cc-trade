@@ -2,7 +2,7 @@ const collections = [
   {id: "970110042424610886", slug: "afe", name: "Aliens From Earth", image: require('./images/collections/afe.png'), tag: "nft"},
   {id: "910134816568127488", slug: "loaded-lions", name: "Loaded Lions", image: require('./images/collections/loadedlions.png'), tag: "nft, gamefi" },
   {id: "903875726418268220", slug: "ballies",name: "Ballies", image: require('./images/collections/ballies.png'), tag: "nft, gamefi" },
-  {id: "905038556140036106", slug:"miner-mole", name: "VVS Miner Mole", image: require('./images/collections/vvsminermole.png'), tag: "nft, gamefi" },
+  {id: "993365676150509730", slug:"miner-mole", name: "VVS Miner Mole", image: require('./images/collections/vvsminermole.png'), tag: "nft, gamefi" },
   {id: "1009732055648714813", slug:"cronos-cruisers", name: "Cronos Cruisers", image: require('./images/collections/CronosCruisers.png'), tag: "nft, gamefi" },
   {id: "913035213670612992", slug:"croskull", name: "CroSkull", image: require('./images/collections/croskull.png'), tag: "nft, gamefi" },
   {id: "944556573005590579", slug:"argonauts", name: "Argonauts", image: require('./images/collections/argonauts.png'), tag: "nft, gamefi" },

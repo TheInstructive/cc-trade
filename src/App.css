@@ -40,7 +40,7 @@
   --step:#3b3b3b;
   --step1:#fff;
   --newsletter:#000;
-  --news-title: #1a4283;
+  --news-title: #3770cc;
   --tutorial-button:#191919;
   --connect-wallet:#1a4283;
   --note-color:#3671d3;
@@ -227,7 +227,6 @@ height: 50%;
   justify-content: space-around;
   font-family: 'Montserrat', sans-serif;
   flex-wrap: wrap;
-  border-bottom: 1px solid #1717179f;
   padding-top: 1em;
   padding-bottom: 5em;
 }
@@ -237,10 +236,58 @@ height: 50%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  text-align: center;
+  text-align:justify;
   padding: 1em;
   width: 25%;
 }
+
+.statements-container{
+  width: 100%;
+  margin-top: 3em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  font-family: 'Montserrat', sans-serif;
+  flex-wrap: wrap;
+  padding-top: 1em;
+  padding-bottom: 5em;
+}
+
+.statement-item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em;
+  background-color: var(--main);
+}
+
+.statement-image{width: 30%;}
+
+.statement-desc{
+  color: var(--text);
+  width: 70%;
+}
+
+.statement-desc h1{
+  color: var(--news-title);
+}
+
+#mission{
+  background-color: var(--news-title);
+  color: white;
+  padding-left: 2em;
+}
+
+#mission h1{
+  color: white;
+}
+
+#mission P{
+  color: white;
+}
+
+
 
 #project-item1 a{
   color:white;
@@ -261,23 +308,12 @@ height: 50%;
 }
 
 .project-item p{
+  min-height: 200px;
   color: var(--text);
 }
 
 .project-item button{
-  border: 0;
-  padding: 1em;
-  padding-left: 2em;
-  padding-right: 2em;
-  background-color: #f2f2f2;
-  font-family: 'Montserrat', sans-serif;
-  margin-top: 1em;
-  font-weight: 600;
-  border-radius: 3em;
-  cursor: pointer;
-}
-
-.project-item button:first-child{
+  width: 100%;
   border: 0;
   padding: 1em;
   padding-left: 2em;
@@ -946,6 +982,7 @@ cursor: pointer;
 }
 
 .tutorial-button{
+  font-weight: 500;
   padding: 0.5em;
   width: 20%;
   color: var(--text);
@@ -973,7 +1010,7 @@ cursor: pointer;
     white-space: pre-wrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    color: var(--text);
+    color: var(--news-title);
     margin-bottom: 0;
     font-family: 'Montserrat', sans-serif;
     font-size: 3em;
@@ -1557,6 +1594,7 @@ cursor: pointer;
   justify-content: space-evenly;
   align-items: center;
   margin-top: 2em;
+  user-select: none;
 }
 
 
