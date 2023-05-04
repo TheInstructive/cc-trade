@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import CollectionItem from './components/CollectionItem'
 import './App.css';
 import { useNavigate } from 'react-router-dom';
-
+import { Link } from "react-router-dom";
 import collections from './collections';
 
 export default function Newsletter() {
@@ -49,6 +49,8 @@ useEffect(() => {
       <div className='newsletter-container'>
           <h1>SELECT A COLLECTION TO SEE ANNOUNCEMENTS</h1>
           <input placeholder='SEARCH' type="text" value={searchTerm} onChange={handleSearch} />
+          <p id='bot-msg'>Looking to showcase your project on our platform? If you're a project owner, <Link to='/bot'>click here to get started!</Link></p>
+
           <div className='collection-tags'>
 
           <label htmlFor='nft' className={`collection-tag ${selectedTags.includes('nft') && 'selected-tag'}`}>
