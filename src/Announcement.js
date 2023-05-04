@@ -38,13 +38,23 @@ export default function Announcement() {
     return collection.name.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
+
+  const navigateToAnnouncement = (slug) => {
+    navigate(`/announcement/${slug}`)
+  }
+
+  const handleButtonClick = (slug) => {
+    setPage(0);
+    navigateToAnnouncement(slug);
+  } 
+
   return (
     <div className='main-container'>
         <div className='news-collections'>
             <input placeholder='SEARCH' type="text" value={searchTerm} onChange={handleSearch} />
             {filteredCollections.map((collection) => (
             
-             <button onClick={() => navigate(`/announcement/${collection.slug}`)} className='news-item' key={collection.slug}>
+             <button onClick={() => handleButtonClick(collection.slug)} className='news-item' key={collection.slug}>
              <img src={collection.image} alt={collection.name}></img>
              <h2>{collection.name}</h2>
              </button>

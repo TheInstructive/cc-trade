@@ -187,12 +187,13 @@ height: 50%;
 }
 
 .mobile-menu button{
-  background-color: #151515;
+  background-color: var(--main1);
   width: 100%;
   font-size: 1.2em;
   border: 0;
   border-left: 1px solid rgba(0, 0, 0, 0.397);
 }
+
 .mobile-menu button a{
   color: var(--text);
 }
@@ -1781,7 +1782,7 @@ cursor: pointer;
 .collection-item img{
   max-width: 200px; 
   max-height: 200px;
-  border-bottom: 1px solid #242424;
+  border-bottom: 1px solid var(--main2);
   padding-bottom: 1em;
 }
 
@@ -2429,6 +2430,7 @@ margin-left: 0;
   flex-direction: row;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
+  flex-wrap: wrap;
 }
 
 .collection-tags label{
@@ -2447,6 +2449,86 @@ margin-left: 0;
 .selected-tag{
   border: 2px solid var(--news-title);
 }
+
+.bot-container{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.bot-container h1{
+  color: var(--text);
+  font-size: 3em;
+  word-wrap:break-word;
+}
+
+.bot-container h2{
+  font-size: 2em;
+  margin-bottom: 0;
+  word-wrap:break-word;
+}
+
+
+.bot-container a{
+  color: var(--both-white);
+}
+
+.bot-header{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  text-align: center;
+}
+
+.bot-header a{
+  background-color: var(--news-title);
+  padding: 1em;
+  color: var(--both-white);
+  user-select: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.bot-steps{
+  margin-top: 4em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.bot-step{
+  width: 45%;
+  color: var(--both-white);
+  background-color: var(--news-title);
+  padding: 1em;
+}
+
+.bot-step p{
+  font-weight: 400;
+  word-wrap: break-word;
+}
+
+.bot-step:first-child{
+  color: var(--text);
+  background-color: var(--main1);
+}
+
+#bot-msg{
+  margin: 0;
+  margin-top: 0.5em;
+  font-size: 0.8em;
+  color: var(--text);
+  text-align: center;
+}
+
+#bot-msg a{
+  color: var(--news-title);
+  font-weight: 600;
+}
+
+
 
 @keyframes step{
   0%, 10% { color:var(--step);}
@@ -2686,5 +2768,12 @@ margin-left: 0;
   .affiliates-item button{width: 90%;}
   .nft-trade-item{
     width: 170px;
+  }
+  .bot-step{
+    width: 100%;
+  }
+  .bot-container h1{
+    color: var(--text);
+    font-size: 2.5em;
   }
 }
