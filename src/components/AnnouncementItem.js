@@ -161,7 +161,6 @@ export default function AnnouncementItem(props) {
     }
 
     useEffect(() => {
-        console.log(announcementImages)
         setshowDetails(props.isDetailsShown);
       }, [props.isDetailsShown]);
     

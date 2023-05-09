@@ -2528,6 +2528,13 @@ margin-left: 0;
   font-weight: 600;
 }
 
+#redirect-text{
+  text-align: center;
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+
+}
+
 
 
 @keyframes step{
