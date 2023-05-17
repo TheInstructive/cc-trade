@@ -5,8 +5,7 @@ import { getNFTs } from "../web3/Inventory";
 import { getWalletAddress } from "../web3/WalletConnect";
 
 export default function Inventory() {
-
-
+  const [loading, setLoading] = useState(true);
 
   const [walletAddress, setWalletAddress] = useState("");
 
@@ -31,19 +30,36 @@ export default function Inventory() {
   );
 
   const handlePageClick = (pageNumber) => {
+      setLoading(true);
       setCurrentHavePage(pageNumber);
+      setLoading(false);
   };
 
   useEffect(() => {
     setWalletAddress(getWalletAddress());
 
-    getNFTs(walletAddress).then(have => have && setHaveNFTs(have)).catch(console.error);
+    (async () => {
+      setLoading(true);
+
+      try {
+        const have = await getNFTs(walletAddress);
+        if (have) {
+          setHaveNFTs(have);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      setLoading(false);
+    })();
   }, [walletAddress]);
 
 
   return (
     <div style={{overflow:'hidden'}} className="trade-container">
-              {currentHaveItems.map((have, idx) => (
+          {loading && <div>Loading...</div>}
+
+          {!loading && currentHaveItems.map((have, idx) => (
                 <TradeItem
                   key={idx}
                   class={'nft-trade-item'}
@@ -52,7 +68,7 @@ export default function Inventory() {
                   showCheckbox={false}
                   onSelectNFT={() => ""} 
                 />
-              ))}
+          ))}
 
           <div className="trade-offer-pagination">
             {havePageNumbers.map((pageNumber) => (

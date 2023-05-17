@@ -8,6 +8,7 @@ const [ tradeTerms, setTradeTerms ] = useState(false);
 const [alertClas, setAlertClass] = useState("alert-error displaynone");
 const [alertMessage, setAlertMessage] = useState("");
 const [offerApproval, setOfferApproval] = useState("");
+const [loading, setLoading] = useState(true);
 
 
 function acceptTerms(){
@@ -29,12 +30,17 @@ const showAlert = (err) => {
 
 useEffect(() => {
   async function fetchData() {
+    setLoading(true);
+
     const result = await getActiveOffers();
     if (result.offers) {
       setActiveTrades(result.offers);
     } else {
       console.error(result.error);
+      showAlert(result.error);
     }
+
+    setLoading(false);
   }
   fetchData();
 
@@ -137,7 +143,9 @@ return (
 </div>
 ))}
 
-{receivedTrades.length < 1 &&
+{loading && <div>Loading...</div>}
+
+{!loading && receivedTrades.length < 1 &&
  <div>You have no offers.</div>
 }
 

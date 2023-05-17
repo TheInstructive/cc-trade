@@ -3,15 +3,20 @@ import { getActiveOffers, cancelOffer, onWalletChange } from "../web3/WalletConn
 
 export default function SentTrades() {
 const [ activeTrades, setActiveTrades ] = useState([]);
+const [loading, setLoading] = useState(true);
 
 useEffect(() => {
   async function fetchData() {
+    setLoading(true);
+
     const result = await getActiveOffers();
     if (result.offers) {
       setActiveTrades(result.offers);
     } else {
       console.error(result.error);
     }
+
+    setLoading(false);
   }
   fetchData();
 
@@ -81,7 +86,9 @@ return (
 </div>
 ))}
 
-{receivedTrades.length < 1 &&
+{loading && <div>Loading...</div>}
+
+{!loading && receivedTrades.length < 1 &&
  <div>You have no offers.</div>
 }
 
