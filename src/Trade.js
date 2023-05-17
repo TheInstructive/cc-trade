@@ -16,7 +16,7 @@ export default function TradePage() {
   const [alertClas, setAlertClass] = useState("alert displaynone")
   const [ isConnected, setConnected ] = useState(false);
   const [ walletAddress, setWalletAddress ] = useState("");
-  const tradeURL = `https://${window.location.hostname}/createoffer/${walletAddress}`;
+  const tradeURL = `https://${window.location.host}/createoffer/${walletAddress}`;
 
   const inputRef = useRef(null);
 
