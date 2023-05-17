@@ -26,22 +26,24 @@ const showAlert = (err) => {
   setTimeout(() => {
     setAlertClass("alert-error displaynone");
   }, 2000);
-};
+}
+
+async function fetchData() {
+  setLoading(true);
+
+  const result = await getActiveOffers();
+  if (result.offers) {
+    setActiveTrades(result.offers);
+  } else {
+    console.error(result.error);
+    setAlertMessage(result.error)
+    showAlert(true);
+  }
+
+  setLoading(false);
+}
 
 useEffect(() => {
-  async function fetchData() {
-    setLoading(true);
-
-    const result = await getActiveOffers();
-    if (result.offers) {
-      setActiveTrades(result.offers);
-    } else {
-      console.error(result.error);
-      showAlert(result.error);
-    }
-
-    setLoading(false);
-  }
   fetchData();
 
   onWalletChange((account) => {
@@ -64,11 +66,28 @@ function acceptTradeOffer(id, index){
 
     }
 
-    acceptOffer(id,index)
-    setAlertMessage("Accepted!")
-    return showAlert(false);
-  })
+    const { error } = await acceptOffer(id,index);
+    if (error) {
+      setAlertMessage(error)
+      return showAlert(true);
+    }
 
+    setAlertMessage("Offer accepted.")
+    showAlert(false);
+    fetchData();
+  })
+}
+
+async function cancelTradeOffer(id, index) {
+  const { error } = await cancelOffer(id, index);
+  if (error) {
+    setAlertMessage(error)
+    return showAlert(true);
+  }
+
+  setAlertMessage("Offer cancelled.");
+  showAlert(false);
+  fetchData();
 }
 
 
@@ -136,7 +155,7 @@ return (
 
             <div>
                 <button onClick={() => acceptTradeOffer(offer.id, offer.index)} disabled={!tradeTerms} id="accept-button">ACCEPT</button>
-                <button onClick={() => cancelOffer(offer.id, offer.index)} id="decline-button">CANCEL</button>
+                <button onClick={() => cancelTradeOffer(offer.id, offer.index)} id="decline-button">CANCEL</button>
             </div>
         </div> 
 
