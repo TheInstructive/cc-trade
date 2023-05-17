@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowsLeftRight, faScaleBalanced, faArrowUpFromBracket, faWallet} from '@fortawesome/free-solid-svg-icons'
 import logo from './images/logos.png'
@@ -18,13 +18,33 @@ export default function TradePage() {
   const [ walletAddress, setWalletAddress ] = useState("");
   const tradeURL = `https://${window.location.hostname}/createoffer/${walletAddress}`;
 
-  const copyAddress = () => {
-    if (navigator.clipboard.writeText) navigator.clipboard.writeText(tradeURL);
-    setAlertClass("alert")
-    setTimeout(() => {
-      setAlertClass("alert displaynone")
-    }, 2000);
-  };
+  const inputRef = useRef(null);
+
+  async function copyAddress() {
+    let successful = false;
+
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(tradeURL);
+        successful = true;
+      } else {
+        inputRef.current.focus();
+        inputRef.current.select();
+        successful = document.execCommand('copy');
+      }
+    } catch (err) {
+      console.error("Error while copying", err);
+    }
+
+    if (successful) {
+      setAlertClass("alert")
+      setTimeout(() => {
+        setAlertClass("alert displaynone")
+      }, 2000);
+    } else {
+      console.log("Copy unsuccessful");
+    }
+  }
 
   useEffect(() => {
     setConnected(isWalletConnected());
@@ -124,7 +144,7 @@ export default function TradePage() {
           <div className='trade-url'>
             <h4>TRADE URL</h4>
             <div className='trade-url-input'>
-            <input contentEditable={false} readOnly value={tradeURL}></input><button onClick={copyAddress}>COPY</button>
+            <input ref={inputRef} contentEditable={false} readOnly value={tradeURL}></input><button onClick={copyAddress}>COPY</button>
             </div>
             <p>Copy this URL and share anyone who want to trade with you!</p>
             <div className={alertClas}>
