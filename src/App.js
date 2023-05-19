@@ -5,7 +5,7 @@ import {faDiscord, faTwitter} from '@fortawesome/free-brands-svg-icons'
 import React, { useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import logo from './images/logos.svg'
-import { web3Modal, useWeb3Modal, onWalletChange, isWalletConnected, getWalletAddress } from "./web3/WalletConnect";
+import { web3Modal, useWeb3Modal, onWalletChange, isWalletConnected, getWalletName } from "./web3/WalletConnect";
 
 
 import { useTranslation } from 'react-i18next';
@@ -22,18 +22,15 @@ const languages = [
 function App() {
   const { isOpen: isModalOpen, open: openModal, close: closeModal } = useWeb3Modal();
   const [ isConnected, setConnected ] = useState(false);
-  const [ walletAddress, setWalletAddress ] = useState("");
+  const [ walletName, setWalletName ] = useState("");
 
   useEffect(() => {
     setConnected(isWalletConnected());
+    getWalletName().then(setWalletName);
 
-    setWalletAddress(getWalletAddress())
     onWalletChange((account) => {
       setConnected(account.isConnected);
-
-      if(account.address){
-        setWalletAddress(account.address)
-      }
+      getWalletName().then(setWalletName);
     });
   }, []);
 
@@ -68,7 +65,7 @@ function App() {
           </div>
 
           <div className='right'>
-            {!isConnected ? <button onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress'>{walletAddress}</div> }
+            {!isConnected ? <button onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress'>{walletName}</div> }
           </div>
 
           <Dropdown
