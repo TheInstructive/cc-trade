@@ -40,6 +40,8 @@ useEffect(() => {
 }, []);
 
 function acceptTradeOffer(id, index){
+  showAlert("Checking for missing approvals...", "info");
+
   getMissingApprovals({ id, have: false }).then(async ({ missing, error: missingError }) => {
     if (missingError) {
       return showAlert(missingError, "error", 2000);
@@ -49,6 +51,8 @@ function acceptTradeOffer(id, index){
       return showAlert("NFT(s) not eligible for trade.", "error", 2000);
 
     }
+
+    showAlert("Confirming transaction with your wallet...", "info");
 
     const { error } = await acceptOffer(id,index);
     if (error) {

@@ -54,7 +54,8 @@ export default function Alert() {
   const { type, message, visible } = useContext(AlertContext);
 
   if (visible) {
-    return (<div className={type === "" ? "alert" : "alert-" + type}>
+    const classes = type ? (" alert-" + type) : "";
+    return (<div className={"alert" + classes}>
       <h2>{message}</h2>
     </div>);
   }

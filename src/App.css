@@ -614,20 +614,11 @@ cursor: pointer;
 }
 
 .alert-error{
-  font-family: 'Montserrat', sans-serif;
-  color: white;
-  position: fixed;
-  width: 100%;
   background-color: #a12211;
-  height: 3em;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.6em;
-  padding: 1em;
-  z-index: 9999;
+}
+
+.alert-info{
+  background-color: var(--blue);
 }
 
 .trade-url input{
