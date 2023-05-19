@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { AlertContext } from './Alert';
 import { getActiveOffers, acceptOffer, cancelOffer, onWalletChange, getMissingApprovals } from "../web3/WalletConnect";
 
 
 export default function ReceivedTrades() {
 const [ activeTrades, setActiveTrades ] = useState([]);
 const [ tradeTerms, setTradeTerms ] = useState(false);
-const [alertClas, setAlertClass] = useState("alert-error displaynone");
-const [alertMessage, setAlertMessage] = useState("");
+const { showAlert } = useContext(AlertContext);
 const [offerApproval, setOfferApproval] = useState("");
 const [loading, setLoading] = useState(true);
 
 
 function acceptTerms(){
   setTradeTerms(!tradeTerms)
-}
-
-const showAlert = (err) => {
-  if(err){
-    setAlertClass("alert-error");
-  }
-  else{
-    setAlertClass("alert");
-  }
-
-  setTimeout(() => {
-    setAlertClass("alert-error displaynone");
-  }, 2000);
 }
 
 async function fetchData() {
@@ -36,8 +23,7 @@ async function fetchData() {
     setActiveTrades(result.offers);
   } else {
     console.error(result.error);
-    setAlertMessage(result.error)
-    showAlert(true);
+    showAlert(result.error, "error", 2000);
   }
 
   setLoading(false);
@@ -56,24 +42,20 @@ useEffect(() => {
 function acceptTradeOffer(id, index){
   getMissingApprovals({ id, have: false }).then(async ({ missing, error: missingError }) => {
     if (missingError) {
-      setAlertMessage(missingError)
-      return showAlert(true);
+      return showAlert(missingError, "error", 2000);
     }
 
     if(missing.length>0){
-      setAlertMessage("NFT(s) not eligible for trade.")
-      return showAlert(true);
+      return showAlert("NFT(s) not eligible for trade.", "error", 2000);
 
     }
 
     const { error } = await acceptOffer(id,index);
     if (error) {
-      setAlertMessage(error)
-      return showAlert(true);
+      return showAlert(error, "error", 2000);
     }
 
-    setAlertMessage("Offer accepted.")
-    showAlert(false);
+    showAlert("Offer accepted.", null, 2000);
     fetchData();
   })
 }
@@ -81,12 +63,10 @@ function acceptTradeOffer(id, index){
 async function cancelTradeOffer(id, index) {
   const { error } = await cancelOffer(id, index);
   if (error) {
-    setAlertMessage(error)
-    return showAlert(true);
+    return showAlert(error, "error", 2000);
   }
 
-  setAlertMessage("Offer cancelled.");
-  showAlert(false);
+  showAlert("Offer cancelled.", null, 2000);
   fetchData();
 }
 
@@ -98,9 +78,6 @@ const reversedTrades = [...receivedTrades].reverse();
 
 return (
 <div>
-<div className={alertClas}>
-<h2>{alertMessage}</h2>
-</div>
 {reversedTrades.map((offer) => (
 <div key={offer.index} className="trade-offer-wrapper">
   <div className="trade-offer-header">

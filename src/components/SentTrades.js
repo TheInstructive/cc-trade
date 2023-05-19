@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { getActiveOffers, cancelOffer, onWalletChange } from "../web3/WalletConnect";
+import { AlertContext } from './Alert';
 
 export default function SentTrades() {
 const [ activeTrades, setActiveTrades ] = useState([]);
 const [loading, setLoading] = useState(true);
+const { showAlert } = useContext(AlertContext);
 
 useEffect(() => {
   async function fetchData() {
@@ -29,6 +31,17 @@ useEffect(() => {
 
 const receivedTrades = activeTrades.filter(trade => !trade.received);
 const reversedTrades = [...receivedTrades].reverse();
+
+async function cancelTradeOffer(id, index) {
+  const { error } = await cancelOffer(id, index);
+
+  if (error) {
+    showAlert(error, "error", 2000);
+    return;
+  }
+
+  showAlert("Offer cancelled.", null, 2000);
+}
 
 
 return (
@@ -80,7 +93,7 @@ return (
     </div>
 
         <div className="trade-offer-buttons">
-                <button onClick={() => cancelOffer(offer.id, offer.index)} id="decline-button">CANCEL</button>
+                <button onClick={() => cancelTradeOffer(offer.id, offer.index)} id="decline-button">CANCEL</button>
         </div> 
 
 </div>

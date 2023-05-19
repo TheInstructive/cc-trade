@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowsLeftRight, faScaleBalanced, faArrowUpFromBracket, faWallet} from '@fortawesome/free-solid-svg-icons'
 import logo from './images/logos.png'
@@ -7,13 +7,13 @@ import SentTrades from './components/SentTrades'
 import { onWalletChange, isWalletConnected, getWalletAddress } from "./web3/WalletConnect";
 import { useTranslation } from 'react-i18next';
 import Inventory from './components/Inventory'
-
+import Alert, { AlertContext } from './components/Alert';
 
 export default function TradePage() {
   const { t } = useTranslation();
+  const { showAlert } = useContext(AlertContext);
 
   const [rederTab, setRenderTab] = useState(0)
-  const [alertClas, setAlertClass] = useState("alert displaynone")
   const [ isConnected, setConnected ] = useState(false);
   const [ walletAddress, setWalletAddress ] = useState("");
   const tradeURL = `https://${window.location.host}/createoffer/${walletAddress}`;
@@ -37,10 +37,7 @@ export default function TradePage() {
     }
 
     if (successful) {
-      setAlertClass("alert")
-      setTimeout(() => {
-        setAlertClass("alert displaynone")
-      }, 2000);
+      showAlert("YOUR TRADE URL COPIED TO THE CLIPBOARD", null, 2000);
     } else {
       console.log("Copy unsuccessful");
     }
@@ -63,6 +60,8 @@ export default function TradePage() {
     <>
     {isConnected ?
     <div>
+        <Alert />
+
          <div className='last-trades'>
           
          <div className='last-trade-item'>
@@ -147,10 +146,6 @@ export default function TradePage() {
             <input ref={inputRef} contentEditable={false} readOnly value={tradeURL}></input><button onClick={copyAddress}>COPY</button>
             </div>
             <p>Copy this URL and share anyone who want to trade with you!</p>
-            <div className={alertClas}>
-              <h2>YOUR TRADE URL COPIED TO THE CLIPBOARD</h2>
-            </div>
-
           </div>
 
           </div>

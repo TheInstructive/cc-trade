@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./App.css";
 import { faCheck, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import animation from "./images/animation.webp";
 import { Link } from 'react-router-dom';
 import Collections from "./web3/collections"
+import { AlertContext } from "./components/Alert";
 
 
 export default function TradeOffer() {
@@ -20,20 +21,19 @@ export default function TradeOffer() {
   const [currentTradeStep, setcurrentTradeStep] = useState(1);
   const [warningClass, setwarningClass] = useState("warning");
   const [walletAddress, setWalletAddress] = useState("");
-  const [alertClas, setAlertClass] = useState("alert-error displaynone");
   const [offerLoading, setOfferLoading] = useState(false);
   const [offerComplated, setOfferComplated] = useState(false);
   const [nftHaveIndex, setNftHaveIndex] = useState([]);
   const [nftWantIndex, setNftWantIndex] = useState([]);
   const [confirmButton, setConfirmButton] = useState(false);
   const [showOfferApproval, setShowOfferApproval] = useState(false);
+  const { showAlert } = useContext(AlertContext);
 
 
 
 
   const [offerError, setOfferError] = useState("");
   const [offerApproval, setOfferApproval] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
 
 
   const [haveNFTs, setHaveNFTs] = useState([]);
@@ -77,13 +77,6 @@ export default function TradeOffer() {
     }
   };
 
-  const showAlert = () => {
-    setAlertClass("alert-error");
-    setTimeout(() => {
-      setAlertClass("alert-error displaynone");
-    }, 2000);
-  };
-
   useEffect(() => {
     setWalletAddress(getWalletAddress());
     getNFTs(walletadrs).then(want => want && setWantNFTs(want)).catch(console.error);
@@ -98,16 +91,14 @@ export default function TradeOffer() {
   function nextStep() {
     if (currentTradeStep === 1) {
       if (haveOffer.length === 0) {
-        setAlertMessage("SELECT AT LEAST ONE NFT TO CONTINUE")
-        return showAlert();
+        return showAlert("SELECT AT LEAST ONE NFT TO CONTINUE", "error", 2000);
       }
       setradeStepClass("trade-bar-line trade-step-2");
       setcurrentTradeStep(2);
     }
     if (currentTradeStep === 2) {
       if (wantOffer.length === 0) {
-        setAlertMessage("SELECT AT LEAST ONE NFT TO CONTINUE")
-        return showAlert();
+        return showAlert("SELECT AT LEAST ONE NFT TO CONTINUE", "error", 2000);
       }
       setradeStepClass("trade-bar-line trade-step-3");
       setcurrentTradeStep(3);
@@ -236,10 +227,9 @@ export default function TradeOffer() {
     getMissingApprovals({ tokens, have: true }).then(async ({ missing, error: missingError }) => {
       if (missingError) {
         setOfferError(missingError);
-        setAlertMessage(offerError)
         setOfferLoading(false);
         setConfirmButton(false)
-        return showAlert();
+        return showAlert(offerError, "error", 2000);
       }
     
       for (let i=0; i<missing.length; i++) {
@@ -251,9 +241,8 @@ export default function TradeOffer() {
         if (error) {
           setConfirmButton(false)
           setOfferError(error);
-          setAlertMessage(error)
           setOfferLoading(false);
-          return showAlert();
+          return showAlert(error, "error", 2000);
         }
       }
 
@@ -265,9 +254,8 @@ export default function TradeOffer() {
       if (error) {
         setConfirmButton(false)
         setOfferError(error);
-        setAlertMessage(error);
         setOfferLoading(false);
-        return showAlert();
+        return showAlert(error, "error", 2000);
       }
 
       setOfferLoading(false);
@@ -292,9 +280,6 @@ export default function TradeOffer() {
         <button onClick={closeWarning}>X</button>
       </div>
       <button onClick={revokeCollection}>revoke</button>
-      <div className={alertClas}>
-        <h2>{alertMessage}</h2>
-      </div>
 
 
       {currentTradeStep === 1 && (
