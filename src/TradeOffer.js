@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import animation from "./images/animation.webp";
 import { Link } from 'react-router-dom';
 import Collections from "./web3/collections"
-import { AlertContext } from "./components/Alert";
+import Alert, { AlertContext } from "./components/Alert";
 
 
 export default function TradeOffer() {
@@ -260,6 +260,7 @@ export default function TradeOffer() {
           setConfirmButton(false)
           setOfferError(error);
           setOfferLoading(false);
+          setShowOfferApproval(false);
           return showAlert(error, "error", 2000);
         }
       }
@@ -288,6 +289,8 @@ export default function TradeOffer() {
 
   return (
     <div className="main-container">
+      <Alert />
+
       <div className={warningClass}>
         <div>
           <h2>Warning!</h2>
