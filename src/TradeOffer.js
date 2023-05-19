@@ -104,8 +104,6 @@ export default function TradeOffer() {
 
   useEffect(() => {
     getNFTs(walletAddress).then(have => have && setHaveNFTs(have)).catch(console.error);
-    console.log(haveNFTs)
-
   }, [walletAddress]);
 
   function nextStep() {

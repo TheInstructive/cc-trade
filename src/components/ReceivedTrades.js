@@ -49,7 +49,6 @@ async function fetchData() {
 
     setActiveTrades(await fetchTradeDetails(receivedTrades));
   } else {
-    console.error(result.error);
     showAlert(result.error, "error", 2000);
   }
 
