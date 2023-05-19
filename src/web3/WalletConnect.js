@@ -9,7 +9,10 @@ import {
   waitForTransaction,
   readContract,
   readContracts,
-  erc721ABI
+  erc721ABI,
+  fetchEnsName,
+  fetchEnsAddress,
+  fetchEnsAvatar,
 } from '@wagmi/core';
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
 import { Web3Modal } from "@web3modal/react";
@@ -220,6 +223,36 @@ export async function getRemoteTokens(contractAddress, address) {
     }
   } catch (err) {
     return returnError(err);
+  }
+}
+
+export async function getCronosID({ name, address }) {
+  if (address) {
+    const name = await fetchEnsName({ address });
+    const avatar = name ? await fetchEnsAvatar({ name }) : null;
+
+    return {
+      name,
+      address,
+      avatar,
+    };
+  }
+
+  if (name) {
+    const address = await fetchEnsAddress({ name });
+    const avatar = await fetchEnsAvatar({ name });
+
+    return {
+      name,
+      address,
+      avatar,
+    };
+  }
+
+  return {
+    name: null,
+    address: null,
+    avatar: null,
   }
 }
 

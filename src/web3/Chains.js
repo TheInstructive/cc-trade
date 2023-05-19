@@ -2,6 +2,11 @@ export const cronosMainnet = {
   id: 25,
   name: 'Cronos',
   network: 'cronos',
+  contracts: {
+    ensRegistry: {
+      address: '0x7F4C61116729d5b27E5f180062Fdfbf32E9283E5',
+    },
+  },
   nativeCurrency: {
     decimals: 18,
     name: 'Cronos',
@@ -21,6 +26,11 @@ export const cronosTestnet = {
   id: 338,
   name: 'Cronos Testnet',
   network: 'cronos testnet',
+  contracts: {
+    ensRegistry: {
+      address: '0x16a23bFBcE9c53998c90201629E4cDB40B81B127',
+    },
+  },
   nativeCurrency: {
     decimals: 18,
     name: 'Cronos Testnet',

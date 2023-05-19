@@ -1,15 +1,38 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { AlertContext } from './Alert';
-import { getActiveOffers, acceptOffer, cancelOffer, onWalletChange, getMissingApprovals } from "../web3/WalletConnect";
+import { getActiveOffers, acceptOffer, cancelOffer, onWalletChange, getMissingApprovals, getCronosID } from "../web3/WalletConnect";
 
+const TRADES_PER_PAGE = 5;
 
 export default function ReceivedTrades() {
 const [ activeTrades, setActiveTrades ] = useState([]);
+const [ page, setPage ] = useState(0);
 const [ tradeTerms, setTradeTerms ] = useState(false);
-const { showAlert } = useContext(AlertContext);
 const [offerApproval, setOfferApproval] = useState("");
 const [loading, setLoading] = useState(true);
 
+const { showAlert } = useContext(AlertContext);
+
+const pageStartIndex = TRADES_PER_PAGE * page;
+const pageTrades = activeTrades.slice(pageStartIndex, pageStartIndex + TRADES_PER_PAGE);
+
+async function fetchTradeDetails(trades) {
+  try {
+    for (let i=0; i<trades.length; i++) {
+      const details = await getCronosID({
+        address: trades[i].address,
+      });
+      trades[i] = {
+        ...details,
+        ...trades[i],
+      };
+    }
+  } catch (err) {
+    console.error("Error while updating trade details", err);
+  }
+
+  return trades;
+}
 
 function acceptTerms(){
   setTradeTerms(!tradeTerms)
@@ -20,7 +43,11 @@ async function fetchData() {
 
   const result = await getActiveOffers();
   if (result.offers) {
-    setActiveTrades(result.offers);
+    const receivedTrades = result.offers.filter(trade => trade.received).reverse();
+    setActiveTrades(receivedTrades);
+    setLoading(false);
+
+    setActiveTrades(await fetchTradeDetails(receivedTrades));
   } else {
     console.error(result.error);
     showAlert(result.error, "error", 2000);
@@ -74,15 +101,9 @@ async function cancelTradeOffer(id, index) {
   fetchData();
 }
 
-
-const receivedTrades = activeTrades.filter(trade => trade.received);
-const reversedTrades = [...receivedTrades].reverse();
-
-
-
 return (
 <div>
-{reversedTrades.map((offer) => (
+{pageTrades.map((offer) => (
 <div key={offer.index} className="trade-offer-wrapper">
   <div className="trade-offer-header">
     <div className="offer-date">
@@ -145,7 +166,7 @@ return (
 
 {loading && <div>Loading...</div>}
 
-{!loading && receivedTrades.length < 1 &&
+{!loading && pageTrades.length < 1 &&
  <div>You have no offers.</div>
 }
 
