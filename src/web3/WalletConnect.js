@@ -288,7 +288,6 @@ export async function getActiveOffers(page) {
           invalid: !isValid[index],
           received,
           address: otherAddress,
-          name: otherAddress,
           have: offer.items.filter(item => item.have).map(itemConverter),
           want: offer.items.filter(item => !item.have).map(itemConverter),
         };

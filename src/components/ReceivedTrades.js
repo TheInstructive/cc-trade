@@ -43,11 +43,11 @@ async function fetchData() {
 
   const result = await getActiveOffers();
   if (result.offers) {
-    const receivedTrades = result.offers.filter(trade => trade.received).reverse();
-    setActiveTrades(receivedTrades);
+    const trades = result.offers.filter(trade => trade.received).reverse();
+    setActiveTrades(trades);
     setLoading(false);
 
-    setActiveTrades(await fetchTradeDetails(receivedTrades));
+    setActiveTrades(await fetchTradeDetails(trades));
   } else {
     showAlert(result.error, "error", 2000);
   }
@@ -109,7 +109,7 @@ return (
       <h3>31.03.2023</h3>
     </div>
 
-    <h3><b>{offer.name}</b> <br/> OFFERED YOU</h3>
+    <h3><b>{offer.name || offer.address}</b> <br/> OFFERED YOU</h3>
     <div className="trade-status-active">ACTIVE</div>
   </div>
 

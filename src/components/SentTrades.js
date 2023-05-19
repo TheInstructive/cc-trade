@@ -1,11 +1,35 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { getActiveOffers, cancelOffer, onWalletChange } from "../web3/WalletConnect";
+import { getActiveOffers, cancelOffer, onWalletChange, getCronosID } from "../web3/WalletConnect";
 import { AlertContext } from './Alert';
+
+const TRADES_PER_PAGE = 5;
 
 export default function SentTrades() {
 const [ activeTrades, setActiveTrades ] = useState([]);
+const [ page, setPage ] = useState(0);
 const [loading, setLoading] = useState(true);
 const { showAlert } = useContext(AlertContext);
+
+const pageStartIndex = TRADES_PER_PAGE * page;
+const pageTrades = activeTrades.slice(pageStartIndex, pageStartIndex + TRADES_PER_PAGE);
+
+async function fetchTradeDetails(trades) {
+  try {
+    for (let i=0; i<trades.length; i++) {
+      const details = await getCronosID({
+        address: trades[i].address,
+      });
+      trades[i] = {
+        ...details,
+        ...trades[i],
+      };
+    }
+  } catch (err) {
+    console.error("Error while updating trade details", err);
+  }
+
+  return trades;
+}
 
 useEffect(() => {
   async function fetchData() {
@@ -13,7 +37,11 @@ useEffect(() => {
 
     const result = await getActiveOffers();
     if (result.offers) {
-      setActiveTrades(result.offers);
+      const trades = result.offers.filter(trade => !trade.received).reverse();
+      setActiveTrades(trades);
+      setLoading(false);
+  
+      setActiveTrades(await fetchTradeDetails(trades));
     } else {
       console.error(result.error);
     }
@@ -29,9 +57,6 @@ useEffect(() => {
   });
 }, []);
 
-const receivedTrades = activeTrades.filter(trade => !trade.received);
-const reversedTrades = [...receivedTrades].reverse();
-
 async function cancelTradeOffer(id, index) {
   const { error } = await cancelOffer(id, index);
 
@@ -46,14 +71,14 @@ async function cancelTradeOffer(id, index) {
 
 return (
 <div>
-{reversedTrades.map((offer, index) => (
+{pageTrades.map((offer, index) => (
 <div key={index} className="trade-offer-wrapper">
   <div className="trade-offer-header">
     <div className="offer-date">
       <h3>31.03.2023</h3>
     </div>
 
-    <h3>YOU OFFERED <br/> <b>{offer.name}</b></h3>
+    <h3>YOU OFFERED <br/> <b>{offer.name || offer.address}</b></h3>
     <div className="trade-status-active">WAITING FOR RESPONSE</div>
   </div>
 
@@ -101,7 +126,7 @@ return (
 
 {loading && <div>Loading...</div>}
 
-{!loading && receivedTrades.length < 1 &&
+{!loading && pageTrades.length < 1 &&
  <div>You have no offers.</div>
 }
 
