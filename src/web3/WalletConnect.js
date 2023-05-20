@@ -12,7 +12,6 @@ import {
   erc721ABI,
   fetchEnsName,
   fetchEnsAddress,
-  fetchEnsAvatar,
 } from '@wagmi/core';
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
 import { Web3Modal } from "@web3modal/react";
@@ -63,6 +62,17 @@ export function getNetworkName() {
     throw new Web3ClientError("Not connected.");
   }
   return chain.name;
+}
+
+export async function getWalletName() {
+  const address = getWalletAddress();
+  try {
+    const { name } = await getCronosID({ address });
+    return name || address;
+  } catch (err) {
+    console.error("Error while loading cronos.id", err);
+  }
+  return address;
 }
 
 
@@ -229,30 +239,25 @@ export async function getRemoteTokens(contractAddress, address) {
 export async function getCronosID({ name, address }) {
   if (address) {
     const name = await fetchEnsName({ address });
-    const avatar = name ? await fetchEnsAvatar({ name }) : null;
 
     return {
       name,
       address,
-      avatar,
     };
   }
 
   if (name) {
     const address = await fetchEnsAddress({ name });
-    const avatar = await fetchEnsAvatar({ name });
 
     return {
       name,
       address,
-      avatar,
     };
   }
 
   return {
     name: null,
     address: null,
-    avatar: null,
   }
 }
 
@@ -283,7 +288,6 @@ export async function getActiveOffers(page) {
           invalid: !isValid[index],
           received,
           address: otherAddress,
-          name: otherAddress,
           have: offer.items.filter(item => item.have).map(itemConverter),
           want: offer.items.filter(item => !item.have).map(itemConverter),
         };

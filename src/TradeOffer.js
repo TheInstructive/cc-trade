@@ -4,12 +4,12 @@ import { faCheck, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TradeItem from "./components/TradeItem";
 import { getNFTs } from "./web3/Inventory";
-import { getWalletAddress, createOffer, getMissingApprovals, requestApproval, revokeApproval } from "./web3/WalletConnect";
+import { getWalletAddress, createOffer, getMissingApprovals, requestApproval, revokeApproval, getCronosID, isWalletConnected, onWalletChange } from "./web3/WalletConnect";
 import { useParams } from "react-router-dom";
 import animation from "./images/animation.webp";
 import { Link } from 'react-router-dom';
 import Collections from "./web3/collections"
-import { AlertContext } from "./components/Alert";
+import Alert, { AlertContext } from "./components/Alert";
 
 
 export default function TradeOffer() {
@@ -30,6 +30,7 @@ export default function TradeOffer() {
   const { showAlert } = useContext(AlertContext);
 
 
+  const [details, setDetails] = useState({});
 
 
   const [offerError, setOfferError] = useState("");
@@ -77,15 +78,32 @@ export default function TradeOffer() {
     }
   };
 
+  function loadTargetWallet() {
+    if (walletadrs.startsWith('0x')) {
+      getNFTs(walletadrs).then(want => want && setWantNFTs(want)).catch(console.error);
+      getCronosID({ address: walletadrs }).then(details => setDetails(details)).catch(console.error);
+    } else {
+      getCronosID({ name: walletadrs }).then(details => {
+        setDetails(details);
+        getNFTs(details.address).then(want => want && setWantNFTs(want)).catch(console.error);
+      }).catch(console.error);
+    }
+  }
+
   useEffect(() => {
     setWalletAddress(getWalletAddress());
-    getNFTs(walletadrs).then(want => want && setWantNFTs(want)).catch(console.error);
+
+    if (isWalletConnected()) {
+      loadTargetWallet();
+    }
+
+    onWalletChange(() => {
+      loadTargetWallet();
+    });
   }, [walletadrs]);
 
   useEffect(() => {
     getNFTs(walletAddress).then(have => have && setHaveNFTs(have)).catch(console.error);
-    console.log(haveNFTs)
-
   }, [walletAddress]);
 
   function nextStep() {
@@ -242,6 +260,7 @@ export default function TradeOffer() {
           setConfirmButton(false)
           setOfferError(error);
           setOfferLoading(false);
+          setShowOfferApproval(false);
           return showAlert(error, "error", 2000);
         }
       }
@@ -270,6 +289,8 @@ export default function TradeOffer() {
 
   return (
     <div className="main-container">
+      <Alert />
+
       <div className={warningClass}>
         <div>
           <h2>Warning!</h2>
@@ -281,6 +302,10 @@ export default function TradeOffer() {
       </div>
       <button onClick={revokeCollection}>revoke</button>
 
+      <div>
+        <h2>Cronos ID: {details.name || '-'}</h2>
+        <h3>Address: {details.address}</h3>
+      </div>
 
       {currentTradeStep === 1 && (
         <div>

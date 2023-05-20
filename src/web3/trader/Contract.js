@@ -8,11 +8,11 @@ const Trader = {
     }
   
     if (network === "Cronos Testnet") {
-      return '0x5bE3Cf8f2994A4b0AA445d54C7D52f92db8aF2b3';
+      return '0xe9023E85bD9f64e1f61401b989E62E12BaD18f56';
     }
   
     if (network === "Cronos") {
-      return '0x0';
+      return '0x83C4862E3e65902308d11aC829D655C1775556f7';
     }
   
     throw new Web3ClientError("Wrong network!");
