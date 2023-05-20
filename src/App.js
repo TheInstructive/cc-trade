@@ -148,10 +148,7 @@ function App() {
     <div className='mobile-menu'>
     <button><Link to='/'><FontAwesomeIcon icon={faHome} /></Link></button>
     <button><Link to='/trade'><FontAwesomeIcon icon={faHandshake} /></Link></button>
-    <button><Link to='/launchpad'><FontAwesomeIcon icon={faRocket} /></Link></button>
-    <button><Link to='/stake'><FontAwesomeIcon icon={faSackDollar} /></Link></button>
     <button><Link to='/newsletter'><FontAwesomeIcon icon={faNewspaper} /></Link></button>
-    <button><Link to='/dao'><FontAwesomeIcon icon={faScaleBalanced} /></Link></button>
     </div>
 
 </div>

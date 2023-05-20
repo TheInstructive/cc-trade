@@ -12,6 +12,7 @@ import Launchpad from './Launchpad';
 import TradeOffer from './TradeOffer';
 import Affiliate from './Affiliate';
 import BotPage from './BotPage';
+import NotFound from './NotFound';
 
 import {
   createBrowserRouter,
@@ -67,6 +68,11 @@ const router = createBrowserRouter([
         path: "bot",
         element: <BotPage />,
       },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
+      
     ],
   },
 ]);
