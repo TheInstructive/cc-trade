@@ -81,8 +81,11 @@ a{
   }
 
 .App{
-  max-width: 1280px;
   margin: 0 auto;
+}
+
+.App-1280 {
+  max-width: 1280px;
 }
 
 .navigation-container{
@@ -1116,7 +1119,6 @@ cursor: pointer;
 }
 
 .footer{
-  max-width: 1280px;
   width: 100%;
   position: relative;
   margin-top: 2em;

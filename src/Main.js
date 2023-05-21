@@ -18,7 +18,7 @@ function App() {
   const { t } = useTranslation();
 
   return (
-    <div className="App">
+    <div className="App App-1280">
       <div className="main-container">
         <div className="banner">
           <div className="banner-left">

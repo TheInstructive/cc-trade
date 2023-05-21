@@ -79,8 +79,8 @@ function App() {
         </div>
       </div>
 
-    <div className='App'>
       <Outlet/>
+
       <div className="footer">
         <div className="footer-menus">
           <div className="footer-menu">
@@ -139,7 +139,6 @@ function App() {
           </p>
           <p>© 2023 CronosClub | All Rights Reserved.</p>
         </div>
-      </div>
     </div>
 
     <div className='mobile-menu'>
