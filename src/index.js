@@ -13,6 +13,7 @@ import TradeOffer from './TradeOffer';
 import Affiliate from './Affiliate';
 import BotPage from './BotPage';
 import NotFound from './NotFound';
+import CreateOffer from './CreateOffer';
 
 import {
   createBrowserRouter,
@@ -72,7 +73,10 @@ const router = createBrowserRouter([
         path: "*",
         element: <NotFound />,
       },
-      
+      {
+        path: "offer/:walletadrs",
+        element: <CreateOffer />,
+      },
     ],
   },
 ]);

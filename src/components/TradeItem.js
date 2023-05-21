@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import "../App.css";
+import mntd from '../images/mntd.svg'
+import mntdark from '../images/mntdark.svg'
+const selectedTheme = localStorage.getItem("selectedTheme")
 
 export default function TradeItem(props) {
   const { nftname, nftimage, showCheckbox, onSelectNFT } = props;
@@ -13,18 +16,24 @@ export default function TradeItem(props) {
 
   return (
     <label className={props.class}>
-      <img onClick={() => handleCheckboxChange()} width={200} src={nftimage}></img>
+      <img id="nft-trade-item-img" onClick={() => handleCheckboxChange()} width={200} src={nftimage}></img>
       <div className="nft-information">
-        <span>{nftname}</span>{" "} &nbsp;&nbsp;
-        <span>
-        <a target="_blank" href={props.mintedURL}>
-          <img
+        <div className="nft-information-name">
+        <span>{nftname}</span>
+        </div>
+
+        <div className="nft-information-minted">
+        <img
             alt="view on minted.network"
             height={20}
-            src={require("../images/collections/minted.png")}
-          ></img>
+            src={mntd}
+        ></img>
+
+        <a target="_blank" href={props.mintedURL}>
+          Details
         </a>
-        </span>
+        </div>
+
       </div>
     </label>
   );

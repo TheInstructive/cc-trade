@@ -7,7 +7,7 @@
   --main: #fdfdfd;
   --main1: #fafafa;
   --main2: #ececec;
-  --main3: #eeeeee;
+  --main3: #dadada;
   --blue: #325d96;
   --header: #002D74;
   --text: #262626;
@@ -1359,11 +1359,9 @@ cursor: pointer;
 }
 
 .nft-trade-item{
-  border-top: 1px solid var(--blue);
-  padding: 10px;
-  width: 200px;
+  max-width: 180px;
   min-height: 230px;
-  background-color: var(--main2);
+  background-color: var(--main3);
   display: flex;
   flex-direction: column;
   margin: 0.5em;
@@ -1373,8 +1371,8 @@ cursor: pointer;
 }
 
 
-.nft-trade-item img{
-  width: 90%;
+#nft-trade-item-img{
+  width: 100%;
   border-radius: 0.2em;
   cursor: pointer;
 }
@@ -1383,18 +1381,42 @@ cursor: pointer;
   color:var(--text);
   font-weight: 600;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   height: 100%;
-  position: relative;
+  width: 100%;
 }
 
-.nft-information span{
+.nft-information-minted{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
+  height: 30px;
+  background-color: #a30101;
+  align-items: center;
+}
+
+.nft-information-minted a {
+  color: var(--both-white);
+
+}
+
+.nft-information-name
+{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: var(--main3);
+}
+
+.nft-information-name span{
   padding-left: 0.3em;
   margin-bottom: 0;
-  font-size: 0.8em;
-  padding-top: 1em;
+  font-size: 1em;
+  font-family: 'Montserrat', sans-serif;
+  padding: 10px;
 }
 
 .nft-information span a{
@@ -1414,7 +1436,7 @@ cursor: pointer;
 
 
 .selected-nft{
-  border: 2px solid #4a7dc0;
+  border: 3px solid #4a7dc0;
 }
 
 .trade-steps-container{
@@ -2808,7 +2830,7 @@ margin-left: 0;
   .trade-url{width: 100%; align-items:center;}
   .trade-offer-buttons button{margin-top: 1em;}
   .trade-offer-header h3{font-size: 0.8em; padding: 1em;}
-  .given-nfts-container{width: 100%; border-bottom: 4px solid #101010;}
+  .given-nfts-container{width: 100%;}
   .affiliates-step{width: 100%; margin-bottom: 1em;}
   .news-collections input{width: 100px; margin-left: 0.5em;}
   .banner-title, .blink-caret{font-size: 2.5em;}

@@ -1,0 +1,130 @@
+.create-offer-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: var(--header);
+    color: var(--both-white);
+    flex-wrap: wrap;
+}
+
+.create-offer-header-left{
+    width: 40%;
+    color: var(--both-white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.create-offer-header-center{
+	width: 0;
+	height: 0;
+	border-left: 50px solid transparent;
+	border-right: 50px solid transparent;
+	border-top: 100px solid var(--main);
+}
+
+.create-offer-header-right{
+    width: 40%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    justify-content: center;
+}
+
+.create-offer-header-right p{
+    width: 90%;
+    font-size: 0.8em;
+}
+
+.trade-step{
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.create-offer-warning{
+    background-color: #CB5167;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.create-offer-warning button{
+    width: 70px;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #9D283D;
+    border: 0;
+    color: var(--both-white);
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.create-offer-warning p{
+    color: var(--both-white);
+    margin: 0;
+    text-align: left;
+    padding: 0.5em;
+    font-size: 0.8em;
+}
+
+.create-offer-buttons{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.create-offer-buttons button{
+    background-color: #208b4d;
+    color: var(--both-white);
+    font-family: 'Montserrat', sans-serif;
+    padding: 1em;
+    width: 49.9%;
+    font-weight: 600;
+    border: 0;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.create-offer-buttons button:first-child{
+    background-color: #c7ad19;
+
+}
+
+.create-offer-container{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    background-color: var(--main2);
+    justify-content: center;
+}
+
+.trade-confirm-text{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--main3);
+    color: var(--text);
+    padding: auto;
+}
+
+.trade-confirm-text h3{ 
+    margin: 0;
+    padding: 0;
+    padding: 0.5em;
+}
+
+@media only screen and (max-width: 1000px) {
+
+    .create-offer-header-center{
+    display: none;
+    }
+    .create-offer-header-right, .create-offer-header-left{
+        padding-top: 1em;
+        width: 100%;
+    }
+}
