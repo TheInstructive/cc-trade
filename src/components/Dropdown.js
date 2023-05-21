@@ -5,7 +5,7 @@ import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 export default function Dropdown(props) {
   const { selectLanguage } = props;
   const [isListOpen, setIsListOpen] = useState(false);
-  const [headerImage, setHeaderImage] = useState(null);
+  const [headerImage, setHeaderImage] = useState(props.list[0]?.image || null);
   const list = props.list;
 
   useEffect(() => {
