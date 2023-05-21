@@ -20,6 +20,50 @@ import { Link } from "react-router-dom";
 import Collections from "./web3/collections";
 import Alert, { AlertContext } from "./components/Alert";
 
+function paginate(size, current, items, handler) {
+  const count = Math.ceil(items.length / size);
+
+  current = Math.min(count, Math.max(1, current));
+
+  const start = (current - 1) * size;
+  const end = start + size;
+  const page = items.slice(start, end);
+  const buttonNums = [
+    1, 2, 3,
+    current - 2,
+    current - 1,
+    current,
+    current + 1,
+    current + 2,
+    count - 2,
+    count - 1,
+    count
+  ].filter((x, index, arr) => x > 0 && x <= count && arr.indexOf(x) === index);
+
+  // Insert ... at discontinuities
+  for (let i = 1; i < buttonNums.length; i ++) {
+    if (buttonNums[i - 1] != "..." && buttonNums[i] - buttonNums[i - 1] !== 1) {
+      buttonNums.splice(i, 0, "...");
+    }
+  }
+
+  const buttons = buttonNums.map((num) => (
+    <button
+      key={num}
+      onClick={() => num !== "..." && handler(num)}
+      disabled={current === num}
+    >
+      {num}
+    </button>
+  ));
+
+  return {
+    count,
+    page,
+    buttons,
+  }
+}
+
 export default function CreateOffer() {
   const { walletadrs } = useParams();
 
@@ -53,35 +97,17 @@ export default function CreateOffer() {
   const [currentHavePage, setCurrentHavePage] = useState(1);
   const [currentWantPage, setCurrentWantPage] = useState(1);
 
-  const startHaveIndex = (currentHavePage - 1) * pageSize;
-  const startWantIndex = (currentWantPage - 1) * pageSize;
-
-  const endHaveIndex = startHaveIndex + pageSize;
-  const endWantIndex = startWantIndex + pageSize;
-
-  const currentHaveItems = haveNFTs.slice(startHaveIndex, endHaveIndex);
-  const currentWantItems = wantNFTs.slice(startWantIndex, endWantIndex);
-
-  const totalHavePages = Math.ceil(haveNFTs.length / pageSize);
-  const totalWantPages = Math.ceil(wantNFTs.length / pageSize);
-
-  const havePageNumbers = Array.from(
-    { length: totalHavePages },
-    (_, i) => i + 1
-  );
-  const wantPageNumbers = Array.from(
-    { length: totalWantPages },
-    (_, i) => i + 1
-  );
-
   const handlePageClick = (pageNumber) => {
     if (currentTradeStep === 1) {
       setCurrentHavePage(pageNumber);
     }
-    if (currentTradeStep === 2) {
+    else if (currentTradeStep === 2) {
       setCurrentWantPage(pageNumber);
     }
   };
+
+  const { page: currentHaveItems, buttons: havePageButtons } = paginate(pageSize, currentHavePage, haveNFTs, handlePageClick);
+  const { page: currentWantItems, buttons: wantPageButtons } = paginate(pageSize, currentWantPage, wantNFTs, handlePageClick);
 
   function loadTargetWallet() {
     if (walletadrs.startsWith("0x")) {
@@ -399,15 +425,7 @@ export default function CreateOffer() {
               ))}
             </>
             <div className="trade-offer-pagination">
-              {havePageNumbers.map((pageNumber) => (
-                <button
-                  key={pageNumber}
-                  onClick={() => handlePageClick(pageNumber)}
-                  disabled={currentHavePage === pageNumber}
-                >
-                  {pageNumber}
-                </button>
-              ))}
+              {havePageButtons}
             </div>
           </>
         )}
@@ -443,15 +461,7 @@ export default function CreateOffer() {
             </>
 
             <div className="trade-offer-pagination">
-              {wantPageNumbers.map((pageNumber) => (
-                <button
-                  key={pageNumber}
-                  onClick={() => handlePageClick(pageNumber)}
-                  disabled={currentWantPage === pageNumber}
-                >
-                  {pageNumber}
-                </button>
-              ))}
+              {wantPageButtons}
             </div>
           </>
         )}
