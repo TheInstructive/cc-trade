@@ -8,6 +8,7 @@ import { onWalletChange, isWalletConnected, getWalletAddress } from "./web3/Wall
 import { useTranslation } from 'react-i18next';
 import Inventory from './components/Inventory'
 import Alert, { AlertContext } from './components/Alert';
+import { Link } from 'react-router-dom'
 
 export default function TradePage() {
   const { t } = useTranslation();
@@ -16,9 +17,24 @@ export default function TradePage() {
   const [rederTab, setRenderTab] = useState(0)
   const [ isConnected, setConnected ] = useState(false);
   const [ walletAddress, setWalletAddress ] = useState("");
-  const tradeURL = `https://${window.location.host}/createoffer/${walletAddress}`;
+  const tradeURL = `https://${window.location.host}/offer/${walletAddress}`;
+  const [ sentOfferAddress, setSentOfferAddress ] = useState("");
+  const offerAdress = `https://${window.location.host}/offer/${sentOfferAddress}`;
+
 
   const inputRef = useRef(null);
+
+  const handleInputChange = (event) => {
+    setSentOfferAddress(event.target.value);
+  };
+
+  function redirectToTradePage(url) {
+    console.log(url.length)
+    if(url == "" || sentOfferAddress.length < 4){return showAlert("PLEASE ENTER A VALID ADDRESS", "error", 2000);}
+
+    else{window.location.href = url;    }
+  }
+
 
   async function copyAddress() {
     let successful = false;
@@ -66,18 +82,43 @@ export default function TradePage() {
         <div className='trade-wrapper'>
 
           <div className='trade-header'>
-          <div className='wallet-info'>
-              <div className='wallet-pic'><img src={logo}></img></div>
-              <div className='wallet-address'>{walletAddress}</div>
-          </div>
 
-          <div className='trade-url'>
-            <h4>TRADE URL</h4>
-            <div className='trade-url-input'>
-            <input ref={inputRef} contentEditable={false} readOnly value={tradeURL}></input><button onClick={copyAddress}>COPY</button>
+            <div className='sent-trade-offer'>
+              <h2>I WANT TO SEND TRADE OFFERS</h2>
+              <div className='send-offer'>
+                <div className='send-offer-form'>
+                  <input onChange={handleInputChange} required value={sentOfferAddress} placeholder='ENTER WALLET ADDRESS OR CRONOS ID'></input>
+                  <button onClick={() => redirectToTradePage(offerAdress)}>TRADE</button>
+                </div>
+
+                <div className='trade-offer-desc'>
+                  <ul>
+                  <li>Please enter a wallet address or cronos id and click Trade Page button.</li>
+                  <li>You'll redirect to trade page and create trade offers to this address.</li>
+                  </ul>
+                </div>
+
+              </div>
+
             </div>
-            <p>Copy this URL and share anyone who want to trade with you!</p>
-          </div>
+
+            <div className='receive-trade-offer'>
+            <h2>I WANT TO RECEIVE TRADE OFFERS</h2>
+            <div className='send-offer'>
+                <div className='send-offer-form'>
+                  <input ref={inputRef} contentEditable={false} readOnly value={tradeURL}></input>
+                  <button onClick={copyAddress}>COPY URL</button>
+                </div>
+
+                <div className='trade-offer-desc'>
+                  <ul>
+                  <li>Click to copy url button to copy your trade url.</li>
+                  <li>Share it anyone who want to trade with you!</li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
 
           </div>
 

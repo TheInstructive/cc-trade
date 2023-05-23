@@ -19,6 +19,7 @@ import animation from "./images/animation.webp";
 import { Link } from "react-router-dom";
 import Collections from "./web3/collections";
 import Alert, { AlertContext } from "./components/Alert";
+import cronosidlogo from './images/cronosid.svg'
 
 function paginate(size, current, items, handler) {
   const count = Math.ceil(items.length / size);
@@ -379,6 +380,16 @@ export default function CreateOffer() {
         </div>
       </div>
 
+<div className="trader-info-wrapper">
+  <div><h4>TRADER INFO</h4></div>
+      <div className="trader-infos">
+        {details.name &&
+        <div className="cronos-id-section"><img src={cronosidlogo}></img><h2>{details.name || ' - '}</h2></div>
+        }
+        <p>{details.address}</p>
+      </div>
+</div>
+
       <div className="create-offer-buttons">
         <button
           disabled={currentTradeStep === 1 || offerComplated}
@@ -513,6 +524,7 @@ export default function CreateOffer() {
                       nftname={offered.nftname}
                       showCheckbox={false}
                       onSelectNFT={() => ""}
+                      mintedURL={`https://minted.network/collections/cronos/${offered.address}/${offered.id}`}
                     />
                   ))}
                 </div>
@@ -533,6 +545,7 @@ export default function CreateOffer() {
                       nftname={offered.nftname}
                       showCheckbox={false}
                       onSelectNFT={() => ""}
+                      mintedURL={`https://minted.network/collections/cronos/${offered.address}/${offered.id}`}
                     />
                   ))}
                 </div>

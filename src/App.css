@@ -553,6 +553,83 @@ max-width: 100px;
   width: 100%;
 }
 
+.trades-message-text{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trade-offer-desc li{
+  text-align: left;
+  list-style-type:decimal;
+  color: var(--text);
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.trades-message-text h2{
+  font-family: 'Montserrat', sans-serif;
+  color: var(--news-title);
+}
+
+.receive-trade-offer{
+  background-color: var(--main3);
+  width: 50%;
+  text-align: center;
+}
+
+
+.sent-trade-offer{
+  background-color: var(--main2);
+  width: 50%;
+  text-align: center;
+}
+
+.receive-trade-offer h2{
+  color: var(--news-title);
+  font-family: 'Montserrat', sans-serif;
+  padding: 0.1em;
+
+}
+
+.sent-trade-offer h2{
+  color: var(--news-title);
+  font-family: 'Montserrat', sans-serif;
+  padding: 0.1em;
+}
+
+.send-offer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.send-offer-form{
+  width: 90%;
+}
+
+.send-offer-form input{
+  width: 60%;
+  padding: 1em;
+  border-top-left-radius: 5em;
+  border-bottom-left-radius: 5em;
+  border: 0;
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+.send-offer-form button{
+  width: 30%;
+  padding: 1em; 
+  border: 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  background-color: var(--news-title);
+  color: var(--both-white);
+}
+
+
 .wallet-info{
   display: flex;
   flex-direction: column;
@@ -577,12 +654,13 @@ max-width: 100px;
 }
 
 .trade-url{
-  width: 50%;
   color: var(--text);
   font-family: 'Montserrat', sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 50%;
+  align-items: center;
 }
 
 .trade-url h4{
@@ -649,8 +727,8 @@ cursor: pointer;
 
 .trade-nav-menu {
   background-color: var(--main2);
-  margin-top: 1em;
   padding: 0.05em;
+  border-top: 2px solid var(--blue);
 }
 
 .wallet-address{
@@ -665,7 +743,7 @@ cursor: pointer;
 }
 
 .right-walletaddress{
-  width: 200px;
+  width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -698,7 +776,6 @@ cursor: pointer;
 }
 
 .trade-page-container{
-  padding: 2em;
   font-family: 'Montserrat', sans-serif;
   color: var(--text);
   background-color: var(--main1);
@@ -833,6 +910,7 @@ cursor: pointer;
   flex-direction: row;
   flex-wrap: wrap;
   width: 100%;
+  justify-content: center;
 }
 
 .trade-offer-buttons{
@@ -1304,7 +1382,6 @@ cursor: pointer;
 .trade-container{
   width: 100%;
   display: flex;
-  max-height: 600px;
   overflow-y: scroll;
   flex-wrap: wrap;
   justify-content: center;
@@ -2847,5 +2924,12 @@ margin-left: 0;
   .bot-container h1{
     color: var(--text);
     font-size: 2.5em;
+  }
+  .receive-trade-offer{
+    width: 100%;
+  }
+
+  .sent-trade-offer{
+    width: 100%;
   }
 }

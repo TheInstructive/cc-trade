@@ -124,11 +124,13 @@ return (
 </div>
 ))}
 
-{loading && <div>Loading...</div>}
+<div className='trades-message-text'>
+{loading && <h2>Loading...</h2>}
 
 {!loading && pageTrades.length < 1 &&
- <div>You have no offers.</div>
+ <h2>You have no offers.</h2>
 }
+</div>
 
 
 </div>

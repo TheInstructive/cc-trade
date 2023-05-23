@@ -118,6 +118,53 @@
     padding: 0.5em;
 }
 
+.trader-info-wrapper{
+    background-color: var(--blue);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.trader-info-wrapper h4{
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    color: var(--both-white);
+}
+
+.trader-infos{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--both-white);
+}
+
+.trader-infos h2{
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0.2em;
+}
+
+.trader-infos p{
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    padding: 0.5em;
+}
+
+.cronos-id-section{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+
+}
+.cronos-id-section img{
+    padding-right: 0.5em;
+}
+
 @media only screen and (max-width: 1000px) {
 
     .create-offer-header-center{
@@ -126,5 +173,14 @@
     .create-offer-header-right, .create-offer-header-left{
         padding-top: 1em;
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .trader-info-wrapper h4{
+        padding-top: 1em;
+    }
+    .trader-infos p{
+        font-size: 0.8em;
     }
 }

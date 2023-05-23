@@ -57,7 +57,9 @@ export default function Inventory() {
 
   return (
     <div style={{overflow:'hidden'}} className="trade-container">
-          {loading && <div>Loading...</div>}
+          <div className='trades-message-text'>
+          {loading && <h2>Loading...</h2>}
+          </div>
 
           {!loading && currentHaveItems.map((have, idx) => (
                 <TradeItem
@@ -67,6 +69,7 @@ export default function Inventory() {
                   nftname={have.name}
                   showCheckbox={false}
                   onSelectNFT={() => ""} 
+                  mintedURL={`https://minted.network/collections/cronos/${have.address}/${have.id}`}
                 />
           ))}
 
