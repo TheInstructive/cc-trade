@@ -17,9 +17,9 @@ export default function TradePage() {
   const [rederTab, setRenderTab] = useState(0)
   const [ isConnected, setConnected ] = useState(false);
   const [ walletAddress, setWalletAddress ] = useState("");
-  const tradeURL = `https://${window.location.host}/offer/${walletAddress}`;
+  const tradeURL = `${window.location.protocol}//${window.location.host}/offer/${walletAddress}`;
   const [ sentOfferAddress, setSentOfferAddress ] = useState("");
-  const offerAdress = `https://${window.location.host}/offer/${sentOfferAddress}`;
+  const offerAdress = `${window.location.protocol}//${window.location.host}/offer/${sentOfferAddress}`;
 
 
   const inputRef = useRef(null);
