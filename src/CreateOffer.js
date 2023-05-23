@@ -22,6 +22,16 @@ import Alert, { AlertContext } from "./components/Alert";
 import cronosidlogo from './images/cronosid.svg';
 import paginate from './utils/paginate';
 
+const TradeLoading = {
+  HIDDEN: 0,
+  WAITING: 1,
+  APPROVE_TYPE: 2,
+  APPROVE_MSG: 3,
+  CONFIRM: 4,
+  CREATED: 5,
+  LOADING: 6,
+};
+
 export default function CreateOffer() {
   const { walletadrs } = useParams();
 
@@ -31,12 +41,12 @@ export default function CreateOffer() {
   const [currentTradeStep, setcurrentTradeStep] = useState(1);
   const [warningClass, setwarningClass] = useState("create-offer-warning");
   const [walletAddress, setWalletAddress] = useState("");
-  const [offerLoading, setOfferLoading] = useState(false);
-  const [offerComplated, setOfferComplated] = useState(false);
+
+  const [tradeLoading, setTradeLoading] = useState(TradeLoading.LOADING);
+
   const [nftHaveIndex, setNftHaveIndex] = useState([]);
   const [nftWantIndex, setNftWantIndex] = useState([]);
-  const [confirmButton, setConfirmButton] = useState(false);
-  const [showOfferApproval, setShowOfferApproval] = useState(false);
+  const [missingApprovalList, setMissingApprovalList] = useState([]);
   const { showAlert } = useContext(AlertContext);
 
   const [details, setDetails] = useState({});
@@ -100,9 +110,17 @@ export default function CreateOffer() {
   }, [walletadrs]);
 
   useEffect(() => {
-    getNFTs(walletAddress)
-      .then((have) => have && setHaveNFTs(have))
-      .catch(console.error);
+    if (walletAddress) {
+      getNFTs(walletAddress)
+        .then((have) => {
+          if (have) {
+            setHaveNFTs(have);
+          }
+
+          setTradeLoading(TradeLoading.HIDDEN);
+        })
+        .catch(console.error);
+    }
   }, [walletAddress]);
 
   function nextStep() {
@@ -204,7 +222,7 @@ export default function CreateOffer() {
     }
   }
 
-  function confirmOffer() {
+  function getTokens() {
     const finalizeWantArray = wantOffer.map((obj) => {
       return {
         have: false,
@@ -223,64 +241,75 @@ export default function CreateOffer() {
 
     const tokens = [...finalizeWantArray, ...finalizeHaveArray];
 
+    return tokens;
+  }
+
+  function confirmOffer() {
+    const tokens = getTokens();
+
+    setTradeLoading(TradeLoading.WAITING);
+
     getMissingApprovals({ tokens, have: true }).then(
       async ({ missing, error: missingError }) => {
         if (missingError) {
           setOfferError(missingError);
-          setOfferLoading(false);
-          setConfirmButton(false);
+          setTradeLoading(TradeLoading.HIDDEN);
           return showAlert(offerError, "error", 2000);
         }
 
-        const requestForAll = false;
-        const alreadyApproved = {};
-    
-        for (let i = 0; i < missing.length; i++) {
-          if (requestForAll) {
-            if (alreadyApproved[missing[i].contractAddress]) {
-              continue;
-            }
+        setMissingApprovalList(missing);
 
-            setConfirmButton(true);
-            setShowOfferApproval(true);
-            setOfferApproval(missing[i].collection.name());
-          } else {
-            setConfirmButton(true);
-            setShowOfferApproval(true);
-            setOfferApproval(missing[i].name());
-          }
-
-          const { error } = await requestApproval(missing[i], requestForAll);
-          if (error) {
-            setConfirmButton(false);
-            setOfferError(error);
-            setOfferLoading(false);
-            setShowOfferApproval(false);
-            return showAlert(error, "error", 2000);
-          }
-
-          if (requestForAll) {
-            alreadyApproved[missing[i].contractAddress] = true;
-          }
+        if (missing.length > 0) {
+          setTradeLoading(TradeLoading.APPROVE_TYPE);
+          return;
         }
 
-        setConfirmButton(true);
-        setShowOfferApproval(false);
-        setOfferLoading(true);
-
-        const { error } = await createOffer(walletadrs, tokens);
-        if (error) {
-          setConfirmButton(false);
-          setOfferError(error);
-          setOfferLoading(false);
-          return showAlert(error, "error", 2000);
-        }
-
-        setOfferLoading(false);
-        setOfferComplated(true);
-        setradeStepClass("trade-bar-line trade-step-4");
+        await approveAndConfirm();
       }
     );
+  }
+
+  async function approveAndConfirm(requestForAll) {
+    const alreadyApproved = {};
+    const missing = missingApprovalList;
+    const tokens = getTokens();
+
+    for (let i = 0; i < missing.length; i++) {
+      if (requestForAll) {
+        if (alreadyApproved[missing[i].contractAddress]) {
+          continue;
+        }
+
+        setTradeLoading(TradeLoading.APPROVE_MSG);
+        setOfferApproval(missing[i].collection.name());
+      } else {
+        setTradeLoading(TradeLoading.APPROVE_MSG);
+        setOfferApproval(missing[i].name());
+      }
+
+      const { error } = await requestApproval(missing[i], requestForAll);
+      if (error) {
+        setOfferError(error);
+        setTradeLoading(TradeLoading.HIDDEN);
+        return showAlert(error, "error", 2000);
+      }
+
+      if (requestForAll) {
+        alreadyApproved[missing[i].contractAddress] = true;
+      }
+    }
+
+    setTradeLoading(TradeLoading.CONFIRM);
+
+    const { error } = await createOffer(walletadrs, tokens);
+    if (error) {
+      setOfferError(error);
+      setTradeLoading(TradeLoading.HIDDEN);
+      return showAlert(error, "error", 2000);
+    }
+
+    setTradeLoading(TradeLoading.CREATED);
+    setradeStepClass("trade-bar-line trade-step-4");
   }
 
   function revokeCollection() {
@@ -360,7 +389,7 @@ export default function CreateOffer() {
 
       <div className="create-offer-buttons">
         <button
-          disabled={currentTradeStep === 1 || offerComplated}
+          disabled={currentTradeStep === 1 || tradeLoading === TradeLoading.CREATED}
           onClick={prevStep}
         >
           PREV STEP
@@ -368,7 +397,7 @@ export default function CreateOffer() {
         {currentTradeStep <= 2 && <button onClick={nextStep}>NEXT STEP</button>}
 
         {currentTradeStep === 3 && (
-          <button disabled={confirmButton} onClick={confirmOffer}>
+          <button disabled={tradeLoading !== TradeLoading.HIDDEN} onClick={confirmOffer}>
             CONFIRM OFFER
           </button>
         )}
@@ -377,6 +406,12 @@ export default function CreateOffer() {
       <div className="create-offer-container">
         {currentTradeStep === 1 && (
           <>
+            {tradeLoading === TradeLoading.LOADING && (
+              <div className="trade-loading" style={{width:"100%",height:"100px",position:"initial"}}>
+                Loading...
+              </div>
+            )}
+
             <>
               {currentHaveItems.map((have) => (
                 <TradeItem
@@ -447,21 +482,42 @@ export default function CreateOffer() {
 
         {currentTradeStep === 3 && (
           <div style={{ width:'100%'}}>
-            {showOfferApproval && (
+            {tradeLoading === TradeLoading.APPROVE_TYPE && (
+              <div className="trade-loading">
+                <img width={200} src={animation} />
+                <p>Choose a transfer approval method:</p>
+                <button onClick={() => approveAndConfirm(false)}>Approve for each NFT</button>
+                <button onClick={() => approveAndConfirm(true)}>Approve the Collection</button>
+                <p>
+                Approve for each NFT:<br/>
+                This button allows you to approve the transfer of each NFT individually.
+                You will need to give approval for each specific NFT before it can be transferred to another address.
+                Under the ERC721 standard, if you grant approval to another address or smart contract (e.g. marketplaces) for this token, your previous approval will be revoked.
+                </p>
+                <p>
+                Approve whole COLLECTION:<br/>
+                This button grants approval for the entire collection of NFTs.
+                Once approved, all NFTs within the collection can be transferred to other addresses without the need for individual approvals.
+                You won't be asked to approve these collections each time you create or accept an offer unless you revoke the approval.
+                </p>
+              </div>
+            )}
+
+            {tradeLoading === TradeLoading.APPROVE_MSG && (
               <div className="trade-loading">
                 <img width={200} src={animation} />
                 Waiting approval for {offerApproval} collection...
               </div>
             )}
 
-            {offerLoading && (
+            {tradeLoading === TradeLoading.CONFIRM && (
               <div className="trade-loading">
                 <img width={200} src={animation} />
                 Confirming...
               </div>
             )}
 
-            {offerComplated && (
+            {tradeLoading === TradeLoading.CREATED && (
               <div className="trade-loading">
                 <FontAwesomeIcon
                   color="#325d96"
