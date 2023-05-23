@@ -8,7 +8,8 @@ const pageSize = 5;
 export default function ReceivedTrades() {
 const [ activeTrades, setActiveTrades ] = useState([]);
 const [ tradeTerms, setTradeTerms ] = useState(false);
-const [offerApproval, setOfferApproval] = useState("");
+const [askApprovalType, setAskApprovalType] = useState(false);
+const [currentApproval, setCurrentApproval] = useState({});
 const [loading, setLoading] = useState(true);
 
 const { showAlert } = useContext(AlertContext);
@@ -79,40 +80,58 @@ function acceptTradeOffer(id, index){
       return showAlert(missingError, "error", 2000);
     }
 
-    const requestForAll = true;
-    const alreadyApproved = {};
+    setCurrentApproval({ id, index, missing});
 
-    for (let i = 0; i < missing.length; i++) {
-      if (requestForAll) {
-        if (alreadyApproved[missing[i].contractAddress]) {
-          continue;
-        }
-
-        showAlert("Requesting approval for " + missing[i].collection.name(), "info");
-      } else {
-        showAlert("Requesting approval for " + missing[i].name(), "info");
-      }
-
-      const { error } = await requestApproval(missing[i], requestForAll);
-      if (error) {
-        return showAlert(error, "error", 2000);
-      }
-
-      if (requestForAll) {
-        alreadyApproved[missing[i].contractAddress] = true;
-      }
+    if (missing.length > 0) {
+      showAlert("Waiting for user to choose an approval type...", "info");
+      setAskApprovalType(true);
+      return;
     }
 
-    showAlert("Confirming transaction with your wallet...", "info");
+    await approveAndConfirm();
+  })
+}
 
-    const { error } = await acceptOffer(id,index);
+async function approveAndConfirm(requestForAll) {
+  const alreadyApproved = {};
+  const { id, index, missing } = currentApproval;
+
+  setAskApprovalType(false);
+
+  if (!id || !index || !missing) {
+    return;
+  }
+
+  for (let i = 0; i < missing.length; i++) {
+    if (requestForAll) {
+      if (alreadyApproved[missing[i].contractAddress]) {
+        continue;
+      }
+
+      showAlert("Requesting approval for " + missing[i].collection.name(), "info");
+    } else {
+      showAlert("Requesting approval for " + missing[i].name(), "info");
+    }
+
+    const { error } = await requestApproval(missing[i], requestForAll);
     if (error) {
       return showAlert(error, "error", 2000);
     }
 
-    showAlert("Offer accepted.", null, 2000);
-    fetchData();
-  })
+    if (requestForAll) {
+      alreadyApproved[missing[i].contractAddress] = true;
+    }
+  }
+
+  showAlert("Confirming transaction with your wallet...", "info");
+
+  const { error } = await acceptOffer(id,index);
+  if (error) {
+    return showAlert(error, "error", 2000);
+  }
+
+  showAlert("Offer accepted.", null, 2000);
+  fetchData();
 }
 
 async function cancelTradeOffer(id, index) {
@@ -127,6 +146,25 @@ async function cancelTradeOffer(id, index) {
 
 return (
 <div>
+  {askApprovalType && <div className="trade-loading">
+      <p>Choose a transfer approval method:</p>
+      <button onClick={() => approveAndConfirm(false)}>Approve for each NFT</button>
+      <button onClick={() => approveAndConfirm(true)}>Approve the Collection</button>
+      <p>
+      Approve for each NFT:<br/>
+      This button allows you to approve the transfer of each NFT individually.
+      You will need to give approval for each specific NFT before it can be transferred to another address.
+      Under the ERC721 standard, if you grant approval to another address or smart contract (e.g. marketplaces) for this token, your previous approval will be revoked.
+      </p>
+      <p>
+      Approve whole COLLECTION:<br/>
+      This button grants approval for the entire collection of NFTs.
+      Once approved, all NFTs within the collection can be transferred to other addresses without the need for individual approvals.
+      You won't be asked to approve these collections each time you create or accept an offer unless you revoke the approval.
+      </p>
+    </div>
+  }
+
 {pageTrades.map((offer) => (
 <div key={offer.index} className="trade-offer-wrapper">
   <div className="trade-offer-header">
