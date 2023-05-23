@@ -169,17 +169,11 @@ export default function CreateOffer() {
 
   function prevStep() {
     if (currentTradeStep === 3) {
-      setWantOffer([]);
-      setNftWantIndex([]);
       setradeStepClass("trade-bar-line trade-step-2");
       setcurrentTradeStep(2);
     }
 
     if (currentTradeStep === 2) {
-      setWantOffer([]);
-      setHaveOffer([]);
-      setNftHaveIndex([]);
-      setNftWantIndex([]);
       setradeStepClass("trade-bar-line trade-step-1");
       setcurrentTradeStep(1);
     } else {
