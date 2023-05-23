@@ -3,37 +3,21 @@ import "../App.css";
 import TradeItem from "../components/TradeItem";
 import { getNFTs } from "../web3/Inventory";
 import { getWalletAddress } from "../web3/WalletConnect";
+import paginate from '../utils/paginate';
 
 export default function Inventory() {
   const [loading, setLoading] = useState(true);
-
   const [walletAddress, setWalletAddress] = useState("");
-
-
   const [haveNFTs, setHaveNFTs] = useState([]);
 
   const pageSize = 10;
-
-  const [currentHavePage, setCurrentHavePage] = useState(1);
-
-  const startHaveIndex = (currentHavePage - 1) * pageSize;
-
-  const endHaveIndex = startHaveIndex + pageSize;
-
-  const currentHaveItems = haveNFTs.slice(startHaveIndex, endHaveIndex);
-
-  const totalHavePages = Math.ceil(haveNFTs.length / pageSize);
-
-  const havePageNumbers = Array.from(
-    { length: totalHavePages },
-    (_, i) => i + 1
-  );
-
+  const [currentPage, setCurrentPage] = useState(1);
   const handlePageClick = (pageNumber) => {
-      setLoading(true);
-      setCurrentHavePage(pageNumber);
-      setLoading(false);
+    setLoading(true);
+    setCurrentPage(pageNumber);
+    setLoading(false);
   };
+  const { page, buttons } = paginate(pageSize, currentPage, haveNFTs, handlePageClick);
 
   useEffect(() => {
     setWalletAddress(getWalletAddress());
@@ -61,7 +45,7 @@ export default function Inventory() {
           {loading && <h2>Loading...</h2>}
           </div>
 
-          {!loading && currentHaveItems.map((have, idx) => (
+          {!loading && page.map((have, idx) => (
                 <TradeItem
                   key={idx}
                   class={'nft-trade-item'}
@@ -74,15 +58,7 @@ export default function Inventory() {
           ))}
 
           <div className="trade-offer-pagination">
-            {havePageNumbers.map((pageNumber) => (
-              <button
-                key={pageNumber}
-                onClick={() => handlePageClick(pageNumber)}
-                disabled={currentHavePage === pageNumber}
-              >
-                {pageNumber}
-              </button>
-            ))}
+            {buttons}
           </div>
     </div>
   );
