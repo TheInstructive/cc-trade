@@ -12,6 +12,7 @@ import {
   erc721ABI,
   fetchEnsName,
   fetchEnsAddress,
+  fetchBalance,
 } from '@wagmi/core';
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
 import { Web3Modal } from "@web3modal/react";
@@ -87,6 +88,14 @@ export function Contract(contractAddress, abi) {
 
   return {
     async write(functionName, args, overrides) {
+      if (overrides && overrides.value) {
+        const balance = await fetchBalance({ address });
+
+        if (balance.value.lt(overrides.value)) {
+          throw new Web3ClientError("Insufficient balance for transaction.");
+        }
+      }
+
       const config = await prepareWriteContract({
         address: contractAddress,
         abi,
