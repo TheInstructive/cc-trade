@@ -283,27 +283,31 @@ export async function getRemoteTokens(contractAddress, address) {
 }
 
 export async function getCronosID({ name, address }) {
-  if (address) {
-    const name = await fetchEnsName({ address });
-
-    return {
-      name,
-      address,
-    };
-  }
-
-  if (name) {
-    const address = await fetchEnsAddress({ name });
-
-    return {
-      name,
-      address,
-    };
+  try {
+    if (address) {
+      const name = await fetchEnsName({ address });
+  
+      return {
+        name,
+        address,
+      };
+    }
+  
+    if (name) {
+      const address = await fetchEnsAddress({ name });
+  
+      return {
+        name,
+        address,
+      };
+    }
+  } catch (err) {
+    console.error("Error while fetching wallet details", err);
   }
 
   return {
-    name: null,
-    address: null,
+    name,
+    address,
   }
 }
 
