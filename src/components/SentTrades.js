@@ -1,17 +1,23 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { getActiveOffers, cancelOffer, onWalletChange, getCronosID } from "../web3/WalletConnect";
 import { AlertContext } from './Alert';
+import paginate from '../utils/paginate';
 
-const TRADES_PER_PAGE = 5;
+const pageSize = 5;
 
 export default function SentTrades() {
 const [ activeTrades, setActiveTrades ] = useState([]);
-const [ page, setPage ] = useState(0);
 const [loading, setLoading] = useState(true);
 const { showAlert } = useContext(AlertContext);
 
-const pageStartIndex = TRADES_PER_PAGE * page;
-const pageTrades = activeTrades.slice(pageStartIndex, pageStartIndex + TRADES_PER_PAGE);
+const [currentPage, setCurrentPage] = useState(1);
+const handlePageClick = (pageNumber) => {
+  setLoading(true);
+  setCurrentPage(pageNumber);
+  setLoading(false);
+};
+const { page: pageTrades, buttons } = paginate(pageSize, currentPage, activeTrades, handlePageClick);
+
 
 async function fetchTradeDetails(trades) {
   try {
@@ -130,6 +136,10 @@ return (
 {!loading && pageTrades.length < 1 &&
  <h2>You have no offers.</h2>
 }
+</div>
+
+<div className="trade-offer-pagination">
+{buttons}
 </div>
 
 
