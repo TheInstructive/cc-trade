@@ -302,7 +302,11 @@ export async function getCronosID({ name, address }) {
       };
     }
   } catch (err) {
-    console.error("Error while fetching wallet details", err);
+    if (err.message !== "network does not support ENS") {
+      console.warn("Network doesn't support ENS");
+    } else {
+      console.error("Error while fetching wallet details", err);
+    }
   }
 
   return {
