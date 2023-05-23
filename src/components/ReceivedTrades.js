@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { AlertContext } from './Alert';
-import { getActiveOffers, acceptOffer, cancelOffer, onWalletChange, getMissingApprovals, getCronosID } from "../web3/WalletConnect";
+import { getActiveOffers, acceptOffer, cancelOffer, onWalletChange, getMissingApprovals, getCronosID, requestApproval } from "../web3/WalletConnect";
 
 const TRADES_PER_PAGE = 5;
 
@@ -73,9 +73,28 @@ function acceptTradeOffer(id, index){
       return showAlert(missingError, "error", 2000);
     }
 
-    if(missing.length>0){
-      return showAlert("NFT(s) not eligible for trade.", "error", 2000);
+    const requestForAll = true;
+    const alreadyApproved = {};
 
+    for (let i = 0; i < missing.length; i++) {
+      if (requestForAll) {
+        if (alreadyApproved[missing[i].contractAddress]) {
+          continue;
+        }
+
+        showAlert("Requesting approval for " + missing[i].collection.name(), "info");
+      } else {
+        showAlert("Requesting approval for " + missing[i].name(), "info");
+      }
+
+      const { error } = await requestApproval(missing[i], requestForAll);
+      if (error) {
+        return showAlert(error, "error", 2000);
+      }
+
+      if (requestForAll) {
+        alreadyApproved[missing[i].contractAddress] = true;
+      }
     }
 
     showAlert("Confirming transaction with your wallet...", "info");

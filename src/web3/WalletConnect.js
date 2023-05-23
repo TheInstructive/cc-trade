@@ -16,7 +16,7 @@ import {
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
 import { Web3Modal } from "@web3modal/react";
 import { publicProvider } from '@wagmi/core/providers/public';
-import { BigNumber, utils } from 'ethers';
+import { BigNumber, utils, constants } from 'ethers';
 
 import { localNet, cronosMainnet, cronosTestnet } from "./Chains";
 import Trader from "./trader/Contract";
@@ -187,19 +187,49 @@ async function setApprovalForAll(address, yes) {
   return {};
 }
 
-export async function requestApproval(collection) {
+async function approve(address, tokenID, yes) {
+  const spender = yes ? Trader.address(getNetworkName()) : constants.AddressZero;
+  const config = await prepareWriteContract({
+    address,
+    abi: erc721ABI,
+    functionName: 'approve',
+    args: [ spender, BigNumber.from(tokenID) ],
+    overrides: {
+      from: getWalletAddress(),
+    }
+  });
+  const { hash } = await writeContract(config);
+  const txReceipt = await waitForTransaction({ hash });
+
+  if (!txReceipt) {
+    throw new Web3ClientError("Transaction failed.");
+  }
+  return {};
+}
+
+export async function requestApproval(token, forAll) {
   try {
-    const address = collection.address(getNetworkName());
-    return await setApprovalForAll(address, true);
+    const address = token.collection.address(getNetworkName());
+
+    if (forAll) {
+      return await setApprovalForAll(address, true);
+    }
+
+    return await approve(address, token.id, true);
   } catch (err) {
     return returnError(err);
   }
 }
 
-export async function revokeApproval(collection) {
+export async function revokeApproval(token, forAll) {
   try {
-    const address = collection.address(getNetworkName());
-    return await setApprovalForAll(address, false);
+    const address = token.collection.address(getNetworkName());
+
+    if (forAll) {
+      return await setApprovalForAll(address, false);
+    }
+
+    return await approve(address, token.id, false);
   } catch (err) {
     return returnError(err);
   }
@@ -220,7 +250,23 @@ async function missingApprovals(contract, tokens) {
       args: [ userAddress, operatorAddress ],
     })),
   });
-  return results.map((ok, index) => !ok && contracts[index]).filter(Boolean);
+
+  // collection level missing approvals
+  const missing = results.map((ok, index) => !ok && contracts[index]).filter(Boolean);
+
+  // token level missing approvals
+  const missingTokens = missing.map(contractAddress => tokens.filter(token => token.contractAddress === contractAddress)).flat();
+
+  const approvedTo = await readContracts({
+    contracts: missingTokens.map(token => ({
+      address: token.contractAddress,
+      abi: erc721ABI,
+      functionName: 'getApproved',
+      args: [ BigNumber.from(token.id) ],
+    })),
+  });
+
+  return approvedTo.map((address, index) => address === operatorAddress ? null : missingTokens[index]).filter(x => x !== null);
 }
 
 export async function getRemoteTokens(contractAddress, address) {
@@ -307,7 +353,16 @@ export async function getMissingApprovals(options) {
     const missing = await missingApprovals(contract, tokens.filter(token => have ? token.have : !token.have));
 
     return {
-      missing: missing.map(address => CollectionByAddress(address, getNetworkName())),
+      missing: missing.map(token => ({
+        ...token,
+        collection: CollectionByAddress(token.contractAddress, getNetworkName()),
+        name() {
+          return this.collection.name(this.id);
+        },
+        image() {
+          return this.collection.image(this.id);
+        },
+      })),
     }
   } catch (err) {
     return returnError(err);
