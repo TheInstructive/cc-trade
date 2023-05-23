@@ -232,18 +232,35 @@ export default function CreateOffer() {
           return showAlert(offerError, "error", 2000);
         }
 
+        const requestForAll = false;
+        const alreadyApproved = {};
+    
         for (let i = 0; i < missing.length; i++) {
-          setConfirmButton(true);
-          setShowOfferApproval(true);
-          setOfferApproval(missing[i].name());
+          if (requestForAll) {
+            if (alreadyApproved[missing[i].contractAddress]) {
+              continue;
+            }
 
-          const { error } = await requestApproval(missing[i]);
+            setConfirmButton(true);
+            setShowOfferApproval(true);
+            setOfferApproval(missing[i].collection.name());
+          } else {
+            setConfirmButton(true);
+            setShowOfferApproval(true);
+            setOfferApproval(missing[i].name());
+          }
+
+          const { error } = await requestApproval(missing[i], requestForAll);
           if (error) {
             setConfirmButton(false);
             setOfferError(error);
             setOfferLoading(false);
             setShowOfferApproval(false);
             return showAlert(error, "error", 2000);
+          }
+
+          if (requestForAll) {
+            alreadyApproved[missing[i].contractAddress] = true;
           }
         }
 
@@ -307,7 +324,7 @@ export default function CreateOffer() {
             <div className="trade-steps-text">
               <div className="trade-step">SELECT YOUR NFT</div>
               <div className="trade-step">SELECT THEIR NFT</div>
-              <div className="trade-step">CONFIRM OFFER</div>
+              <div className="trade-step">CREATE OFFER</div>
             </div>
           </div>
         </div>
