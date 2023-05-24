@@ -80,7 +80,7 @@
     color: var(--both-white);
     font-family: 'Montserrat', sans-serif;
     padding: 1em;
-    width: 49.9%;
+    width: 50%;
     font-weight: 600;
     border: 0;
     cursor: pointer;
@@ -163,6 +163,77 @@
 }
 .cronos-id-section img{
     padding-right: 0.5em;
+}
+
+.approval-method-buttons{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-around;
+}
+
+.approval-detail button{
+    padding: 1em;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    background-color: var(--news-title);
+    margin-top: 1em;
+    color: var(--both-white);
+    border: 0;
+    cursor: pointer;
+}
+
+.approval-detail button:hover{
+    background-color: #2a69df;
+}
+
+.approval-method-details{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.approval-detail{
+    width: 45%;
+    font-family: 'Montserrat', sans-serif;
+    background-color: black;
+    padding-bottom: 1em;
+}
+
+.approval-detail p{
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+
+}
+
+.approval-detail h3{
+    font-family: 'Montserrat', sans-serif;
+    margin: 0;
+    background-color: var(--blue);
+    text-align: center;
+    margin-bottom: 0.2em;
+    padding: 0.3em;
+}
+
+.chose-a-method{
+    width: 100%;
+    background-color: var(--news-title);
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.chose-a-method p{
+    padding: 0;
+    margin: 0;
+    padding: 0.4em;
 }
 
 @media only screen and (max-width: 1000px) {

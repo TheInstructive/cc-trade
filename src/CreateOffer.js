@@ -66,10 +66,10 @@ export default function CreateOffer() {
   const [currentWantPage, setCurrentWantPage] = useState(1);
 
   const handlePageClick = (pageNumber) => {
-    if (currentTradeStep === 1) {
+    if (currentTradeStep === 2) {
       setCurrentHavePage(pageNumber);
     }
-    else if (currentTradeStep === 2) {
+    else if (currentTradeStep === 1) {
       setCurrentWantPage(pageNumber);
     }
   };
@@ -125,14 +125,14 @@ export default function CreateOffer() {
 
   function nextStep() {
     if (currentTradeStep === 1) {
-      if (haveOffer.length === 0) {
+      if (wantOffer.length === 0) {
         return showAlert("SELECT AT LEAST ONE NFT TO CONTINUE", "error", 2000);
       }
       setradeStepClass("trade-bar-line trade-step-2");
       setcurrentTradeStep(2);
     }
     if (currentTradeStep === 2) {
-      if (wantOffer.length === 0) {
+      if (haveOffer.length === 0) {
         return showAlert("SELECT AT LEAST ONE NFT TO CONTINUE", "error", 2000);
       }
       setradeStepClass("trade-bar-line trade-step-3");
@@ -312,10 +312,6 @@ export default function CreateOffer() {
     setradeStepClass("trade-bar-line trade-step-4");
   }
 
-  function revokeCollection() {
-    revokeApproval(Collections[0]);
-  }
-
   return (
     <div style={{ position: "relative" }}>
       <Alert />
@@ -351,8 +347,8 @@ export default function CreateOffer() {
             </div>
 
             <div className="trade-steps-text">
-              <div className="trade-step">SELECT YOUR NFT</div>
               <div className="trade-step">SELECT THEIR NFT</div>
+              <div className="trade-step">SELECT YOUR NFT</div>
               <div className="trade-step">CREATE OFFER</div>
             </div>
           </div>
@@ -363,15 +359,15 @@ export default function CreateOffer() {
         <div className="create-offer-header-right">
           {currentTradeStep === 1 && (
             <p>
-              These are the NFT(s) that will be transferred to the other party
-              when they accept your offer.
+            These are the NFT(s) that you will receive when the other party
+            accepts your offer.
             </p>
           )}
           {currentTradeStep === 2 && (
-            <p>
-              These are the NFT(s) that you will receive when the other party
-              accepts your offer.
-            </p>
+          <p>
+          These are the NFT(s) that will be transferred to the other party
+          when they accept your offer.
+          </p>
           )}
           {currentTradeStep === 3 && <p>Please check and confirm the offer.</p>}
         </div>
@@ -404,7 +400,44 @@ export default function CreateOffer() {
       </div>
 
       <div className="create-offer-container">
-        {currentTradeStep === 1 && (
+
+      {currentTradeStep === 1 && (
+          <>
+            <>
+              {currentWantItems.map((want) => (
+                <TradeItem
+                  key={want.index}
+                  class={
+                    nftWantIndex.some((obj) => obj === want.index)
+                      ? "nft-trade-item selected-nft"
+                      : "nft-trade-item"
+                  }
+                  nftid={want.id}
+                  nftimage={want.image}
+                  nftname={want.name}
+                  mintedURL={`https://minted.network/collections/cronos/${want.address}/${want.id}`}
+                  onSelectNFT={() =>
+                    nftSelected(
+                      want.address,
+                      want.id,
+                      want.image,
+                      want.name,
+                      false,
+                      want.index
+                    )
+                  }
+                  showCheckbox={true}
+                />
+              ))}
+            </>
+
+            <div className="trade-offer-pagination">
+              {wantPageButtons}
+            </div>
+          </>
+        )}
+
+        {currentTradeStep === 2 && (
           <>
             {tradeLoading === TradeLoading.LOADING && (
               <div className="trade-loading" style={{width:"100%",height:"100px",position:"initial"}}>
@@ -444,62 +477,36 @@ export default function CreateOffer() {
           </>
         )}
 
-        {currentTradeStep === 2 && (
-          <>
-            <>
-              {currentWantItems.map((want) => (
-                <TradeItem
-                  key={want.index}
-                  class={
-                    nftWantIndex.some((obj) => obj === want.index)
-                      ? "nft-trade-item selected-nft"
-                      : "nft-trade-item"
-                  }
-                  nftid={want.id}
-                  nftimage={want.image}
-                  nftname={want.name}
-                  mintedURL={`https://minted.network/collections/cronos/${want.address}/${want.id}`}
-                  onSelectNFT={() =>
-                    nftSelected(
-                      want.address,
-                      want.id,
-                      want.image,
-                      want.name,
-                      false,
-                      want.index
-                    )
-                  }
-                  showCheckbox={true}
-                />
-              ))}
-            </>
-
-            <div className="trade-offer-pagination">
-              {wantPageButtons}
-            </div>
-          </>
-        )}
-
         {currentTradeStep === 3 && (
           <div style={{ width:'100%'}}>
             {tradeLoading === TradeLoading.APPROVE_TYPE && (
               <div className="trade-loading">
-                <img width={200} src={animation} />
-                <p>Choose a transfer approval method:</p>
-                <button onClick={() => approveAndConfirm(false)}>Approve for each NFT</button>
-                <button onClick={() => approveAndConfirm(true)}>Approve the Collection</button>
-                <p>
-                Approve for each NFT:<br/>
-                This button allows you to approve the transfer of each NFT individually.
-                You will need to give approval for each specific NFT before it can be transferred to another address.
-                Under the ERC721 standard, if you grant approval to another address or smart contract (e.g. marketplaces) for this token, your previous approval will be revoked.
-                </p>
-                <p>
-                Approve whole COLLECTION:<br/>
-                This button grants approval for the entire collection of NFTs.
-                Once approved, all NFTs within the collection can be transferred to other addresses without the need for individual approvals.
-                You won't be asked to approve these collections each time you create or accept an offer unless you revoke the approval.
-                </p>
+                <img width={150} src={animation} />
+                <div className="chose-a-method">
+                <p>CHOOSE A TRANSFER APPROVAL METHOD</p>
+                </div>
+                <div className="approval-method-details">
+                  <div className="approval-detail">
+                    <p>
+                    <h3>APPROVE FOR EACH NFT</h3>
+                    This button allows you to approve the transfer of each NFT individually.
+                    You will need to give approval for each specific NFT before it can be transferred to another address.
+                    Under the ERC721 standard, if you grant approval to another address or smart contract (e.g. marketplaces) for this token, your previous approval will be revoked.
+                    </p>
+                    <button onClick={() => approveAndConfirm(false)}>APPROVE FOR EACH NFT</button>
+
+                  </div>
+                  <div className="approval-detail">
+                    <p>
+                    <h3>APPROVE WHOLE COLLECTION</h3>
+                    This button grants approval for the entire collection of NFTs.
+                    Once approved, all NFTs within the collection can be transferred to other addresses without the need for individual approvals.
+                    You won't be asked to approve these collections each time you create or accept an offer unless you revoke the approval.
+                    </p>
+                    <button onClick={() => approveAndConfirm(true)}>APPROVE WHOLE COLLECTION</button>
+
+                  </div>
+                </div>
               </div>
             )}
 
@@ -535,7 +542,7 @@ export default function CreateOffer() {
             <div className="trade-offer-container">
               <div className="given-nfts-container">
                 <div className="trade-confirm-text">
-                  <h3>YOU OFFERED</h3>
+                  <h3>YOU WANT</h3>
                 </div>
 
                 <div className="given-nfts">
@@ -556,7 +563,7 @@ export default function CreateOffer() {
 
               <div className="given-nfts-container">
                 <div className="trade-confirm-text">
-                  <h3>YOU WANT</h3>
+                  <h3>YOU OFFERED</h3>
                 </div>
 
                 <div className="given-nfts">

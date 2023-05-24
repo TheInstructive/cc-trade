@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react'
 import { AlertContext } from './Alert';
 import { getActiveOffers, acceptOffer, cancelOffer, onWalletChange, getMissingApprovals, getCronosID, requestApproval } from "../web3/WalletConnect";
 import paginate from '../utils/paginate';
+import TradeItem from './TradeItem';
 
 const pageSize = 5;
 
@@ -168,10 +169,6 @@ return (
 {pageTrades.map((offer) => (
 <div key={offer.index} className="trade-offer-wrapper">
   <div className="trade-offer-header">
-    <div className="offer-date">
-      <h3>31.03.2023</h3>
-    </div>
-
     <h3><b>{offer.name || offer.address}</b> <br/> OFFERED YOU</h3>
     <div className="trade-status-active">ACTIVE</div>
   </div>
@@ -179,42 +176,48 @@ return (
 
     <div className="trade-offer-container">
       <div className="given-nfts-container">
-        <h3>YOUR NFT(S):</h3>
-        <div className="given-nfts">
+        <div className='given-nfts-title'><h3>THEIR NFT(S)</h3></div>
+
+      <div className="given-nfts">
         {offer.want.map((nft, i) => (
-            <div key={i} className="offered-nft-item">
-              <div className="offered-nft-image">
-                <img width={100} src={nft.image} alt={nft.name} />
-              </div>
-              <div className="offered-nft-information">
-                <a>{nft.name}</a>
-              </div>
-            </div>
-            ))}
-        </div>
+        <TradeItem
+                  key={i}
+                  class={'nft-trade-item'}
+                  nftimage={nft.image}
+                  nftname={nft.name}
+                  showCheckbox={false}
+                  onSelectNFT={() => ""} 
+                  mintedURL={`https://minted.network/collections/cronos/${nft.address}/${nft.id}`}
+                />
+                
+          ))}
+      </div>
       </div>
 
       <div className="given-nfts-container">
-        <h3>THEIR NFT(S):</h3>
+      <div className='given-nfts-title'><h3>YOUR NFT(S)</h3></div>
+
         <div className="given-nfts">
         {offer.have.map((nft, i) => (
-            <div key={i} className="offered-nft-item">
-              <div className="offered-nft-image">
-                <img width={100} src={nft.image} alt={nft.name} />
-              </div>
-              <div className="offered-nft-information">
-                <a>{nft.name}</a>
-              </div>
-            </div>
-            ))}
-        </div>
+        <TradeItem
+                  key={i}
+                  class={'nft-trade-item'}
+                  nftimage={nft.image}
+                  nftname={nft.name}
+                  showCheckbox={false}
+                  onSelectNFT={() => ""} 
+                  mintedURL={`https://minted.network/collections/cronos/${nft.address}/${nft.id}`}
+                />
+                
+          ))}
+      </div>
       </div>
     </div>
 
         <div className="trade-offer-buttons">
             <div className="terms">
-            <input checked={tradeTerms} onChange={() => acceptTerms()} required={true} type="checkbox"></input> I agreed to transfer
-            ownership of the specified NFT(s) to the user making the offer.
+            <input id='accepterms' checked={tradeTerms} onChange={() => acceptTerms()} required={true} type="checkbox"></input> 
+            <label htmlFor='accepterms'>I agreed to transfer ownership of the specified NFT(s) to the user making the offer.</label>
             </div>
 
             <div>

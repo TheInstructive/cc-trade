@@ -93,8 +93,8 @@ export default function TradePage() {
 
                 <div className='trade-offer-desc'>
                   <ul>
-                  <li>Please enter a wallet address or cronos id and click Trade Page button.</li>
-                  <li>You'll redirect to trade page and create trade offers to this address.</li>
+                  <li>Please enter the Trader's wallet address or Cronos ID and click the Trade button.</li>
+                  <li>You will be redirected to the trade page where you can create trade offers.</li>
                   </ul>
                 </div>
 
@@ -112,8 +112,8 @@ export default function TradePage() {
 
                 <div className='trade-offer-desc'>
                   <ul>
-                  <li>Click to copy url button to copy your trade url.</li>
-                  <li>Share it anyone who want to trade with you!</li>
+                  <li>Click the "Copy URL" button to easily copy your trade URL</li>
+                  <li>Share your trade URL with anyone who wants to trade with you!</li>
                   </ul>
                 </div>
 

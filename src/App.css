@@ -29,8 +29,8 @@
 [data-theme=dark]{
   --main: #212121;
   --main1: #101010;
-  --main2: #050505;
-  --main3: #010101;
+  --main2: #080808;
+  --main3: #000000;
   --blue: #325d96;
   --header: #191919;
   --text: #fff;
@@ -783,13 +783,13 @@ cursor: pointer;
 
 .trade-offer-wrapper{
   width: 100%;
-  border: 1px solid rgb(13, 76, 136);
-  margin-bottom: 3em;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
 }
 
 .trade-offer-header{
   width: 100%;
-  background-color: var(--news-title);
+  background-color: var(--main3);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -809,17 +809,14 @@ cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--both-white);
+  color: var(--text);
 }
 
 
 .trade-offer-header h3 b{
-  background-color: #00000060;
-  padding: 0.1em;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  padding-bottom: 0;
-  padding-top: 0;
+ color: var(--blue);
+ font-weight: 800;
+
 }
 
 .trade-offer-pagination{
@@ -858,13 +855,12 @@ cursor: pointer;
 }
 
 .trade-status-active{
-  background-color: rgb(39, 167, 66);
+  border: 2px solid rgb(39, 167, 66) ;
   padding: 0.5em;
-  border-radius: 1em;
   padding-right: 2em;
   padding-left: 2em;
   font-weight: 600;
-  color: var(--both-white);
+  color: var(--text);
 }
 
 .trade-status-deactive{
@@ -897,13 +893,6 @@ cursor: pointer;
   color: var(--text);
 }
 
-.given-nfts-container h3{
-  font-family: 'Montserrat', sans-serif;
-  padding: 1em;
-  margin-bottom: 0;
-  margin-top: 0;
-  padding-bottom: 0;
-}
 
 .given-nfts{
   display: flex;
@@ -911,6 +900,19 @@ cursor: pointer;
   flex-wrap: wrap;
   width: 100%;
   justify-content: center;
+}
+
+.given-nfts-title{
+  width: 100%;
+  text-align: center;
+  background-color: var(--blue);
+  color: var(--both-white);
+}
+
+.given-nfts-title h3{
+  font-family: 'Montserrat', sans-serif;
+  padding: 0.5em;
+  margin: 0;
 }
 
 .trade-offer-buttons{
@@ -925,9 +927,10 @@ cursor: pointer;
   background-color: var(--main3);
 }
 
-.terms{
-  font-size: 0.8em;
-  padding: 1em;
+.terms label{
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  padding: 0.2em;  
 }
 
 .terms b{
