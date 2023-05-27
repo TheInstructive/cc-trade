@@ -29,7 +29,9 @@ const TradeLoading = {
   APPROVE_MSG: 3,
   CONFIRM: 4,
   CREATED: 5,
-  LOADING: 6,
+
+  LOADING: 1000,
+  LOADING_OTHER: 1001,
 };
 
 export default function CreateOffer() {
@@ -54,8 +56,8 @@ export default function CreateOffer() {
   const [offerError, setOfferError] = useState("");
   const [offerApproval, setOfferApproval] = useState("");
 
-  const [haveNFTs, setHaveNFTs] = useState([]);
-  const [wantNFTs, setWantNFTs] = useState([]);
+  const [haveNFTs, setHaveNFTs] = useState(null);
+  const [wantNFTs, setWantNFTs] = useState(null);
 
   const [haveOffer, setHaveOffer] = useState([]);
   const [wantOffer, setWantOffer] = useState([]);
@@ -74,8 +76,8 @@ export default function CreateOffer() {
     }
   };
 
-  const { page: currentHaveItems, buttons: havePageButtons } = paginate(pageSize, currentHavePage, haveNFTs, handlePageClick);
-  const { page: currentWantItems, buttons: wantPageButtons } = paginate(pageSize, currentWantPage, wantNFTs, handlePageClick);
+  const { page: currentHaveItems, buttons: havePageButtons } = paginate(pageSize, currentHavePage, haveNFTs || [], handlePageClick);
+  const { page: currentWantItems, buttons: wantPageButtons } = paginate(pageSize, currentWantPage, wantNFTs || [], handlePageClick);
 
   function loadTargetWallet() {
     if (walletadrs.startsWith("0x")) {
@@ -99,41 +101,45 @@ export default function CreateOffer() {
 
   useEffect(() => {
     setWalletAddress(getWalletAddress());
-
-    if (isWalletConnected()) {
-      loadTargetWallet();
-    }
+    loadTargetWallet();
 
     onWalletChange(() => {
-      loadTargetWallet();
+      setWalletAddress(getWalletAddress());
     });
   }, [walletadrs]);
 
   useEffect(() => {
+    if (!wantNFTs && !haveNFTs) {
+      return;
+    }
+
+    if (tradeLoading === TradeLoading.LOADING) {
+      setTradeLoading(TradeLoading.LOADING_OTHER);
+    }
+    else if (tradeLoading === TradeLoading.LOADING_OTHER) {
+      setTradeLoading(TradeLoading.HIDDEN);
+    }
+  }, [wantNFTs, haveNFTs]);
+
+  useEffect(() => {
     if (walletAddress) {
       getNFTs(walletAddress)
-        .then((have) => {
-          if (have) {
-            setHaveNFTs(have);
-          }
-
-          setTradeLoading(TradeLoading.HIDDEN);
-        })
+        .then((have) => have && setHaveNFTs(have))
         .catch(console.error);
     }
   }, [walletAddress]);
 
   function nextStep() {
     if (currentTradeStep === 1) {
-      if (wantOffer.length === 0) {
-        return showAlert("SELECT AT LEAST ONE NFT TO CONTINUE", "error", 2000);
-      }
       setradeStepClass("trade-bar-line trade-step-2");
       setcurrentTradeStep(2);
     }
     if (currentTradeStep === 2) {
+      if (wantOffer.length === 0) {
+        return showAlert("SELECT AT LEAST ONE NFT YOU WANT TO CONTINUE", "error", 2000);
+      }
       if (haveOffer.length === 0) {
-        return showAlert("SELECT AT LEAST ONE NFT TO CONTINUE", "error", 2000);
+        return showAlert("SELECT AT LEAST ONE NFT YOU HAVE TO CONTINUE", "error", 2000);
       }
       setradeStepClass("trade-bar-line trade-step-3");
       setcurrentTradeStep(3);
@@ -401,6 +407,12 @@ export default function CreateOffer() {
 
       <div className="create-offer-container">
 
+      {tradeLoading >= TradeLoading.LOADING && (
+        <div className="trade-loading" style={{width:"100%",height:"100px",position:"initial"}}>
+          Loading...
+        </div>
+      )}
+
       {currentTradeStep === 1 && (
           <>
             <>
@@ -429,6 +441,10 @@ export default function CreateOffer() {
                   showCheckbox={true}
                 />
               ))}
+
+              {!currentWantItems.length && tradeLoading < TradeLoading.LOADING && <div>
+                <h3>There is no tradeable NFT found.</h3>
+              </div>}
             </>
 
             <div className="trade-offer-pagination">
@@ -439,12 +455,6 @@ export default function CreateOffer() {
 
         {currentTradeStep === 2 && (
           <>
-            {tradeLoading === TradeLoading.LOADING && (
-              <div className="trade-loading" style={{width:"100%",height:"100px",position:"initial"}}>
-                Loading...
-              </div>
-            )}
-
             <>
               {currentHaveItems.map((have) => (
                 <TradeItem
@@ -470,6 +480,10 @@ export default function CreateOffer() {
                   }
                 />
               ))}
+
+              {!currentHaveItems.length && tradeLoading < TradeLoading.LOADING && <div>
+                <h3>There is no tradeable NFT found.</h3>
+              </div>}
             </>
             <div className="trade-offer-pagination">
               {havePageButtons}
