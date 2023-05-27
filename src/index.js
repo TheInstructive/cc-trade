@@ -14,7 +14,7 @@ import Affiliate from './Affiliate';
 import BotPage from './BotPage';
 import NotFound from './NotFound';
 import CreateOffer from './CreateOffer';
-
+import Privacy from './Privacy';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -76,6 +76,10 @@ const router = createBrowserRouter([
       {
         path: "offer/:walletadrs",
         element: <CreateOffer />,
+      },
+      {
+        path: "privacy",
+        element: <Privacy />,
       },
     ],
   },
