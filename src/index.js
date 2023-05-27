@@ -12,6 +12,7 @@ import Launchpad from './Launchpad';
 import TradeOffer from './TradeOffer';
 import Affiliate from './Affiliate';
 import BotPage from './BotPage';
+import Privacy from './Privacy';
 
 import {
   createBrowserRouter,
@@ -66,6 +67,10 @@ const router = createBrowserRouter([
         path: "bot",
         element: <BotPage />,
       },
+      {
+        path: "privacy",
+        element: <Privacy />,
+      }
     ],
   },
 ]);

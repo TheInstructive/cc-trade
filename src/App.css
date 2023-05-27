@@ -2535,6 +2535,10 @@ margin-left: 0;
 
 }
 
+.privacy, .privacy a{
+  color: var(--text);
+}
+
 
 
 @keyframes step{
