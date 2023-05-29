@@ -48,7 +48,7 @@ export default function CreateOffer() {
 
   const [nftHaveIndex, setNftHaveIndex] = useState([]);
   const [nftWantIndex, setNftWantIndex] = useState([]);
-  const [missingApprovalList, setMissingApprovalList] = useState([]);
+  const [currentApproval, setCurrentApproval] = useState({});
   const { showAlert } = useContext(AlertContext);
 
   const [details, setDetails] = useState({});
@@ -263,21 +263,28 @@ export default function CreateOffer() {
           return showAlert(offerError, "error", 2000);
         }
 
-        setMissingApprovalList(missing);
-
         if (missing.length > 0) {
+          setCurrentApproval({ missing });
           setTradeLoading(TradeLoading.APPROVE_TYPE);
           return;
         }
 
-        await approveAndConfirm();
+        setCurrentApproval({ missing, autoApprove: true });
       }
     );
   }
 
+  useEffect(() => {
+    const { autoApprove } = currentApproval;
+  
+    if (autoApprove) {
+      approveAndConfirm().catch(console.error);
+    }
+  }, [currentApproval]);
+
   async function approveAndConfirm(requestForAll) {
     const alreadyApproved = {};
-    const missing = missingApprovalList;
+    const { missing } = currentApproval;
     const tokens = getTokens();
 
     for (let i = 0; i < missing.length; i++) {

@@ -97,18 +97,25 @@ export default function ReceivedTrades() {
           return showAlert(missingError, "error", 2000);
         }
 
-        setCurrentApproval({ id, index, missing });
-
         if (missing.length > 0) {
           showAlert("Waiting for user to choose an approval type...", "info");
+          setCurrentApproval({ id, index, missing });
           setAskApprovalType(true);
           return;
         }
 
-        await approveAndConfirm();
+        setCurrentApproval({ id, index, missing, autoApprove: true });
       }
     );
   }
+
+  useEffect(() => {
+    const { autoApprove } = currentApproval;
+
+    if (autoApprove) {
+      approveAndConfirm().catch(console.error);
+    }
+  }, [currentApproval]);
 
   async function approveAndConfirm(requestForAll) {
     const alreadyApproved = {};
@@ -116,7 +123,7 @@ export default function ReceivedTrades() {
 
     setAskApprovalType(false);
 
-    if (!id || !index || !missing) {
+    if (id == null || index == null || missing == null) {
       return;
     }
 
