@@ -13,6 +13,8 @@ import {
   fetchEnsName,
   fetchEnsAddress,
   fetchBalance,
+  switchNetwork,
+  SwitchChainNotSupportedError,
 } from '@wagmi/core';
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
 import { Web3Modal } from "@web3modal/react";
@@ -25,7 +27,7 @@ import { CollectionByAddress } from "./collections";
 import { Web3ClientError, returnError } from "./Error";
 
 
-const chains = [localNet, cronosMainnet, cronosTestnet];
+const chains = [cronosMainnet, cronosTestnet, localNet];
 const projectId = "c78c83145ebe7bdde30d318b1e15be49";
 
 
@@ -39,9 +41,50 @@ const wagmiClient = createClient({
   provider,
 });
 const ethereumClient = new EthereumClient(wagmiClient, chains);
+let pendingSwitchPromise = null;
 
 export const web3Modal = <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />;
 export { useWeb3Modal } from "@web3modal/react";
+
+async function autoSwitchNetwork() {
+  const { chain } = getNetwork();
+  if (!chain) {
+    return;
+  }
+
+  const available = chains.map(chain => chain.name);
+  if (available.includes(chain.name)) {
+    return;
+  }
+
+  if (pendingSwitchPromise) {
+    await pendingSwitchPromise;
+  }
+
+  let resolver, rejecter;
+  pendingSwitchPromise = new Promise((resolve, reject) => {
+    resolver = resolve;
+    rejecter = reject;
+  });
+
+  try {
+    await switchNetwork({
+      chainId: chains[0].id,
+    });
+  } catch (err) {
+    pendingSwitchPromise = null;
+    rejecter(err);
+
+    if (err instanceof SwitchChainNotSupportedError) {
+      throw new Web3ClientError("Please, switch to Cronos network on your wallet.");
+    }
+
+    throw err;
+  }
+
+  pendingSwitchPromise = null;
+  resolver();
+}
 
 export function getWalletAddress() {
   const { address } = getAccount();
@@ -280,6 +323,8 @@ async function missingApprovals(contract, tokens) {
 
 export async function getRemoteTokens(contractAddress, address) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
     const result = await contract.read('getRemoteTokens', [ contractAddress, address ]);
 
@@ -326,6 +371,8 @@ export async function getCronosID({ name, address }) {
 
 export async function getActiveOffers(page) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
     const address = contract.userAddress();
 
@@ -363,6 +410,8 @@ export async function getActiveOffers(page) {
 
 export async function getMissingApprovals(options) {
   try {
+    await autoSwitchNetwork();
+
     const { have } = options;
     const contract = TraderContract();
 
@@ -388,6 +437,8 @@ export async function getMissingApprovals(options) {
 
 export async function createOffer(address, tokens) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
     await contract.write('createOffer', [ address, tokens ], {
       value: utils.parseEther(Trader.payment(contract.network())),
@@ -400,6 +451,8 @@ export async function createOffer(address, tokens) {
 
 export async function acceptOffer(id, index) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
 
     await contract.write('acceptOffer', [ BigNumber.from(id), BigNumber.from(index) ], {
@@ -413,6 +466,8 @@ export async function acceptOffer(id, index) {
 
 export async function cancelOffer(id, index) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
     await contract.write('cancelOffer', [ BigNumber.from(id), BigNumber.from(index) ]);
     return {};
