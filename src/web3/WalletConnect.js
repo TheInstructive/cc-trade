@@ -292,6 +292,11 @@ async function missingApprovals(contract, tokens) {
     ret.add(token.contractAddress);
     return ret;
   }, new Set())];
+
+  if (!contracts.length) {
+    return [];
+  }
+
   const userAddress = contract.userAddress();
   const operatorAddress = contract.address();
   const results = await readContracts({
@@ -308,6 +313,9 @@ async function missingApprovals(contract, tokens) {
 
   // token level missing approvals
   const missingTokens = missing.map(contractAddress => tokens.filter(token => token.contractAddress === contractAddress)).flat();
+  if (!missingTokens.length) {
+    return [];
+  }
 
   const approvedTo = await readContracts({
     contracts: missingTokens.map(token => ({
