@@ -5,7 +5,7 @@ export default function Privacy() {
   return (
     <div style={{width:'100%', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', marginTop:'1em'}}>
     <div className='privacy'>
-    <h1>Cronos News</h1>
+    <h1>Cronos Club: Community Updates</h1>
     <strong>Privacy Policy</strong> <p>
                   Cronos Club built the Cronos News app as
                   a Free app. This SERVICE is provided by
