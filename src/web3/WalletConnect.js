@@ -22,19 +22,28 @@ import { publicProvider } from '@wagmi/core/providers/public';
 import { BigNumber, utils, constants } from 'ethers';
 
 import { localNet, cronosMainnet, cronosTestnet } from "./Chains";
+import { RockXProvider, AFEProvider, VVSProvider } from "./RPC";
 import Trader from "./trader/Contract";
 import { CollectionByAddress } from "./collections";
 import { Web3ClientError, returnError } from "./Error";
 
 
-const chains = [cronosMainnet, cronosTestnet, localNet];
+const IS_DEVELOPMENT_ENV = process?.env?.NODE_ENV === 'development';
 const projectId = "c78c83145ebe7bdde30d318b1e15be49";
+
+const chains = IS_DEVELOPMENT_ENV ? [cronosMainnet, cronosTestnet, localNet] : [cronosMainnet];
+const providers = IS_DEVELOPMENT_ENV ? [
+  publicProvider(),
+] : [
+  publicProvider(),
+  AFEProvider(),
+  RockXProvider(),
+  VVSProvider(),
+];
 
 
 // setup
-const { provider } = configureChains(chains, [
-  publicProvider(),
-]);
+const { provider } = configureChains(chains, providers);
 const wagmiClient = createClient({
   autoConnect: true,
   connectors: w3mConnectors({ version: 1, chains, projectId }),
