@@ -22,7 +22,7 @@ import { publicProvider } from '@wagmi/core/providers/public';
 import { BigNumber, utils, constants } from 'ethers';
 
 import { localNet, cronosMainnet, cronosTestnet } from "./Chains";
-import { RockXProvider, AFEProvider, VVSProvider } from "./RPC";
+import { RockXProvider, VVSProvider } from "./RPC";
 import Trader from "./trader/Contract";
 import { CollectionByAddress } from "./collections";
 import { Web3ClientError, returnError } from "./Error";
@@ -36,7 +36,6 @@ const providers = IS_DEVELOPMENT_ENV ? [
   publicProvider(),
 ] : [
   publicProvider(),
-  AFEProvider(),
   RockXProvider(),
   VVSProvider(),
 ];

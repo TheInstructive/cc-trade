@@ -10,16 +10,6 @@ export const RockXProvider = () => jsonRpcProvider({
   })
 });
 
-export const AFEProvider = () => jsonRpcProvider({
-  rpc: (chain) => chain.id === 25 ? ({
-    http: 'https://rpc.aliensfromearth.com',
-  }) : (chain.id === 338 ? ({
-    http: 'https://localhost',
-  }) : {
-    http: 'http://localhost'
-  })
-});
-
 export const VVSProvider = () => jsonRpcProvider({
   rpc: (chain) => chain.id === 25 ? ({
     http: 'https://rpc.vvs.finance/',
