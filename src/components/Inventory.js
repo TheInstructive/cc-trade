@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../App.css";
 import TradeItem from "../components/TradeItem";
 import { getNFTs } from "../web3/Inventory";
-import { getWalletAddress } from "../web3/WalletConnect";
+import { WalletContext } from "../web3/WalletConnect";
 import paginate from '../utils/paginate';
 
 export default function Inventory() {
   const [loading, setLoading] = useState(true);
-  const [walletAddress, setWalletAddress] = useState("");
   const [haveNFTs, setHaveNFTs] = useState([]);
+  const { address } = useContext(WalletContext);
 
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -20,13 +20,11 @@ export default function Inventory() {
   const { page, buttons } = paginate(pageSize, currentPage, haveNFTs, handlePageClick);
 
   useEffect(() => {
-    setWalletAddress(getWalletAddress());
-
     (async () => {
       setLoading(true);
 
       try {
-        const have = await getNFTs(walletAddress);
+        const have = await getNFTs(address);
         if (have) {
           setHaveNFTs(have);
         }
@@ -36,7 +34,7 @@ export default function Inventory() {
 
       setLoading(false);
     })();
-  }, [walletAddress]);
+  }, [address]);
 
 
   return (

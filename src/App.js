@@ -2,10 +2,10 @@ import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faHome, faBook, faMoon, faLightbulb} from '@fortawesome/free-solid-svg-icons'
 import {faDiscord, faTwitter} from '@fortawesome/free-brands-svg-icons'
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import logo from './images/logos.svg'
-import { web3Modal, useWeb3Modal, onWalletChange, isWalletConnected, getWalletName } from "./web3/WalletConnect";
+import { web3Modal, useWeb3Modal, getWalletName, WalletContext } from "./web3/WalletConnect";
 
 
 import { useTranslation } from 'react-i18next';
@@ -21,18 +21,16 @@ const languages = [
 
 function App() {
   const { isOpen: isModalOpen, open: openModal, close: closeModal } = useWeb3Modal();
-  const [ isConnected, setConnected ] = useState(false);
+  const { address, isConnected } = useContext(WalletContext);
   const [ walletName, setWalletName ] = useState("");
 
   useEffect(() => {
-    setConnected(isWalletConnected());
-    getWalletName().then(setWalletName);
-
-    onWalletChange((account) => {
-      setConnected(account.isConnected);
+    if (address && isConnected) {
       getWalletName().then(setWalletName);
-    });
-  }, []);
+    } else {
+      setWalletName("");
+    }
+  }, [address, isConnected]);
 
   function onConnectClick() {
     if (isModalOpen) {

@@ -1,22 +1,19 @@
-import React, { useRef, useEffect, useState, useContext } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowsLeftRight, faScaleBalanced, faArrowUpFromBracket, faWallet} from '@fortawesome/free-solid-svg-icons'
-import logo from './images/logos.png'
+import { faScaleBalanced, faArrowUpFromBracket, faWallet} from '@fortawesome/free-solid-svg-icons'
 import ReceivedTrades from './components/ReceivedTrades'
 import SentTrades from './components/SentTrades'
-import { onWalletChange, isWalletConnected, getWalletAddress } from "./web3/WalletConnect";
+import { WalletContext } from "./web3/WalletConnect";
 import { useTranslation } from 'react-i18next';
 import Inventory from './components/Inventory'
 import Alert, { AlertContext } from './components/Alert';
-import { Link } from 'react-router-dom'
 
 export default function TradePage() {
   const { t } = useTranslation();
   const { showAlert } = useContext(AlertContext);
 
   const [rederTab, setRenderTab] = useState(0)
-  const [ isConnected, setConnected ] = useState(false);
-  const [ walletAddress, setWalletAddress ] = useState("");
+  const { isConnected, address: walletAddress } = useContext(WalletContext);
   const tradeURL = `${window.location.protocol}//${window.location.host}/offer/${walletAddress}`;
   const [ sentOfferAddress, setSentOfferAddress ] = useState("");
   const offerAdress = `${window.location.protocol}//${window.location.host}/offer/${sentOfferAddress}`;
@@ -58,19 +55,6 @@ export default function TradePage() {
       console.log("Copy unsuccessful");
     }
   }
-
-  useEffect(() => {
-    setConnected(isWalletConnected());
-
-    setWalletAddress(getWalletAddress())
-    onWalletChange((account) => {
-      setConnected(account.isConnected);
-
-      if(account.address){
-        setWalletAddress(account.address)
-      }
-    });
-  }, []);
 
   return (
     <>

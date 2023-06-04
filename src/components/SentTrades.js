@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { getActiveOffers, cancelOffer, onWalletChange, getCronosID } from "../web3/WalletConnect";
+import { getActiveOffers, cancelOffer, getCronosID, WalletContext } from "../web3/WalletConnect";
 import { AlertContext } from './Alert';
 import paginate from '../utils/paginate';
 import TradeItem from './TradeItem';
@@ -10,6 +10,7 @@ export default function SentTrades() {
 const [ activeTrades, setActiveTrades ] = useState([]);
 const [loading, setLoading] = useState(true);
 const { showAlert } = useContext(AlertContext);
+const { address, isConnected } = useContext(WalletContext);
 
 const [currentPage, setCurrentPage] = useState(1);
 const handlePageClick = (pageNumber) => {
@@ -38,31 +39,28 @@ async function fetchTradeDetails(trades) {
   return trades;
 }
 
-useEffect(() => {
-  async function fetchData() {
-    setLoading(true);
+async function fetchData() {
+  setLoading(true);
 
-    const result = await getActiveOffers();
-    if (result.offers) {
-      const trades = result.offers.filter(trade => !trade.received).reverse();
-      setActiveTrades(trades);
-      setLoading(false);
-  
-      setActiveTrades(await fetchTradeDetails(trades));
-    } else {
-      console.error(result.error);
-    }
-
+  const result = await getActiveOffers();
+  if (result.offers) {
+    const trades = result.offers.filter(trade => !trade.received).reverse();
+    setActiveTrades(trades);
     setLoading(false);
-  }
-  fetchData();
 
-  onWalletChange((account) => {
-    if(account.address){
-      fetchData();
-    }
-  });
-}, []);
+    setActiveTrades(await fetchTradeDetails(trades));
+  } else {
+    console.error(result.error);
+  }
+
+  setLoading(false);
+}
+
+useEffect(() => {
+  if (address && isConnected) {
+    fetchData();
+  }
+}, [address, isConnected]);
 
 async function cancelTradeOffer(id, index) {
   const { error } = await cancelOffer(id, index);

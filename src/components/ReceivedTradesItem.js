@@ -6,7 +6,6 @@ import {
   getMissingApprovals,
   requestApproval,
 } from "../web3/WalletConnect";
-import paginate from "../utils/paginate";
 import TradeItem from "./TradeItem";
 import animation from "../images/animation.webp";
 

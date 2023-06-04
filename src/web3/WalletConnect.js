@@ -1,3 +1,4 @@
+import { useState, createContext, useEffect } from 'react';
 import {
   configureChains,
   createClient,
@@ -104,10 +105,6 @@ export function isWalletConnected() {
   return isConnected;
 }
 
-export function onWalletChange(callback) {
-  return watchAccount(callback);
-};
-
 export function getNetworkName() {
   const { chain } = getNetwork();
   if (!chain) {
@@ -125,6 +122,40 @@ export async function getWalletName() {
     console.error("Error while loading cronos.id", err);
   }
   return address;
+}
+
+export const WalletContext = createContext({
+  address: null,
+  isConnected: false,
+  network: null,
+});
+
+export function WalletProvider(props) {
+  const [address, setAddress] = useState(null);
+  const [isConnected, setConnected] = useState(false);
+  const [network, setNetwork] = useState(null);
+
+  function update() {
+    const account = getAccount();
+    const { chain } = getNetwork();
+
+    setAddress(account.address);
+    setConnected(account.isConnected);
+    setNetwork(chain);
+  }
+
+  useEffect(() => {
+    update();
+    watchAccount(update);
+  }, []);
+
+  return (
+    <WalletContext.Provider value={{
+      address, isConnected, network,
+    }}>
+      {props.children}
+    </WalletContext.Provider>
+  );
 }
 
 

@@ -4,7 +4,7 @@ import { faCheck, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TradeItem from "./components/TradeItem";
 import { getNFTs } from "./web3/Inventory";
-import { getWalletAddress, createOffer, getMissingApprovals, requestApproval, revokeApproval, getCronosID, isWalletConnected, onWalletChange } from "./web3/WalletConnect";
+import { createOffer, getMissingApprovals, requestApproval, revokeApproval, getCronosID, WalletContext } from "./web3/WalletConnect";
 import { useParams } from "react-router-dom";
 import animation from "./images/animation.webp";
 import { Link } from 'react-router-dom';
@@ -20,7 +20,7 @@ export default function TradeOffer() {
   );
   const [currentTradeStep, setcurrentTradeStep] = useState(1);
   const [warningClass, setwarningClass] = useState("warning");
-  const [walletAddress, setWalletAddress] = useState("");
+  const { address: walletAddress, isConnected } = useContext(WalletContext);
   const [offerLoading, setOfferLoading] = useState(false);
   const [offerComplated, setOfferComplated] = useState(false);
   const [nftHaveIndex, setNftHaveIndex] = useState([]);
@@ -78,29 +78,19 @@ export default function TradeOffer() {
     }
   };
 
-  function loadTargetWallet() {
-    if (walletadrs.startsWith('0x')) {
-      getNFTs(walletadrs).then(want => want && setWantNFTs(want)).catch(console.error);
-      getCronosID({ address: walletadrs }).then(details => setDetails(details)).catch(console.error);
-    } else {
-      getCronosID({ name: walletadrs }).then(details => {
-        setDetails(details);
-        getNFTs(details.address).then(want => want && setWantNFTs(want)).catch(console.error);
-      }).catch(console.error);
-    }
-  }
-
   useEffect(() => {
-    setWalletAddress(getWalletAddress());
-
-    if (isWalletConnected()) {
-      loadTargetWallet();
+    if (isConnected) {
+      if (walletadrs.startsWith('0x')) {
+        getNFTs(walletadrs).then(want => want && setWantNFTs(want)).catch(console.error);
+        getCronosID({ address: walletadrs }).then(details => setDetails(details)).catch(console.error);
+      } else {
+        getCronosID({ name: walletadrs }).then(details => {
+          setDetails(details);
+          getNFTs(details.address).then(want => want && setWantNFTs(want)).catch(console.error);
+        }).catch(console.error);
+      }
     }
-
-    onWalletChange(() => {
-      loadTargetWallet();
-    });
-  }, [walletadrs]);
+  }, [walletadrs, isConnected]);
 
   useEffect(() => {
     getNFTs(walletAddress).then(have => have && setHaveNFTs(have)).catch(console.error);

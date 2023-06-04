@@ -5,19 +5,16 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TradeItem from "./components/TradeItem";
 import { getNFTs } from "./web3/Inventory";
 import {
-  getWalletAddress,
   createOffer,
   getMissingApprovals,
   requestApproval,
   revokeApproval,
   getCronosID,
-  isWalletConnected,
-  onWalletChange,
+  WalletContext,
 } from "./web3/WalletConnect";
 import { useParams } from "react-router-dom";
 import animation from "./images/animation.webp";
 import { Link } from "react-router-dom";
-import Collections from "./web3/collections";
 import Alert, { AlertContext } from "./components/Alert";
 import cronosidlogo from './images/cronosid.svg';
 import paginate from './utils/paginate';
@@ -42,7 +39,7 @@ export default function CreateOffer() {
   );
   const [currentTradeStep, setcurrentTradeStep] = useState(1);
   const [warningClass, setwarningClass] = useState("create-offer-warning");
-  const [walletAddress, setWalletAddress] = useState("");
+  const { address: walletAddress } = useContext(WalletContext);
 
   const [tradeLoading, setTradeLoading] = useState(TradeLoading.LOADING);
 
@@ -79,7 +76,7 @@ export default function CreateOffer() {
   const { page: currentHaveItems, buttons: havePageButtons } = paginate(pageSize, currentHavePage, haveNFTs || [], handlePageClick);
   const { page: currentWantItems, buttons: wantPageButtons } = paginate(pageSize, currentWantPage, wantNFTs || [], handlePageClick);
 
-  function loadTargetWallet() {
+  useEffect(() => {
     if (walletadrs.startsWith("0x")) {
       getNFTs(walletadrs)
         .then((want) => want && setWantNFTs(want))
@@ -97,15 +94,6 @@ export default function CreateOffer() {
         })
         .catch(console.error);
     }
-  }
-
-  useEffect(() => {
-    setWalletAddress(getWalletAddress());
-    loadTargetWallet();
-
-    onWalletChange(() => {
-      setWalletAddress(getWalletAddress());
-    });
   }, [walletadrs]);
 
   useEffect(() => {
