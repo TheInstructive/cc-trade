@@ -51,7 +51,7 @@ function App() {
               <p>
               {t('tradedesc')}
               </p>
-              <button disabled>Trade Now</button>
+              <button><Link to='/trade'>Trade Now</Link></button>
           </div>
 
           <div className="project-item">
@@ -81,7 +81,7 @@ function App() {
             <p>
             {t('newsdesc')}
             </p>
-              <button id="project-item1"><Link to='/newsletter'>Show News</Link></button>
+              <button><Link to='/newsletter'>Show News</Link></button>
           </div>
         </div>
 

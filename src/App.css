@@ -293,19 +293,14 @@ height: 50%;
 
 
 
-#project-item1 a{
-  color:white;
-}
-
 #project-item2{
   color: var(--text);
   background-color: var(--tutorial-button);
 }
 
-#project-item2 a{
+.project-item a{
   color: var(--text);
 }
-
 .project-item h1{
   margin-bottom: 0;
   color: var(--news-title);
