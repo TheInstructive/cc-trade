@@ -15,7 +15,6 @@ import BotPage from './BotPage';
 import Privacy from './Privacy';
 import NotFound from './NotFound';
 import CreateOffer from './CreateOffer';
-import Privacy from './Privacy';
 import {
   createBrowserRouter,
   RouterProvider,
