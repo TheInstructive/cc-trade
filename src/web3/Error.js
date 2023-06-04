@@ -17,6 +17,12 @@ export function returnError(err) {
     };
   }
 
+  if (err && err.reason) {
+    return {
+      error: "Chain Error: " + err.reason,
+    }
+  }
+
   return {
     error: "Internal error.",
   };
