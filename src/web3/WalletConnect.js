@@ -32,7 +32,7 @@ import { Web3ClientError, returnError } from "./Error";
 const IS_DEVELOPMENT_ENV = process?.env?.NODE_ENV === 'development';
 const projectId = "c78c83145ebe7bdde30d318b1e15be49";
 
-const chains = IS_DEVELOPMENT_ENV ? [cronosMainnet, cronosTestnet, localNet] : [cronosMainnet];
+const chains = IS_DEVELOPMENT_ENV ? [cronosMainnet, cronosTestnet, localNet] : [cronosMainnet, cronosTestnet];
 const providers = IS_DEVELOPMENT_ENV ? [
   publicProvider(),
 ] : [
