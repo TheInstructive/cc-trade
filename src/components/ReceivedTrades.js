@@ -1,148 +1,95 @@
-import React, { useState, useEffect } from 'react'
-import { getActiveOffers, acceptOffer, cancelOffer, onWalletChange, getMissingApprovals } from "../web3/WalletConnect";
+import React, { useState, useEffect, useContext } from "react";
+import { AlertContext } from "./Alert";
+import {
+  getActiveOffers,
+  getCronosID,
+  WalletContext,
+} from "../web3/WalletConnect";
+import paginate from "../utils/paginate";
+import ReceivedTradesItem from './ReceivedTradesItem'
 
+const pageSize = 5;
 
 export default function ReceivedTrades() {
-const [ activeTrades, setActiveTrades ] = useState([]);
-const [ tradeTerms, setTradeTerms ] = useState(false);
-const [alertClas, setAlertClass] = useState("alert-error displaynone");
-const [alertMessage, setAlertMessage] = useState("");
-const [offerApproval, setOfferApproval] = useState("");
+  const [activeTrades, setActiveTrades] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  const { showAlert } = useContext(AlertContext);
+  const { address, isConnected } = useContext(WalletContext);
 
-function acceptTerms(){
-  setTradeTerms(!tradeTerms)
-}
+  const [currentPage, setCurrentPage] = useState(1);
+  const handlePageClick = (pageNumber) => {
+    setLoading(true);
+    setCurrentPage(pageNumber);
+    setLoading(false);
+  };
+  const { page: pageTrades, buttons } = paginate(
+    pageSize,
+    currentPage,
+    activeTrades,
+    handlePageClick
+  );
 
-const showAlert = (err) => {
-  if(err){
-    setAlertClass("alert-error");
+  async function fetchTradeDetails(trades) {
+    try {
+      for (let i = 0; i < trades.length; i++) {
+        const details = await getCronosID({
+          address: trades[i].address,
+        });
+        trades[i] = {
+          ...details,
+          ...trades[i],
+        };
+      }
+    } catch (err) {
+      console.error("Error while updating trade details", err);
+    }
+
+    return trades;
   }
-  else{
-    setAlertClass("alert");
-  }
 
-  setTimeout(() => {
-    setAlertClass("alert-error displaynone");
-  }, 2000);
-};
-
-useEffect(() => {
   async function fetchData() {
+    setLoading(true);
+
     const result = await getActiveOffers();
     if (result.offers) {
-      setActiveTrades(result.offers);
-    } else {
-      console.error(result.error);
-    }
-  }
-  fetchData();
+      const trades = result.offers.filter((trade) => trade.received).reverse();
+      setActiveTrades(trades);
+      setLoading(false);
 
-  onWalletChange((account) => {
-    if(account.address){
+      setActiveTrades(await fetchTradeDetails(trades));
+    } else {
+      showAlert(result.error, "error", 2000);
+    }
+
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    if (address && isConnected) {
       fetchData();
     }
-  });
-}, []);
-
-function acceptTradeOffer(id, index){
-  getMissingApprovals({ id, have: false }).then(async ({ missing, error: missingError }) => {
-    if (missingError) {
-      setAlertMessage(missingError)
-      return showAlert(true);
-    }
-
-    if(missing.length>0){
-      setAlertMessage("NFT(s) not eligible for trade.")
-      return showAlert(true);
-
-    }
-
-    acceptOffer(id,index)
-    setAlertMessage("Accepted!")
-    return showAlert(false);
-  })
-
-}
+  }, [address, isConnected]);
 
 
-const receivedTrades = activeTrades.filter(trade => trade.received);
-const reversedTrades = [...receivedTrades].reverse();
+  return (
+    <div style={{ position: "relative" }}>
+      {pageTrades.map((offer, index) => ( 
+
+      <ReceivedTradesItem key={index}
+      setOffer = {offer}
+      />
+
+      ))}
 
 
+      <div className="trades-message-text">
+        {loading && <h2>Loading...</h2>}
 
-return (
-<div>
-<div className={alertClas}>
-<h2>{alertMessage}</h2>
-</div>
-{reversedTrades.map((offer) => (
-<div key={offer.index} className="trade-offer-wrapper">
-  <div className="trade-offer-header">
-    <div className="offer-date">
-      <h3>31.03.2023</h3>
-    </div>
-
-    <h3><b>{offer.name}</b> <br/> OFFERED YOU</h3>
-    <div className="trade-status-active">ACTIVE</div>
-  </div>
-
-
-    <div className="trade-offer-container">
-      <div className="given-nfts-container">
-        <h3>YOUR NFT(S):</h3>
-        <div className="given-nfts">
-        {offer.want.map((nft, i) => (
-            <div key={i} className="offered-nft-item">
-              <div className="offered-nft-image">
-                <img width={100} src={nft.image} alt={nft.name} />
-              </div>
-              <div className="offered-nft-information">
-                <a>{nft.name}</a>
-              </div>
-            </div>
-            ))}
-        </div>
+        {!loading && pageTrades.length < 1 && <h2>You have no offers.</h2>}
       </div>
 
-      <div className="given-nfts-container">
-        <h3>THEIR NFT(S):</h3>
-        <div className="given-nfts">
-        {offer.have.map((nft, i) => (
-            <div key={i} className="offered-nft-item">
-              <div className="offered-nft-image">
-                <img width={100} src={nft.image} alt={nft.name} />
-              </div>
-              <div className="offered-nft-information">
-                <a>{nft.name}</a>
-              </div>
-            </div>
-            ))}
-        </div>
-      </div>
+      <div className="trade-offer-pagination">{buttons}</div>
     </div>
-
-        <div className="trade-offer-buttons">
-            <div className="terms">
-            <input checked={tradeTerms} onChange={() => acceptTerms()} required={true} type="checkbox"></input> I agreed to transfer
-            ownership of the specified NFT(s) to the user making the offer.
-            </div>
-
-            <div>
-                <button onClick={() => acceptTradeOffer(offer.id, offer.index)} disabled={!tradeTerms} id="accept-button">ACCEPT</button>
-                <button onClick={() => cancelOffer(offer.id, offer.index)} id="decline-button">CANCEL</button>
-            </div>
-        </div> 
-
-</div>
-))}
-
-{receivedTrades.length < 1 &&
- <div>You have no offers.</div>
-}
-
-
-</div>
-
-  )
+  );
 }

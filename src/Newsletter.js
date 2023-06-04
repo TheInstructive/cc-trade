@@ -12,8 +12,10 @@ export default function Newsletter() {
 
     
   return (
+    <div class="App App-1280">
       <div className='newsletter-container'>
           <h1 id='redirect-text'>You are redirecting to Cronos.News</h1>
       </div>
+    </div>
   )
 }

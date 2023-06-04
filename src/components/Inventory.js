@@ -1,49 +1,59 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../App.css";
 import TradeItem from "../components/TradeItem";
 import { getNFTs } from "../web3/Inventory";
-import { getWalletAddress } from "../web3/WalletConnect";
+import { WalletContext } from "../web3/WalletConnect";
+import paginate from '../utils/paginate';
+import travolta from '../images/travolta-empty.gif';
 
 export default function Inventory() {
-
-
-
-  const [walletAddress, setWalletAddress] = useState("");
-
-
+  const [loading, setLoading] = useState(true);
   const [haveNFTs, setHaveNFTs] = useState([]);
+  const { address } = useContext(WalletContext);
 
   const pageSize = 10;
-
-  const [currentHavePage, setCurrentHavePage] = useState(1);
-
-  const startHaveIndex = (currentHavePage - 1) * pageSize;
-
-  const endHaveIndex = startHaveIndex + pageSize;
-
-  const currentHaveItems = haveNFTs.slice(startHaveIndex, endHaveIndex);
-
-  const totalHavePages = Math.ceil(haveNFTs.length / pageSize);
-
-  const havePageNumbers = Array.from(
-    { length: totalHavePages },
-    (_, i) => i + 1
-  );
-
+  const [currentPage, setCurrentPage] = useState(1);
   const handlePageClick = (pageNumber) => {
-      setCurrentHavePage(pageNumber);
+    setLoading(true);
+    setCurrentPage(pageNumber);
+    setLoading(false);
   };
+  const { page, buttons } = paginate(pageSize, currentPage, haveNFTs, handlePageClick);
 
   useEffect(() => {
-    setWalletAddress(getWalletAddress());
+    (async () => {
+      setLoading(true);
 
-    getNFTs(walletAddress).then(have => have && setHaveNFTs(have)).catch(console.error);
-  }, [walletAddress]);
+      try {
+        const have = await getNFTs(address);
+        if (have) {
+          setHaveNFTs(have);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      setLoading(false);
+    })();
+  }, [address]);
 
 
   return (
     <div style={{overflow:'hidden'}} className="trade-container">
-              {currentHaveItems.map((have, idx) => (
+          <div className='trades-message-text'>
+          {loading && <h2>Loading...</h2>}
+
+          {!loading && haveNFTs.length === 0 && <div>
+            <img src={travolta} alt="travolta empty hall"/>
+            <br />
+            <h2>You don't have any NFTs from the approved collections.</h2>
+            <button className="button"><a href="https://mint.aliensfromearth.com">Wanna try minting?</a></button>
+            <br />
+            <br />
+          </div>}
+          </div>
+
+          {!loading && page.map((have, idx) => (
                 <TradeItem
                   key={idx}
                   class={'nft-trade-item'}
@@ -51,19 +61,12 @@ export default function Inventory() {
                   nftname={have.name}
                   showCheckbox={false}
                   onSelectNFT={() => ""} 
+                  mintedURL={`https://minted.network/collections/cronos/${have.address}/${have.id}`}
                 />
-              ))}
+          ))}
 
           <div className="trade-offer-pagination">
-            {havePageNumbers.map((pageNumber) => (
-              <button
-                key={pageNumber}
-                onClick={() => handlePageClick(pageNumber)}
-                disabled={currentHavePage === pageNumber}
-              >
-                {pageNumber}
-              </button>
-            ))}
+            {buttons}
           </div>
     </div>
   );

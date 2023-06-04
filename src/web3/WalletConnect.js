@@ -1,3 +1,4 @@
+import { useState, createContext, useEffect } from 'react';
 import {
   configureChains,
   createClient,
@@ -9,36 +10,90 @@ import {
   waitForTransaction,
   readContract,
   readContracts,
-  erc721ABI
+  erc721ABI,
+  fetchEnsName,
+  fetchEnsAddress,
+  fetchBalance,
+  switchNetwork,
+  SwitchChainNotSupportedError,
 } from '@wagmi/core';
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
 import { Web3Modal } from "@web3modal/react";
 import { publicProvider } from '@wagmi/core/providers/public';
-import { BigNumber, utils } from 'ethers';
+import { BigNumber, utils, constants } from 'ethers';
 
 import { localNet, cronosMainnet, cronosTestnet } from "./Chains";
+import { RockXProvider, VVSProvider } from "./RPC";
 import Trader from "./trader/Contract";
 import { CollectionByAddress } from "./collections";
 import { Web3ClientError, returnError } from "./Error";
 
 
-const chains = [localNet, cronosMainnet, cronosTestnet];
+const IS_DEVELOPMENT_ENV = process?.env?.NODE_ENV === 'development';
 const projectId = "c78c83145ebe7bdde30d318b1e15be49";
+
+const chains = IS_DEVELOPMENT_ENV ? [cronosMainnet, cronosTestnet, localNet] : [cronosMainnet, cronosTestnet];
+const providers = IS_DEVELOPMENT_ENV ? [
+  publicProvider(),
+] : [
+  publicProvider(),
+  RockXProvider(),
+  VVSProvider(),
+];
 
 
 // setup
-const { provider } = configureChains(chains, [
-  publicProvider(),
-]);
+const { provider } = configureChains(chains, providers);
 const wagmiClient = createClient({
   autoConnect: true,
   connectors: w3mConnectors({ version: 1, chains, projectId }),
   provider,
 });
 const ethereumClient = new EthereumClient(wagmiClient, chains);
+let pendingSwitchPromise = null;
 
 export const web3Modal = <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />;
 export { useWeb3Modal } from "@web3modal/react";
+
+async function autoSwitchNetwork() {
+  const { chain } = getNetwork();
+  if (!chain) {
+    return;
+  }
+
+  const available = chains.map(chain => chain.name);
+  if (available.includes(chain.name)) {
+    return;
+  }
+
+  if (pendingSwitchPromise) {
+    await pendingSwitchPromise;
+  }
+
+  let resolver, rejecter;
+  pendingSwitchPromise = new Promise((resolve, reject) => {
+    resolver = resolve;
+    rejecter = reject;
+  });
+
+  try {
+    await switchNetwork({
+      chainId: chains[0].id,
+    });
+  } catch (err) {
+    pendingSwitchPromise = null;
+    rejecter(err);
+
+    if (err instanceof SwitchChainNotSupportedError) {
+      throw new Web3ClientError("Please, switch to Cronos network on your wallet.");
+    }
+
+    throw err;
+  }
+
+  pendingSwitchPromise = null;
+  resolver();
+}
 
 export function getWalletAddress() {
   const { address } = getAccount();
@@ -50,16 +105,57 @@ export function isWalletConnected() {
   return isConnected;
 }
 
-export function onWalletChange(callback) {
-  return watchAccount(callback);
-};
-
 export function getNetworkName() {
   const { chain } = getNetwork();
   if (!chain) {
     throw new Web3ClientError("Not connected.");
   }
   return chain.name;
+}
+
+export async function getWalletName() {
+  const address = getWalletAddress();
+  try {
+    const { name } = await getCronosID({ address });
+    return name || address;
+  } catch (err) {
+    console.error("Error while loading cronos.id", err);
+  }
+  return address;
+}
+
+export const WalletContext = createContext({
+  address: null,
+  isConnected: false,
+  network: null,
+});
+
+export function WalletProvider(props) {
+  const [address, setAddress] = useState(null);
+  const [isConnected, setConnected] = useState(false);
+  const [network, setNetwork] = useState(null);
+
+  function update() {
+    const account = getAccount();
+    const { chain } = getNetwork();
+
+    setAddress(account.address);
+    setConnected(account.isConnected);
+    setNetwork(chain);
+  }
+
+  useEffect(() => {
+    update();
+    watchAccount(update);
+  }, []);
+
+  return (
+    <WalletContext.Provider value={{
+      address, isConnected, network,
+    }}>
+      {props.children}
+    </WalletContext.Provider>
+  );
 }
 
 
@@ -74,6 +170,14 @@ export function Contract(contractAddress, abi) {
 
   return {
     async write(functionName, args, overrides) {
+      if (overrides && overrides.value) {
+        const balance = await fetchBalance({ address });
+
+        if (balance.value.lt(overrides.value)) {
+          throw new Web3ClientError("Insufficient balance for transaction.");
+        }
+      }
+
       const config = await prepareWriteContract({
         address: contractAddress,
         abi,
@@ -174,19 +278,49 @@ async function setApprovalForAll(address, yes) {
   return {};
 }
 
-export async function requestApproval(collection) {
+async function approve(address, tokenID, yes) {
+  const spender = yes ? Trader.address(getNetworkName()) : constants.AddressZero;
+  const config = await prepareWriteContract({
+    address,
+    abi: erc721ABI,
+    functionName: 'approve',
+    args: [ spender, BigNumber.from(tokenID) ],
+    overrides: {
+      from: getWalletAddress(),
+    }
+  });
+  const { hash } = await writeContract(config);
+  const txReceipt = await waitForTransaction({ hash });
+
+  if (!txReceipt) {
+    throw new Web3ClientError("Transaction failed.");
+  }
+  return {};
+}
+
+export async function requestApproval(token, forAll) {
   try {
-    const address = collection.address(getNetworkName());
-    return await setApprovalForAll(address, true);
+    const address = token.collection.address(getNetworkName());
+
+    if (forAll) {
+      return await setApprovalForAll(address, true);
+    }
+
+    return await approve(address, token.id, true);
   } catch (err) {
     return returnError(err);
   }
 }
 
-export async function revokeApproval(collection) {
+export async function revokeApproval(token, forAll) {
   try {
-    const address = collection.address(getNetworkName());
-    return await setApprovalForAll(address, false);
+    const address = token.collection.address(getNetworkName());
+
+    if (forAll) {
+      return await setApprovalForAll(address, false);
+    }
+
+    return await approve(address, token.id, false);
   } catch (err) {
     return returnError(err);
   }
@@ -197,6 +331,11 @@ async function missingApprovals(contract, tokens) {
     ret.add(token.contractAddress);
     return ret;
   }, new Set())];
+
+  if (!contracts.length) {
+    return [];
+  }
+
   const userAddress = contract.userAddress();
   const operatorAddress = contract.address();
   const results = await readContracts({
@@ -207,11 +346,32 @@ async function missingApprovals(contract, tokens) {
       args: [ userAddress, operatorAddress ],
     })),
   });
-  return results.map((ok, index) => !ok && contracts[index]).filter(Boolean);
+
+  // collection level missing approvals
+  const missing = results.map((ok, index) => !ok && contracts[index]).filter(Boolean);
+
+  // token level missing approvals
+  const missingTokens = missing.map(contractAddress => tokens.filter(token => token.contractAddress === contractAddress)).flat();
+  if (!missingTokens.length) {
+    return [];
+  }
+
+  const approvedTo = await readContracts({
+    contracts: missingTokens.map(token => ({
+      address: token.contractAddress,
+      abi: erc721ABI,
+      functionName: 'getApproved',
+      args: [ BigNumber.from(token.id) ],
+    })),
+  });
+
+  return approvedTo.map((address, index) => address === operatorAddress ? null : missingTokens[index]).filter(x => x !== null);
 }
 
 export async function getRemoteTokens(contractAddress, address) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
     const result = await contract.read('getRemoteTokens', [ contractAddress, address ]);
 
@@ -223,8 +383,43 @@ export async function getRemoteTokens(contractAddress, address) {
   }
 }
 
+export async function getCronosID({ name, address }) {
+  try {
+    if (address) {
+      const name = await fetchEnsName({ address });
+  
+      return {
+        name,
+        address,
+      };
+    }
+  
+    if (name) {
+      const address = await fetchEnsAddress({ name });
+  
+      return {
+        name,
+        address,
+      };
+    }
+  } catch (err) {
+    if (err.message !== "network does not support ENS") {
+      console.warn("Network doesn't support ENS");
+    } else {
+      console.error("Error while fetching wallet details", err);
+    }
+  }
+
+  return {
+    name,
+    address,
+  }
+}
+
 export async function getActiveOffers(page) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
     const address = contract.userAddress();
 
@@ -250,7 +445,6 @@ export async function getActiveOffers(page) {
           invalid: !isValid[index],
           received,
           address: otherAddress,
-          name: otherAddress,
           have: offer.items.filter(item => item.have).map(itemConverter),
           want: offer.items.filter(item => !item.have).map(itemConverter),
         };
@@ -263,6 +457,8 @@ export async function getActiveOffers(page) {
 
 export async function getMissingApprovals(options) {
   try {
+    await autoSwitchNetwork();
+
     const { have } = options;
     const contract = TraderContract();
 
@@ -270,7 +466,16 @@ export async function getMissingApprovals(options) {
     const missing = await missingApprovals(contract, tokens.filter(token => have ? token.have : !token.have));
 
     return {
-      missing: missing.map(address => CollectionByAddress(address, getNetworkName())),
+      missing: missing.map(token => ({
+        ...token,
+        collection: CollectionByAddress(token.contractAddress, getNetworkName()),
+        name() {
+          return this.collection.name(this.id);
+        },
+        image() {
+          return this.collection.image(this.id);
+        },
+      })),
     }
   } catch (err) {
     return returnError(err);
@@ -279,6 +484,8 @@ export async function getMissingApprovals(options) {
 
 export async function createOffer(address, tokens) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
     await contract.write('createOffer', [ address, tokens ], {
       value: utils.parseEther(Trader.payment(contract.network())),
@@ -291,6 +498,8 @@ export async function createOffer(address, tokens) {
 
 export async function acceptOffer(id, index) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
 
     await contract.write('acceptOffer', [ BigNumber.from(id), BigNumber.from(index) ], {
@@ -304,6 +513,8 @@ export async function acceptOffer(id, index) {
 
 export async function cancelOffer(id, index) {
   try {
+    await autoSwitchNetwork();
+
     const contract = TraderContract();
     await contract.write('cancelOffer', [ BigNumber.from(id), BigNumber.from(index) ]);
     return {};

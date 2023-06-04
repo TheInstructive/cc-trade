@@ -2,10 +2,10 @@ import './App.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faHandshake, faRocket, faSackDollar, faNewspaper, faScaleBalanced, faHome, faBook, faMoon, faLightbulb} from '@fortawesome/free-solid-svg-icons'
 import {faDiscord, faTwitter} from '@fortawesome/free-brands-svg-icons'
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
 import logo from './images/logos.svg'
-import { web3Modal, useWeb3Modal, onWalletChange, isWalletConnected, getWalletAddress } from "./web3/WalletConnect";
+import { web3Modal, useWeb3Modal, getWalletName, WalletContext } from "./web3/WalletConnect";
 
 
 import { useTranslation } from 'react-i18next';
@@ -21,21 +21,16 @@ const languages = [
 
 function App() {
   const { isOpen: isModalOpen, open: openModal, close: closeModal } = useWeb3Modal();
-  const [ isConnected, setConnected ] = useState(false);
-  const [ walletAddress, setWalletAddress ] = useState("");
+  const { address, isConnected } = useContext(WalletContext);
+  const [ walletName, setWalletName ] = useState("");
 
   useEffect(() => {
-    setConnected(isWalletConnected());
-
-    setWalletAddress(getWalletAddress())
-    onWalletChange((account) => {
-      setConnected(account.isConnected);
-
-      if(account.address){
-        setWalletAddress(account.address)
-      }
-    });
-  }, []);
+    if (address && isConnected) {
+      getWalletName().then(setWalletName);
+    } else {
+      setWalletName("");
+    }
+  }, [address, isConnected]);
 
   function onConnectClick() {
     if (isModalOpen) {
@@ -68,7 +63,7 @@ function App() {
           </div>
 
           <div className='right'>
-            {!isConnected ? <button onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress'>{walletAddress}</div> }
+            {!isConnected ? <button onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress'>{walletName}</div> }
           </div>
 
           <Dropdown
@@ -82,8 +77,8 @@ function App() {
         </div>
       </div>
 
-    <div className='App'>
       <Outlet/>
+
       <div className="footer">
         <div className="footer-menus">
           <div className="footer-menu">
@@ -142,16 +137,12 @@ function App() {
           </p>
           <p>© 2023 CronosClub | All Rights Reserved.</p>
         </div>
-      </div>
     </div>
 
     <div className='mobile-menu'>
     <button><Link to='/'><FontAwesomeIcon icon={faHome} /></Link></button>
     <button><Link to='/trade'><FontAwesomeIcon icon={faHandshake} /></Link></button>
-    <button><Link to='/launchpad'><FontAwesomeIcon icon={faRocket} /></Link></button>
-    <button><Link to='/stake'><FontAwesomeIcon icon={faSackDollar} /></Link></button>
     <button><Link to='/newsletter'><FontAwesomeIcon icon={faNewspaper} /></Link></button>
-    <button><Link to='/dao'><FontAwesomeIcon icon={faScaleBalanced} /></Link></button>
     </div>
 
 </div>

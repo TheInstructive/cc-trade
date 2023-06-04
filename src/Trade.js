@@ -1,137 +1,108 @@
-import React, { useEffect, useState } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowsLeftRight, faScaleBalanced, faArrowUpFromBracket, faWallet} from '@fortawesome/free-solid-svg-icons'
-import logo from './images/logos.png'
+import { faScaleBalanced, faArrowUpFromBracket, faWallet} from '@fortawesome/free-solid-svg-icons'
 import ReceivedTrades from './components/ReceivedTrades'
 import SentTrades from './components/SentTrades'
-import { onWalletChange, isWalletConnected, getWalletAddress } from "./web3/WalletConnect";
+import { WalletContext } from "./web3/WalletConnect";
 import { useTranslation } from 'react-i18next';
 import Inventory from './components/Inventory'
-
+import Alert, { AlertContext } from './components/Alert';
 
 export default function TradePage() {
   const { t } = useTranslation();
+  const { showAlert } = useContext(AlertContext);
 
   const [rederTab, setRenderTab] = useState(0)
-  const [alertClas, setAlertClass] = useState("alert displaynone")
-  const [ isConnected, setConnected ] = useState(false);
-  const [ walletAddress, setWalletAddress ] = useState("");
-  const tradeURL = `https://${window.location.hostname}/createoffer/${walletAddress}`;
+  const { isConnected, address: walletAddress } = useContext(WalletContext);
+  const tradeURL = `${window.location.protocol}//${window.location.host}/offer/${walletAddress}`;
+  const [ sentOfferAddress, setSentOfferAddress ] = useState("");
+  const offerAdress = `${window.location.protocol}//${window.location.host}/offer/${sentOfferAddress}`;
 
-  const copyAddress = () => {
-    if (navigator.clipboard.writeText) navigator.clipboard.writeText(tradeURL);
-    setAlertClass("alert")
-    setTimeout(() => {
-      setAlertClass("alert displaynone")
-    }, 2000);
+
+  const inputRef = useRef(null);
+
+  const handleInputChange = (event) => {
+    setSentOfferAddress(event.target.value);
   };
 
-  useEffect(() => {
-    setConnected(isWalletConnected());
+  function redirectToTradePage(url) {
+    console.log(url.length)
+    if(url == "" || sentOfferAddress.length < 4){return showAlert("PLEASE ENTER A VALID ADDRESS", "error", 2000);}
 
-    setWalletAddress(getWalletAddress())
-    onWalletChange((account) => {
-      setConnected(account.isConnected);
+    else{window.location.href = url;    }
+  }
 
-      if(account.address){
-        setWalletAddress(account.address)
+
+  async function copyAddress() {
+    let successful = false;
+
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(tradeURL);
+        successful = true;
+      } else {
+        inputRef.current.focus();
+        inputRef.current.select();
+        successful = document.execCommand('copy');
       }
-    });
-  }, []);
+    } catch (err) {
+      console.error("Error while copying", err);
+    }
+
+    if (successful) {
+      showAlert("YOUR TRADE URL COPIED TO THE CLIPBOARD", null, 2000);
+    } else {
+      console.log("Copy unsuccessful");
+    }
+  }
 
   return (
     <>
     {isConnected ?
     <div>
-         <div className='last-trades'>
-          
-         <div className='last-trade-item'>
-              <h5>LAST TRADES</h5>
-        </div>
+        <Alert />
 
-          <div className='last-trade-container'>
-
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-
-            <FontAwesomeIcon icon={faArrowsLeftRight} />
-
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-          </div>
-
-          <div className='last-trade-container'>
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-            <FontAwesomeIcon icon={faArrowsLeftRight} />
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-          </div>
-
-          <div className='last-trade-container'>
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-            <FontAwesomeIcon icon={faArrowsLeftRight} />
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-          </div>
-
-          <div className='last-trade-container'>
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-            <FontAwesomeIcon icon={faArrowsLeftRight} />
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-          </div>
-
-          <div className='last-trade-container'>
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-            <FontAwesomeIcon icon={faArrowsLeftRight} />
-            <div className='last-trade-item'>
-              <h4>Cronos Club #1234</h4>
-              <img src={logo}></img>
-            </div>
-          </div>
-         </div>
 
         <div className='trade-wrapper'>
 
           <div className='trade-header'>
-          <div className='wallet-info'>
-              <div className='wallet-pic'><img src={logo}></img></div>
-              <div className='wallet-address'>{walletAddress}</div>
-          </div>
 
-          <div className='trade-url'>
-            <h4>TRADE URL</h4>
-            <div className='trade-url-input'>
-            <input contentEditable={false} readOnly value={tradeURL}></input><button onClick={copyAddress}>COPY</button>
-            </div>
-            <p>Copy this URL and share anyone who want to trade with you!</p>
-            <div className={alertClas}>
-              <h2>YOUR TRADE URL COPIED TO THE CLIPBOARD</h2>
+            <div className='sent-trade-offer'>
+              <h2>I WANT TO SEND TRADE OFFERS</h2>
+              <div className='send-offer'>
+                <div className='send-offer-form'>
+                  <input onChange={handleInputChange} required value={sentOfferAddress} placeholder='ENTER WALLET ADDRESS OR CRONOS ID'></input>
+                  <button onClick={() => redirectToTradePage(offerAdress)}>TRADE</button>
+                </div>
+
+                <div className='trade-offer-desc'>
+                  <ul>
+                  <li>Please enter the Trader's wallet address or Cronos ID and click the Trade button.</li>
+                  <li>You will be redirected to the trade page where you can create trade offers.</li>
+                  </ul>
+                </div>
+
+              </div>
+
             </div>
 
-          </div>
+            <div className='receive-trade-offer'>
+            <h2>I WANT TO RECEIVE TRADE OFFERS</h2>
+            <div className='send-offer'>
+                <div className='send-offer-form'>
+                  <input ref={inputRef} contentEditable={false} readOnly value={tradeURL}></input>
+                  <button onClick={copyAddress}>COPY URL</button>
+                </div>
+
+                <div className='trade-offer-desc'>
+                  <ul>
+                  <li>Click the "Copy URL" button to easily copy your trade URL</li>
+                  <li>Share your trade URL with anyone who wants to trade with you!</li>
+                  </ul>
+                </div>
+
+              </div>
+            </div>
 
           </div>
 

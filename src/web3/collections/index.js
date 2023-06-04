@@ -1,9 +1,10 @@
-
+import BabyAliens from "./AfeBabyAliens";
 import Ballies from "./Ballies";
 import BalliesGear from "./BalliesGear";
 import Lions from "./Lions";
 
 const Collections = [
+  BabyAliens,
   Ballies,
   BalliesGear,
   Lions,

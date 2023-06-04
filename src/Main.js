@@ -18,7 +18,7 @@ function App() {
   const { t } = useTranslation();
 
   return (
-    <div className="App">
+    <div className="App App-1280">
       <div className="main-container">
         <div className="banner">
           <div className="banner-left">
@@ -27,7 +27,7 @@ function App() {
               descriptions={[t('tradeyournft'), t('shareyourref'), t('followcollection')]}
             />
             <br></br>
-          <button>
+          <button className="button">
           {t('connectwallet')} &nbsp;&nbsp;
               <FontAwesomeIcon icon={faCircleArrowRight} />
             </button>

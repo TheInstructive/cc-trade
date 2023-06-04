@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./App.css";
 import { faCheck, faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TradeItem from "./components/TradeItem";
 import { getNFTs } from "./web3/Inventory";
-import { getWalletAddress, createOffer, getMissingApprovals, requestApproval, revokeApproval } from "./web3/WalletConnect";
+import { createOffer, getMissingApprovals, requestApproval, revokeApproval, getCronosID, WalletContext } from "./web3/WalletConnect";
 import { useParams } from "react-router-dom";
 import animation from "./images/animation.webp";
 import { Link } from 'react-router-dom';
 import Collections from "./web3/collections"
+import Alert, { AlertContext } from "./components/Alert";
 
 
 export default function TradeOffer() {
@@ -19,21 +20,21 @@ export default function TradeOffer() {
   );
   const [currentTradeStep, setcurrentTradeStep] = useState(1);
   const [warningClass, setwarningClass] = useState("warning");
-  const [walletAddress, setWalletAddress] = useState("");
-  const [alertClas, setAlertClass] = useState("alert-error displaynone");
+  const { address: walletAddress, isConnected } = useContext(WalletContext);
   const [offerLoading, setOfferLoading] = useState(false);
   const [offerComplated, setOfferComplated] = useState(false);
   const [nftHaveIndex, setNftHaveIndex] = useState([]);
   const [nftWantIndex, setNftWantIndex] = useState([]);
   const [confirmButton, setConfirmButton] = useState(false);
   const [showOfferApproval, setShowOfferApproval] = useState(false);
+  const { showAlert } = useContext(AlertContext);
 
 
+  const [details, setDetails] = useState({});
 
 
   const [offerError, setOfferError] = useState("");
   const [offerApproval, setOfferApproval] = useState("");
-  const [alertMessage, setAlertMessage] = useState("");
 
 
   const [haveNFTs, setHaveNFTs] = useState([]);
@@ -77,37 +78,35 @@ export default function TradeOffer() {
     }
   };
 
-  const showAlert = () => {
-    setAlertClass("alert-error");
-    setTimeout(() => {
-      setAlertClass("alert-error displaynone");
-    }, 2000);
-  };
-
   useEffect(() => {
-    setWalletAddress(getWalletAddress());
-    getNFTs(walletadrs).then(want => want && setWantNFTs(want)).catch(console.error);
-  }, [walletadrs]);
+    if (isConnected) {
+      if (walletadrs.startsWith('0x')) {
+        getNFTs(walletadrs).then(want => want && setWantNFTs(want)).catch(console.error);
+        getCronosID({ address: walletadrs }).then(details => setDetails(details)).catch(console.error);
+      } else {
+        getCronosID({ name: walletadrs }).then(details => {
+          setDetails(details);
+          getNFTs(details.address).then(want => want && setWantNFTs(want)).catch(console.error);
+        }).catch(console.error);
+      }
+    }
+  }, [walletadrs, isConnected]);
 
   useEffect(() => {
     getNFTs(walletAddress).then(have => have && setHaveNFTs(have)).catch(console.error);
-    console.log(haveNFTs)
-
   }, [walletAddress]);
 
   function nextStep() {
     if (currentTradeStep === 1) {
       if (haveOffer.length === 0) {
-        setAlertMessage("SELECT AT LEAST ONE NFT TO CONTINUE")
-        return showAlert();
+        return showAlert("SELECT AT LEAST ONE NFT TO CONTINUE", "error", 2000);
       }
       setradeStepClass("trade-bar-line trade-step-2");
       setcurrentTradeStep(2);
     }
     if (currentTradeStep === 2) {
       if (wantOffer.length === 0) {
-        setAlertMessage("SELECT AT LEAST ONE NFT TO CONTINUE")
-        return showAlert();
+        return showAlert("SELECT AT LEAST ONE NFT TO CONTINUE", "error", 2000);
       }
       setradeStepClass("trade-bar-line trade-step-3");
       setcurrentTradeStep(3);
@@ -236,10 +235,9 @@ export default function TradeOffer() {
     getMissingApprovals({ tokens, have: true }).then(async ({ missing, error: missingError }) => {
       if (missingError) {
         setOfferError(missingError);
-        setAlertMessage(offerError)
         setOfferLoading(false);
         setConfirmButton(false)
-        return showAlert();
+        return showAlert(offerError, "error", 2000);
       }
     
       for (let i=0; i<missing.length; i++) {
@@ -251,9 +249,9 @@ export default function TradeOffer() {
         if (error) {
           setConfirmButton(false)
           setOfferError(error);
-          setAlertMessage(error)
           setOfferLoading(false);
-          return showAlert();
+          setShowOfferApproval(false);
+          return showAlert(error, "error", 2000);
         }
       }
 
@@ -265,9 +263,8 @@ export default function TradeOffer() {
       if (error) {
         setConfirmButton(false)
         setOfferError(error);
-        setAlertMessage(error);
         setOfferLoading(false);
-        return showAlert();
+        return showAlert(error, "error", 2000);
       }
 
       setOfferLoading(false);
@@ -282,6 +279,8 @@ export default function TradeOffer() {
 
   return (
     <div className="main-container">
+      <Alert />
+
       <div className={warningClass}>
         <div>
           <h2>Warning!</h2>
@@ -292,10 +291,11 @@ export default function TradeOffer() {
         <button onClick={closeWarning}>X</button>
       </div>
       <button onClick={revokeCollection}>revoke</button>
-      <div className={alertClas}>
-        <h2>{alertMessage}</h2>
-      </div>
 
+      <div>
+        <h2>Cronos ID: {details.name || '-'}</h2>
+        <h3>Address: {details.address}</h3>
+      </div>
 
       {currentTradeStep === 1 && (
         <div>

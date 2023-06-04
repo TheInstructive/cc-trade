@@ -13,7 +13,9 @@ import TradeOffer from './TradeOffer';
 import Affiliate from './Affiliate';
 import BotPage from './BotPage';
 import Privacy from './Privacy';
-
+import NotFound from './NotFound';
+import CreateOffer from './CreateOffer';
+import Privacy from './Privacy';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -21,6 +23,8 @@ import {
 
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
+import { AlertProvider } from './components/Alert';
+import { WalletProvider } from './web3/WalletConnect';
 
 
 const router = createBrowserRouter([
@@ -33,7 +37,7 @@ const router = createBrowserRouter([
       },
       {
         path: "trade",
-        element: <Soon title = "ABOUT TRADE" desc = "Our trade system allows users to securely trade their NFTs without the risk of scams. Every user has a trade URL where their NFTs are stored, and other users can create offers to trade for any NFTs they are interested in. This system makes it easy and safe for users to trade their NFTs and expand their collections."/>,
+        element: <Trade />,
       },
       {
         path: "announcement/:slug",
@@ -57,7 +61,7 @@ const router = createBrowserRouter([
       },
       {
         path: "createoffer/:walletadrs",
-        element: <Soon />,
+        element: <TradeOffer />,
       },
       {
         path: "affiliate",
@@ -66,6 +70,18 @@ const router = createBrowserRouter([
       {
         path: "bot",
         element: <BotPage />,
+      },
+      {
+        path: "*",
+        element: <NotFound />,
+      },
+      {
+        path: "offer/:walletadrs",
+        element: <CreateOffer />,
+      },
+      {
+        path: "privacy",
+        element: <Privacy />,
       },
       {
         path: "privacy",
@@ -77,10 +93,14 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <I18nextProvider i18n={i18n}>
-    <RouterProvider
-      router={router}
-      fallbackElement={<Main />}
-    />
+    <WalletProvider>
+      <AlertProvider>
+        <RouterProvider
+          router={router}
+          fallbackElement={<Main />}
+        />
+      </AlertProvider>
+    </WalletProvider>
   </I18nextProvider>
 
 );

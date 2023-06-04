@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function BotPage() {
   return (
-    <div className='main-container'>
+    <div className='main-container App App-1280'>
         <div className='bot-container'>
             <div className='bot-header'>
                 <h1>NEWSLETTER DISCORD BOT</h1>
