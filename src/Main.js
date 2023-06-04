@@ -27,7 +27,7 @@ function App() {
               descriptions={[t('tradeyournft'), t('shareyourref'), t('followcollection')]}
             />
             <br></br>
-          <button>
+          <button className="button">
           {t('connectwallet')} &nbsp;&nbsp;
               <FontAwesomeIcon icon={faCircleArrowRight} />
             </button>

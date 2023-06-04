@@ -4,6 +4,7 @@ import TradeItem from "../components/TradeItem";
 import { getNFTs } from "../web3/Inventory";
 import { WalletContext } from "../web3/WalletConnect";
 import paginate from '../utils/paginate';
+import travolta from '../images/travolta-empty.gif';
 
 export default function Inventory() {
   const [loading, setLoading] = useState(true);
@@ -41,6 +42,15 @@ export default function Inventory() {
     <div style={{overflow:'hidden'}} className="trade-container">
           <div className='trades-message-text'>
           {loading && <h2>Loading...</h2>}
+
+          {!loading && haveNFTs.length === 0 && <div>
+            <img src={travolta} alt="travolta empty hall"/>
+            <br />
+            <h2>You don't have any NFTs from the approved collections.</h2>
+            <button className="button"><a href="https://mint.aliensfromearth.com">Wanna try minting?</a></button>
+            <br />
+            <br />
+          </div>}
           </div>
 
           {!loading && page.map((have, idx) => (
