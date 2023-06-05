@@ -4,12 +4,11 @@ import { faScaleBalanced, faArrowUpFromBracket, faWallet} from '@fortawesome/fre
 import ReceivedTrades from './components/ReceivedTrades'
 import SentTrades from './components/SentTrades'
 import { WalletContext } from "./web3/WalletConnect";
-import { useTranslation } from 'react-i18next';
 import Inventory from './components/Inventory'
 import Alert, { AlertContext } from './components/Alert';
+import NeedLogin from './components/NeedLogin'
 
 export default function TradePage() {
-  const { t } = useTranslation();
   const { showAlert } = useContext(AlertContext);
 
   const [rederTab, setRenderTab] = useState(0)
@@ -56,9 +55,12 @@ export default function TradePage() {
     }
   }
 
+  if (!isConnected) {
+    return <NeedLogin />
+  }
+
   return (
     <>
-    {isConnected ?
     <div>
         <Alert />
 
@@ -137,17 +139,6 @@ export default function TradePage() {
             </div>
         </div>
     </div>
-    : 
-    <div className='no-login-wrapper'>
-      <div className='no-login-container'>
-            <h2>please login to see trades</h2>
-            <button>
-          {t('connectwallet')}
-            </button>
-      </div>
-        
-    </div>
-    }
     </>
     
   )

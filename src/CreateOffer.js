@@ -18,6 +18,7 @@ import { Link } from "react-router-dom";
 import Alert, { AlertContext } from "./components/Alert";
 import cronosidlogo from './images/cronosid.svg';
 import paginate from './utils/paginate';
+import NeedLogin from "./components/NeedLogin";
 
 const TradeLoading = {
   HIDDEN: 0,
@@ -39,7 +40,7 @@ export default function CreateOffer() {
   );
   const [currentTradeStep, setcurrentTradeStep] = useState(1);
   const [warningClass, setwarningClass] = useState("create-offer-warning");
-  const { address: walletAddress } = useContext(WalletContext);
+  const { address: walletAddress, isConnected } = useContext(WalletContext);
 
   const [tradeLoading, setTradeLoading] = useState(TradeLoading.LOADING);
 
@@ -311,6 +312,10 @@ export default function CreateOffer() {
 
     setTradeLoading(TradeLoading.CREATED);
     setradeStepClass("trade-bar-line trade-step-4");
+  }
+
+  if (!isConnected) {
+    return <NeedLogin />
   }
 
   return (
