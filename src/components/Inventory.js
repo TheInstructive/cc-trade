@@ -9,7 +9,7 @@ import travolta from '../images/travolta-empty.gif';
 export default function Inventory() {
   const [loading, setLoading] = useState(true);
   const [haveNFTs, setHaveNFTs] = useState([]);
-  const { address } = useContext(WalletContext);
+  const { address, isConnected } = useContext(WalletContext);
 
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,21 +21,23 @@ export default function Inventory() {
   const { page, buttons } = paginate(pageSize, currentPage, haveNFTs, handlePageClick);
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-
-      try {
-        const have = await getNFTs(address);
-        if (have) {
-          setHaveNFTs(have);
+    if (isConnected) {
+      (async () => {
+        setLoading(true);
+  
+        try {
+          const have = await getNFTs(address);
+          if (have) {
+            setHaveNFTs(have);
+          }
+        } catch (err) {
+          console.error(err);
         }
-      } catch (err) {
-        console.error(err);
-      }
-
-      setLoading(false);
-    })();
-  }, [address]);
+  
+        setLoading(false);
+      })();
+    }
+  }, [address, isConnected]);
 
 
   return (
