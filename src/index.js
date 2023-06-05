@@ -9,7 +9,6 @@ import Announcement from './Announcement';
 import Newsletter from './Newsletter';
 import Soon from './Soon';
 import Launchpad from './Launchpad';
-import TradeOffer from './TradeOffer';
 import Affiliate from './Affiliate';
 import BotPage from './BotPage';
 import Privacy from './Privacy';
@@ -24,6 +23,7 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 import { AlertProvider } from './components/Alert';
 import { WalletProvider } from './web3/WalletConnect';
+import RevokePage from './Revoke';
 
 
 const router = createBrowserRouter([
@@ -59,10 +59,6 @@ const router = createBrowserRouter([
         element: <Soon />,
       },
       {
-        path: "createoffer/:walletadrs",
-        element: <TradeOffer />,
-      },
-      {
         path: "affiliate",
         element: <Soon />,
       },
@@ -83,9 +79,9 @@ const router = createBrowserRouter([
         element: <Privacy />,
       },
       {
-        path: "privacy",
-        element: <Privacy />,
-      }
+        path: "revoke",
+        element: <RevokePage />,
+      },
     ],
   },
 ]);

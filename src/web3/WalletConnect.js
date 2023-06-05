@@ -27,6 +27,7 @@ import { RockXProvider, VVSProvider } from "./RPC";
 import Trader from "./trader/Contract";
 import { CollectionByAddress } from "./collections";
 import { Web3ClientError, returnError } from "./Error";
+import Collections from './collections';
 
 
 const IS_DEVELOPMENT_ENV = process?.env?.NODE_ENV === 'development';
@@ -202,6 +203,9 @@ export function Contract(contractAddress, abi) {
         abi,
         args,
         functionName,
+        overrides: {
+          from: address,
+        },
       });
       return result;
     },
@@ -314,13 +318,60 @@ export async function requestApproval(token, forAll) {
 
 export async function revokeApproval(token, forAll) {
   try {
+    const contractAddress = Trader.address(getNetworkName());
     const address = token.collection.address(getNetworkName());
 
     if (forAll) {
+      const isApprovedForAll = await readContract({
+        address,
+        abi: erc721ABI,
+        functionName: 'isApprovedForAll',
+        args: [ getWalletAddress(), contractAddress ],
+      });
+
+      if (!isApprovedForAll) {
+        throw new Web3ClientError("Trader contract doesn't have approval for \"" + token.collection.name() + "\" collection.");
+      }
+
       return await setApprovalForAll(address, false);
     }
 
+    const approvedAddress = await readContract({
+      address,
+      abi: erc721ABI,
+      functionName: 'getApproved',
+      args: [ BigNumber.from(token.id) ],
+    });
+
+    if (approvedAddress !== contractAddress) {
+      throw new Web3ClientError("Trader contract doesn't have approval to revoke for \"" + token.name + "\".");
+    }
+
     return await approve(address, token.id, false);
+  } catch (err) {
+    return returnError(err);
+  }
+}
+
+export async function checkApprovals() {
+  try {
+    const network = getNetworkName();
+    const trader = TraderContract();
+    const results = await trader.read("checkApprovals", [Collections.map(col => col.address(network))]);
+
+    if (!results) {
+      return Collections.map(collection => ({
+        collection,
+        approved: false,
+      }));
+    }
+
+    return {
+      approvals: Collections.map((collection, i) => ({
+        collection,
+        approved: results[i],
+      })),
+    }
   } catch (err) {
     return returnError(err);
   }

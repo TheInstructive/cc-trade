@@ -2945,3 +2945,24 @@ margin-left: 0;
     width: 100%;
   }
 }
+
+.revoke-wrapper {
+  text-align: center;
+}
+
+.revoke-wrapper .button {
+  font-size: 1em;
+  margin-left: 1em;
+}
+
+.text {
+  font-size: 1.3em;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--text);
+}
+
+.title {
+  color: var(--news-title);
+  font-weight: 400;
+  font-family: 'Montserrat', sans-serif;
+}
