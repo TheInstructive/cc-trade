@@ -104,7 +104,7 @@ export default function ReceivedTradesItem(props) {
     showAlert("Offer cancelled.", null, 2000);
   }
 
-  const offer = props.setOffer
+  const offer = props.offer;
 
   return (
         <div className="trade-offer-wrapper">
@@ -165,13 +165,7 @@ export default function ReceivedTradesItem(props) {
                   <TradeItem
                     key={i}
                     class={"nft-trade-item"}
-                    nftimage={nft.image}
-                    nftname={nft.name}
-                    showCheckbox={false}
-                    onSelectNFT={() => ""}
-                    mintedURL={`https://minted.network/collections/cronos/${nft.address}/${nft.id}`}
-                    nftscanURL = {`https://cronos.nftscan.com/${nft.address}/${nft.id}`}
-                    ebisuURL = {`https://app.ebisusbay.com/collection/${nft.address}/${nft.id}`}
+                    token={nft}
                   />
                 ))}
               </div>
@@ -187,13 +181,7 @@ export default function ReceivedTradesItem(props) {
                   <TradeItem
                     key={i}
                     class={"nft-trade-item"}
-                    nftimage={nft.image}
-                    nftname={nft.name}
-                    showCheckbox={false}
-                    onSelectNFT={() => ""}
-                    mintedURL={`https://minted.network/collections/cronos/${nft.address}/${nft.id}`}
-                    nftscanURL = {`https://cronos.nftscan.com/${nft.address}/${nft.id}`}
-                    ebisuURL = {`https://app.ebisusbay.com/collection/${nft.address}/${nft.id}`}
+                    token={nft}
                   />
                 ))}
               </div>

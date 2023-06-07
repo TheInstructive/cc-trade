@@ -32,6 +32,18 @@ const TradeLoading = {
   LOADING_OTHER: 1001,
 };
 
+function eqToken(tok1, tok2) {
+  return tok1.id === tok2.id && tok1.address === tok2.address;
+}
+
+function addOrRemove(arr, token) {
+  if (arr.some(tok => eqToken(tok, token))) {
+    return arr.filter(tok => !eqToken(tok, token));
+  }
+
+  return [...arr, token];
+}
+
 export default function CreateOffer() {
   const { walletadrs } = useParams();
 
@@ -44,8 +56,6 @@ export default function CreateOffer() {
 
   const [tradeLoading, setTradeLoading] = useState(TradeLoading.LOADING);
 
-  const [nftHaveIndex, setNftHaveIndex] = useState([]);
-  const [nftWantIndex, setNftWantIndex] = useState([]);
   const [currentApproval, setCurrentApproval] = useState({});
   const { showAlert } = useContext(AlertContext);
 
@@ -155,65 +165,11 @@ export default function CreateOffer() {
     setwarningClass("displaynone");
   }
 
-  function nftSelected(address, id, image, name, isHave, idx) {
+  function nftSelected(token, isHave) {
     if (isHave) {
-      const isHaveIndexExist = nftHaveIndex.some((obj) => obj === idx);
-
-      const isObjectExists = haveOffer.some(
-        (obj) => obj.nftid === id && obj.nftadress === address
-      );
-
-      const has = {
-        nftadress: address,
-        nftid: id,
-        nftimage: image,
-        nftname: name,
-      };
-
-      if (!isObjectExists) {
-        setHaveOffer([...haveOffer, has]);
-      } else {
-        const updatedArray = haveOffer.filter(
-          (obj) => !(obj.nftid === id && obj.nftadress === address)
-        );
-        setHaveOffer(updatedArray);
-      }
-
-      if (!isHaveIndexExist) {
-        setNftHaveIndex([...nftHaveIndex, idx]);
-      } else {
-        const updateIndex = nftHaveIndex.filter((obj) => !(obj === idx));
-        setNftHaveIndex(updateIndex);
-      }
+      setHaveOffer(addOrRemove(haveOffer, token));
     } else {
-      const isWantIndexExist = nftWantIndex.some((obj) => obj === idx);
-
-      const isObjectExists = wantOffer.some(
-        (obj) => obj.nftid === id && obj.nftadress === address
-      );
-
-      const wanted = {
-        nftadress: address,
-        nftid: id,
-        nftimage: image,
-        nftname: name,
-      };
-
-      if (!isObjectExists) {
-        setWantOffer([...wantOffer, wanted]);
-      } else {
-        const updatedArray = wantOffer.filter(
-          (obj) => !(obj.nftid === id && obj.nftadress === address)
-        );
-        setWantOffer(updatedArray);
-      }
-
-      if (!isWantIndexExist) {
-        setNftWantIndex([...nftWantIndex, idx]);
-      } else {
-        const updateIndex = nftWantIndex.filter((obj) => !(obj === idx));
-        setNftWantIndex(updateIndex);
-      }
+      setWantOffer(addOrRemove(wantOffer, token));
     }
   }
 
@@ -221,16 +177,16 @@ export default function CreateOffer() {
     const finalizeWantArray = wantOffer.map((obj) => {
       return {
         have: false,
-        contractAddress: obj.nftadress,
-        id: obj.nftid,
+        contractAddress: obj.address,
+        id: obj.id,
       };
     });
 
     const finalizeHaveArray = haveOffer.map((obj) => {
       return {
         have: true,
-        contractAddress: obj.nftadress,
-        id: obj.nftid,
+        contractAddress: obj.address,
+        id: obj.id,
       };
     });
 
@@ -420,27 +376,18 @@ export default function CreateOffer() {
                 <TradeItem
                   key={want.index}
                   class={
-                    nftWantIndex.some((obj) => obj === want.index)
+                    wantOffer.some((tok) => eqToken(tok, want))
                       ? "nft-trade-item selected-nft"
                       : "nft-trade-item"
                   }
-                  nftid={want.id}
-                  nftimage={want.image}
-                  nftname={want.name}
-                  mintedURL={`https://minted.network/collections/cronos/${want.address}/${want.id}`}
-                  nftscanURL = {`https://cronos.nftscan.com/${want.address}/${want.id}`}
-                  ebisuURL = {`https://app.ebisusbay.com/collection/${want.address}/${want.id}`}
+                  token={want}
+                  showCheckbox={true}
                   onSelectNFT={() =>
                     nftSelected(
-                      want.address,
-                      want.id,
-                      want.image,
-                      want.name,
-                      false,
-                      want.index
+                      want,
+                      false
                     )
                   }
-                  showCheckbox={true}
                 />
               ))}
 
@@ -462,24 +409,16 @@ export default function CreateOffer() {
                 <TradeItem
                   key={have.index}
                   class={
-                    nftHaveIndex.some((obj) => obj === have.index)
+                    haveOffer.some((tok) => eqToken(tok, have))
                       ? "nft-trade-item selected-nft"
                       : "nft-trade-item"
                   }
-                  nftimage={have.image}
-                  nftname={have.name}
+                  token={have}
                   showCheckbox={true}
-                  mintedURL={`https://minted.network/collections/cronos/${have.address}/${have.id}`}
-                  nftscanURL = {`https://cronos.nftscan.com/${have.address}/${have.id}`}
-                  ebisuURL = {`https://app.ebisusbay.com/collection/${have.address}/${have.id}`}
                   onSelectNFT={() =>
                     nftSelected(
-                      have.address,
-                      have.id,
-                      have.image,
-                      have.name,
-                      true,
-                      have.index
+                      have,
+                      true
                     )
                   }
                 />
@@ -568,14 +507,7 @@ export default function CreateOffer() {
                     <TradeItem
                       key={idx}
                       class={"nft-trade-item"}
-                      nftid={offered.nftid}
-                      nftimage={offered.nftimage}
-                      nftname={offered.nftname}
-                      showCheckbox={false}
-                      onSelectNFT={() => ""}
-                      mintedURL={`https://minted.network/collections/cronos/${offered.nftadress}/${offered.nftid}`}
-                      nftscanURL = {`https://cronos.nftscan.com/${offered.nftadress}/${offered.nftid}`}
-                      ebisuURL = {`https://app.ebisusbay.com/collection/${offered.nftadress}/${offered.nftid}`}
+                      token={offered}
                     />
                   ))}
                 </div>
@@ -591,14 +523,7 @@ export default function CreateOffer() {
                     <TradeItem
                       key={idx}
                       class={"nft-trade-item"}
-                      nftid={offered.nftid}
-                      nftimage={offered.nftimage}
-                      nftname={offered.nftname}
-                      showCheckbox={false}
-                      onSelectNFT={() => ""}
-                      mintedURL={`https://minted.network/collections/cronos/${offered.nftadress}/${offered.nftid}`}
-                      nftscanURL = {`https://cronos.nftscan.com/${offered.nftadress}/${offered.nftid}`}
-                      ebisuURL = {`https://app.ebisusbay.com/collection/${offered.nftadress}/${offered.nftid}`}
+                      token={offered}
                     />
                   ))}
                 </div>

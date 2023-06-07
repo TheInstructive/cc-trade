@@ -28,6 +28,7 @@ import Trader from "./trader/Contract";
 import { CollectionByAddress } from "./collections";
 import { Web3ClientError, returnError } from "./Error";
 import Collections from './collections';
+import { convertLink } from './Inventory';
 
 
 const IS_DEVELOPMENT_ENV = process?.env?.NODE_ENV === 'development';
@@ -258,7 +259,7 @@ function convertItem(network) {
       address: contractAddress,
       name: collection.name(id),
       image: collection.image(id),
-      cronoscan: `https://cronoscan.com/token/${contractAddress}?a=${id}`,
+      links: collection.links(id).map(link => convertLink(link, { id, address: contractAddress })),
     }
   }
 }

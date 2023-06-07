@@ -93,13 +93,7 @@ return (
         <TradeItem
                   key={i}
                   class={'nft-trade-item'}
-                  nftimage={nft.image}
-                  nftname={nft.name}
-                  showCheckbox={false}
-                  onSelectNFT={() => ""} 
-                  mintedURL={`https://minted.network/collections/cronos/${nft.address}/${nft.id}`}
-                  nftscanURL = {`https://cronos.nftscan.com/${nft.address}/${nft.id}`}
-                  ebisuURL = {`https://app.ebisusbay.com/collection/${nft.address}/${nft.id}`}
+                  token={nft}
                 />
                 
           ))}
@@ -113,13 +107,7 @@ return (
         <TradeItem
                   key={i}
                   class={'nft-trade-item'}
-                  nftimage={nft.image}
-                  nftname={nft.name}
-                  showCheckbox={false}
-                  onSelectNFT={() => ""} 
-                  mintedURL={`https://minted.network/collections/cronos/${nft.address}/${nft.id}`}
-                  nftscanURL = {`https://cronos.nftscan.com/${nft.address}/${nft.id}`}
-                  ebisuURL = {`https://app.ebisusbay.com/collection/${nft.address}/${nft.id}`}
+                  token={nft}
                 />
                 
           ))}

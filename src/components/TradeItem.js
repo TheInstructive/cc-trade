@@ -1,73 +1,40 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import "../App.css";
-import mntd from '../images/minted.png'
-import ebisu from '../images/ebisu.svg'
+import minted from '../images/minted.png'
+import ebisusbay from '../images/ebisu.svg'
 import nftscan from '../images/nftscan.png'
 
-const selectedTheme = localStorage.getItem("selectedTheme")
+const images = {
+  nftscan,
+  minted,
+  ebisusbay,
+}
 
-export default function TradeItem(props) {
-  const { nftname, nftimage, showCheckbox, onSelectNFT } = props;
-  const [isChecked, setIsChecked] = useState(false);
-
-  function handleCheckboxChange() {
-    setIsChecked(!isChecked);
-    onSelectNFT();
-  }
-
+export default function TradeItem({ class: className, showCheckbox, onSelectNFT, token }) {
   return (
-    <label className={props.class}>
+    <label className={className}>
       <div className="marketplace-details">
-      <div className="nft-information-minted">
-        <a target="_blank" href={props.nftscanURL}>
-          <img
-              alt="view on minted.network"
+        {token.links?.map((link, index) => (
+        <div className="nft-information-minted" key={index}>
+          <a target="_blank" rel="noreferrer" href={link.url}>
+            <img
+              alt={"view on " + link.title}
               height={20}
-              src={nftscan}
-          />
+              src={images[link.name] || '#'}
+            />
           </a>
         </div>
-
-        <div className="nft-information-minted">
-        <a target="_blank" href={props.mintedURL}>
-          <img
-              alt="view on minted.network"
-              height={20}
-              src={mntd}
-          />
-          </a>
-        </div>
-
-        <div className="nft-information-minted">
-        <a target="_blank" href={props.ebisuURL}>
-          <img
-              alt="view on minted.network"
-              height={20}
-              src={ebisu}
-          />
-          </a>
-        </div>
+        ))}
       </div>
-      <img id="nft-trade-item-img" width={200} src={nftimage}></img>
+      <img id="nft-trade-item-img" width={200} src={token.image} alt={token.name} />
       <div className="nft-information">
         <div className="nft-information-name">
-        <span>{nftname}</span>
+        <span>{token.name}</span>
         </div>
-        <button onClick={() => handleCheckboxChange()} id="create-select-button">SELECT</button>
-
+        {showCheckbox &&
+        <button onClick={() => onSelectNFT && onSelectNFT()} id="create-select-button">SELECT</button>
+        }
       </div>
     </label>
   );
 }
-
-TradeItem.propTypes = {
-  nftname: PropTypes.string.isRequired,
-  nftimage: PropTypes.string.isRequired,
-  showCheckbox: PropTypes.bool,
-  onSelectNFT: PropTypes.func,
-};
-
-TradeItem.defaultProps = {
-  showCheckbox: false,
-};

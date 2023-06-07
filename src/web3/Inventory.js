@@ -1,22 +1,27 @@
 import Collections, { CollectionByAddress } from "./collections";
 import { getNetworkName, getRemoteTokens } from "./WalletConnect";
 
-function convertLink(name, token) {
+export function convertLink(name, token) {
   let url = '#';
+  let title = '-';
 
   if (name === 'nftscan') {
     url = `https://cronos.nftscan.com/${token.address}/${token.id}`;
+    title = 'NFTScan';
   }
   else if (name === 'minted') {
     url = `https://minted.network/collections/cronos/${token.address}/${token.id}`;
+    title = 'Minted';
   }
   else if (name === 'ebisusbay') {
     url = `https://app.ebisusbay.com/collection/${token.address}/${token.id}`;
+    title = 'Ebisu\'s Bay';
   }
 
   return {
     name,
     url,
+    title,
   };
 }
 

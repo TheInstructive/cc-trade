@@ -59,13 +59,7 @@ export default function Inventory() {
                 <TradeItem
                   key={idx}
                   class={'nft-trade-item'}
-                  nftimage={have.image}
-                  nftname={have.name}
-                  showCheckbox={false}
-                  onSelectNFT={() => ""} 
-                  mintedURL={`https://minted.network/collections/cronos/${have.address}/${have.id}`}
-                  nftscanURL = {`https://cronos.nftscan.com/${have.address}/${have.id}`}
-                  ebisuURL = {`https://app.ebisusbay.com/collection/${have.address}/${have.id}`}
+                  token={have}
                 />
           ))}
 
