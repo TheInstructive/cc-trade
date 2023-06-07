@@ -25,9 +25,14 @@ export async function getNFTs(address) {
     return await getNFTsFromChain(address);
   }
 
-  const resp = await fetch('https://wallet-nft-api-blush.vercel.app/api/wallet/' + address);
-  const data = await resp.json();
-  return convertTokens(data, network);
+  try {
+    const resp = await fetch('https://wallet-nft-api-blush.vercel.app/api/wallet/' + address);
+    const data = await resp.json();
+    return convertTokens(data, network);
+  } catch (err) {
+    console.error("Inventory fetch error", err);
+    return await getNFTsFromChain(address);
+  }
 }
 
 export async function getNFTsFromChain(address) {
