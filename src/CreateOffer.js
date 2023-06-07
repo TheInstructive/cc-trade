@@ -303,7 +303,7 @@ export default function CreateOffer() {
 
     setTradeLoading(TradeLoading.CONFIRM);
 
-    const { error } = await createOffer(walletadrs, tokens);
+    const { error } = await createOffer(details.address, tokens);
     if (error) {
       setOfferError(error);
       setTradeLoading(TradeLoading.HIDDEN);
