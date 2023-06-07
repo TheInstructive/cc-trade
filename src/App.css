@@ -299,7 +299,7 @@ height: 50%;
 }
 
 .project-item a{
-  color: var(--text);
+  color: white;
 }
 .project-item h1{
   margin-bottom: 0;
