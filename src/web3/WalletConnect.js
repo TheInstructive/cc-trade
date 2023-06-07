@@ -435,6 +435,8 @@ export async function getRemoteTokens(contractAddress, address) {
 }
 
 export async function getCronosID({ name, address }) {
+  await autoSwitchNetwork();
+
   try {
     if (address) {
       const name = await fetchEnsName({ address });
@@ -454,7 +456,7 @@ export async function getCronosID({ name, address }) {
       };
     }
   } catch (err) {
-    if (err.message !== "network does not support ENS") {
+    if (err.reason === "network does not support ENS") {
       console.warn("Network doesn't support ENS");
     } else {
       console.error("Error while fetching wallet details", err);
