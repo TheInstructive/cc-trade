@@ -194,6 +194,7 @@
     justify-content: space-evenly;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
+    flex-wrap: wrap;
 }
 
 .approval-detail{
@@ -237,12 +238,14 @@
 }
 
 @media only screen and (max-width: 1000px) {
-
     .create-offer-header-center{
     display: none;
     }
     .create-offer-header-right, .create-offer-header-left{
         padding-top: 1em;
+        width: 100%;
+    }
+    .approval-detail{
         width: 100%;
     }
 }
