@@ -31,7 +31,11 @@ const BabyAliens = {
   image(id) {
     validateId(id);
     return 'https://metadata.aliensfromearth.com/babyaliens/'+id+'.png';
-  }
+  },
+
+  links() {
+    return ['nftscan'];
+  },
 };
 
 export default BabyAliens;

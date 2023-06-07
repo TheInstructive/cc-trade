@@ -1,6 +1,25 @@
 import Collections, { CollectionByAddress } from "./collections";
 import { getNetworkName, getRemoteTokens } from "./WalletConnect";
 
+function convertLink(name, token) {
+  let url = '#';
+
+  if (name === 'nftscan') {
+    url = `https://cronos.nftscan.com/${token.address}/${token.id}`;
+  }
+  else if (name === 'minted') {
+    url = `https://minted.network/collections/cronos/${token.address}/${token.id}`;
+  }
+  else if (name === 'ebisusbay') {
+    url = `https://app.ebisusbay.com/collection/${token.address}/${token.id}`;
+  }
+
+  return {
+    name,
+    url,
+  };
+}
+
 function convertTokens(tokens, network) {
   return tokens.map((token, index) => {
     const collection = CollectionByAddress(token.address, network);
@@ -11,6 +30,7 @@ function convertTokens(tokens, network) {
       collection: collection,
       name: collection ? collection.name(token.id) : 'INVALID',
       image: collection ? collection.image(token.id) : '#',
+      links: collection ? collection.links().map(name => convertLink(name, token)) : [],
     };
   });
 }

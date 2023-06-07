@@ -32,7 +32,11 @@ const BalliesGear = {
   image(id) {
     validateId(id);
     return 'https://ballies.cdn.cronos.club/gear/'+id+'.png';
-  }
+  },
+
+  links() {
+    return ['nftscan', 'minted', 'ebisusbay'];
+  },
 };
 
 export default BalliesGear;

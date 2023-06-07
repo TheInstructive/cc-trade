@@ -31,7 +31,11 @@ const Lions = {
   image(id) {
     validateId(id);
     return 'https://lions.cdn.cronos.club/'+id+'.png';
-  }
+  },
+
+  links() {
+    return ['nftscan', 'minted', 'ebisusbay'];
+  },
 };
 
 export default Lions;
