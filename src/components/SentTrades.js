@@ -98,6 +98,8 @@ return (
                   showCheckbox={false}
                   onSelectNFT={() => ""} 
                   mintedURL={`https://minted.network/collections/cronos/${nft.address}/${nft.id}`}
+                  nftscanURL = {`https://cronos.nftscan.com/${nft.address}/${nft.id}`}
+                  ebisuURL = {`https://app.ebisusbay.com/collection/${nft.address}/${nft.id}`}
                 />
                 
           ))}
@@ -116,6 +118,8 @@ return (
                   showCheckbox={false}
                   onSelectNFT={() => ""} 
                   mintedURL={`https://minted.network/collections/cronos/${nft.address}/${nft.id}`}
+                  nftscanURL = {`https://cronos.nftscan.com/${nft.address}/${nft.id}`}
+                  ebisuURL = {`https://app.ebisusbay.com/collection/${nft.address}/${nft.id}`}
                 />
                 
           ))}

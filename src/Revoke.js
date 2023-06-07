@@ -112,6 +112,8 @@ export default function RevokePage() {
           showCheckbox={false}
           onSelectNFT={() => revoke(token)} 
           mintedURL={`https://minted.network/collections/cronos/${token.address}/${token.id}`}
+          nftscanURL = {`https://cronos.nftscan.com/${token.address}/${token.id}`}
+          ebisuURL = {`https://app.ebisusbay.com/collection/${token.address}/${token.id}`}
         />
       ))}
 

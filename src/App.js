@@ -7,6 +7,7 @@ import { Link, Outlet } from 'react-router-dom';
 import logo from './images/logos.svg'
 import { web3Modal, useWeb3Modal, getWalletName, WalletContext } from "./web3/WalletConnect";
 
+import Settings from './components/Settings';
 
 import { useTranslation } from 'react-i18next';
 import Dropdown from './components/Dropdown'
@@ -66,13 +67,9 @@ function App() {
             {!isConnected ? <button onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress'>{walletName}</div> }
           </div>
 
-          <Dropdown
-            title="Select Collection"
-            list={languages}
-            selectLanguage={selectLanguage}
-            />
+          <Settings/>
 
-          <DarkMode></DarkMode>
+          <div style={{display:'none'}}><DarkMode></DarkMode></div>
 
         </div>
       </div>

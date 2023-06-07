@@ -64,6 +64,8 @@ export default function Inventory() {
                   showCheckbox={false}
                   onSelectNFT={() => ""} 
                   mintedURL={`https://minted.network/collections/cronos/${have.address}/${have.id}`}
+                  nftscanURL = {`https://cronos.nftscan.com/${have.address}/${have.id}`}
+                  ebisuURL = {`https://app.ebisusbay.com/collection/${have.address}/${have.id}`}
                 />
           ))}
 

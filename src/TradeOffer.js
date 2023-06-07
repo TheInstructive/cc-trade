@@ -318,6 +318,8 @@ export default function TradeOffer() {
                   nftname={have.name}
                   showCheckbox={true}
                   mintedURL={`https://minted.network/collections/cronos/${have.address}/${have.id}`}
+                  nftscanURL = {`https://cronos.nftscan.com/${have.address}/${have.id}`}
+                  ebisuURL = {`https://app.ebisusbay.com/collection/${have.address}/${have.id}`}
                   onSelectNFT={() =>
                     nftSelected(
                       have.address,
@@ -363,6 +365,8 @@ export default function TradeOffer() {
                   nftimage={want.image}
                   nftname={want.name}
                   mintedURL={`https://minted.network/collections/cronos/${want.address}/${want.id}`}
+                  nftscanURL = {`https://cronos.nftscan.com/${want.address}/${want.id}`}
+                  ebisuURL = {`https://app.ebisusbay.com/collection/${want.address}/${want.id}`}
                   onSelectNFT={() =>
                     nftSelected(
                       want.address,

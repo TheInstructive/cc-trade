@@ -24,6 +24,7 @@ import i18n from './i18n';
 import { AlertProvider } from './components/Alert';
 import { WalletProvider } from './web3/WalletConnect';
 import RevokePage from './Revoke';
+import OpenBox from './components/OpenBox';
 
 
 const router = createBrowserRouter([
@@ -81,6 +82,10 @@ const router = createBrowserRouter([
       {
         path: "revoke",
         element: <RevokePage />,
+      },
+      {
+        path: "openbox",
+        element: <OpenBox />,
       },
     ],
   },

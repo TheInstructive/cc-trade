@@ -1455,6 +1455,7 @@ cursor: pointer;
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  position: relative;
 }
 
 
@@ -1465,6 +1466,7 @@ cursor: pointer;
 }
 
 .nft-information{
+  position: relative;
   color:var(--text);
   font-weight: 600;
   display: flex;
@@ -1478,11 +1480,29 @@ cursor: pointer;
 .nft-information-minted{
   display: flex;
   flex-direction: row;
-  width: 100%;
-  justify-content: space-evenly;
-  height: 30px;
-  background-color: #a30101;
   align-items: center;
+  padding: 0.2em;
+  width: 20px;
+  height: 20px;
+}
+
+.marketplace-details{
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  background-color: #8a8a8aad;
+
+}
+
+.nft-information-minted img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
 }
 
 .nft-information-minted a {
@@ -1496,7 +1516,28 @@ cursor: pointer;
   display: flex;
   justify-content: center;
   background-color: var(--main3);
+  flex-direction: column;
+  height: 100%;
+  position: relative;
 }
+
+#create-select-button{
+  display: flex;
+  flex-direction: row;
+  background-color: #a30101;
+  align-items: center;
+  padding: 0.5em;
+  border: 0;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--both-white);
+  text-align: center;
+  width: 100%;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1em;
+  cursor: pointer;
+}
+
 
 .nft-information-name span{
   padding-left: 0.3em;
@@ -1529,7 +1570,6 @@ cursor: pointer;
 .trade-steps-container{
   width: 50%;
   margin-top: 1em;
-  
 }
 
 .trade-steps-text{
@@ -1603,6 +1643,10 @@ cursor: pointer;
   z-index: 2;
   border: 0;
   color: white;
+}
+
+.no-tradeable{
+  color: var(--text);
 }
 
 /* NEWS STYLES */
@@ -2050,10 +2094,9 @@ cursor: pointer;
 }
 
 .dd-wrapper{
-position: relative;
-margin-right: 1em;
-margin-left: 0;
-}
+  position: relative;
+  width: 100%;
+  }
 
 .dd-header{
   background-color: var(--dropdown-color);
@@ -2090,6 +2133,9 @@ margin-left: 0;
   color: white;
   display: flex;
   text-align: left;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
 }
 
 .dd-list-item:hover{
@@ -2687,6 +2733,41 @@ margin-left: 0;
   cursor: pointer;
   font-family: 'Montserrat', sans-serif;
   color: var(--text);
+}
+
+
+.settings-wrapper{
+  position: relative;
+  width: 65px;
+}
+
+.settings-header{
+  width: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  background-color: transparent;
+  border: 0;
+  color: var(--both-white);
+  height: 50px;
+  background-color: #00000044;
+
+}
+
+.settings-header-title{
+
+}
+
+.settings-container{
+  position: absolute;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #00000044;
+  padding-bottom: 1em;
 }
 
 
