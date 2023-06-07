@@ -9,7 +9,7 @@ import travolta from '../images/travolta-empty.gif';
 export default function Inventory() {
   const [loading, setLoading] = useState(true);
   const [haveNFTs, setHaveNFTs] = useState([]);
-  const { address, isConnected } = useContext(WalletContext);
+  const { address, isConnected, network } = useContext(WalletContext);
 
   const pageSize = 10;
   const [currentPage, setCurrentPage] = useState(1);
@@ -37,7 +37,7 @@ export default function Inventory() {
         setLoading(false);
       })();
     }
-  }, [address, isConnected]);
+  }, [address, isConnected, network]);
 
 
   return (

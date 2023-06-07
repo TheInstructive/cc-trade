@@ -8,7 +8,7 @@ import TradeItem from './components/TradeItem';
 
 export default function RevokePage() {
   const { showAlert } = useContext(AlertContext);
-  const { isConnected, address } = useContext(WalletContext);
+  const { isConnected, address, network } = useContext(WalletContext);
 
   const [loading, setLoading] = useState(true);
   const [tokens, setTokens] = useState([]);
@@ -47,7 +47,7 @@ export default function RevokePage() {
         setLoading(false);
       })();
     }
-  }, [address, isConnected]);
+  }, [address, isConnected, network]);
 
   async function revoke(token) {
     const { error } = await revokeApproval(token, false);

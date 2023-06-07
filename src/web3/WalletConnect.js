@@ -16,6 +16,7 @@ import {
   fetchBalance,
   switchNetwork,
   SwitchChainNotSupportedError,
+  watchNetwork,
 } from '@wagmi/core';
 import { EthereumClient, w3mConnectors } from '@web3modal/ethereum';
 import { Web3Modal } from "@web3modal/react";
@@ -149,6 +150,7 @@ export function WalletProvider(props) {
   useEffect(() => {
     update();
     watchAccount(update);
+    watchNetwork(update);
   }, []);
 
   return (

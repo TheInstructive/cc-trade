@@ -52,7 +52,7 @@ export default function CreateOffer() {
   );
   const [currentTradeStep, setcurrentTradeStep] = useState(1);
   const [warningClass, setwarningClass] = useState("create-offer-warning");
-  const { address: walletAddress, isConnected } = useContext(WalletContext);
+  const { address: walletAddress, isConnected, network } = useContext(WalletContext);
 
   const [tradeLoading, setTradeLoading] = useState(TradeLoading.LOADING);
 
@@ -105,7 +105,7 @@ export default function CreateOffer() {
         })
         .catch(console.error);
     }
-  }, [walletadrs]);
+  }, [walletadrs, network]);
 
   useEffect(() => {
     if (!wantNFTs && !haveNFTs) {
@@ -126,7 +126,7 @@ export default function CreateOffer() {
         .then((have) => have && setHaveNFTs(have))
         .catch(console.error);
     }
-  }, [walletAddress]);
+  }, [walletAddress, network]);
 
   function nextStep() {
     if (currentTradeStep === 1) {

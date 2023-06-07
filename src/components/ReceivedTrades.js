@@ -15,7 +15,7 @@ export default function ReceivedTrades() {
   const [loading, setLoading] = useState(true);
 
   const { showAlert } = useContext(AlertContext);
-  const { address, isConnected } = useContext(WalletContext);
+  const { address, isConnected, network } = useContext(WalletContext);
 
   const [currentPage, setCurrentPage] = useState(1);
   const handlePageClick = (pageNumber) => {
@@ -69,7 +69,7 @@ export default function ReceivedTrades() {
     if (address && isConnected) {
       fetchData();
     }
-  }, [address, isConnected]);
+  }, [address, isConnected, network]);
 
 
   return (

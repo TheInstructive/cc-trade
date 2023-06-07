@@ -10,7 +10,7 @@ export default function SentTrades() {
 const [ activeTrades, setActiveTrades ] = useState([]);
 const [loading, setLoading] = useState(true);
 const { showAlert } = useContext(AlertContext);
-const { address, isConnected } = useContext(WalletContext);
+const { address, isConnected, network } = useContext(WalletContext);
 
 const [currentPage, setCurrentPage] = useState(1);
 const handlePageClick = (pageNumber) => {
@@ -60,7 +60,7 @@ useEffect(() => {
   if (address && isConnected) {
     fetchData();
   }
-}, [address, isConnected]);
+}, [address, isConnected, network]);
 
 async function cancelTradeOffer(id, index) {
   const { error } = await cancelOffer(id, index);
