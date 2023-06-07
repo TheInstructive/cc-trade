@@ -444,8 +444,8 @@ export default function CreateOffer() {
                 </div>
                 <div className="approval-method-details">
                   <div className="approval-detail">
-                    <p>
                     <h3>APPROVE FOR EACH NFT</h3>
+                    <p>
                     This button allows you to approve the transfer of each NFT individually.
                     You will need to give approval for each specific NFT before it can be transferred to another address.
                     Under the ERC721 standard, if you grant approval to another address or smart contract (e.g. marketplaces) for this token, your previous approval will be revoked.
@@ -454,8 +454,8 @@ export default function CreateOffer() {
 
                   </div>
                   <div className="approval-detail">
-                    <p>
                     <h3>APPROVE WHOLE COLLECTION</h3>
+                    <p>
                     This button grants approval for the entire collection of NFTs.
                     Once approved, all NFTs within the collection can be transferred to other addresses without the need for individual approvals.
                     You won't be asked to approve these collections each time you create or accept an offer unless you revoke the approval.

@@ -116,8 +116,8 @@ export default function ReceivedTradesItem(props) {
               </div>
               <div className="approval-method-details">
                 <div className="approval-detail">
+                  <h3>APPROVE FOR EACH NFT</h3>
                   <p>
-                    <h3>APPROVE FOR EACH NFT</h3>
                     This button allows you to approve the transfer of each NFT
                     individually. You will need to give approval for each
                     specific NFT before it can be transferred to another
@@ -130,8 +130,8 @@ export default function ReceivedTradesItem(props) {
                   </button>
                 </div>
                 <div className="approval-detail">
+                  <h3>APPROVE WHOLE COLLECTION</h3>
                   <p>
-                    <h3>APPROVE WHOLE COLLECTION</h3>
                     This button grants approval for the entire collection of
                     NFTs. Once approved, all NFTs within the collection can be
                     transferred to other addresses without the need for
