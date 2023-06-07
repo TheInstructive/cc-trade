@@ -83,10 +83,6 @@ const router = createBrowserRouter([
         path: "revoke",
         element: <RevokePage />,
       },
-      {
-        path: "openbox",
-        element: <OpenBox />,
-      },
     ],
   },
 ]);
