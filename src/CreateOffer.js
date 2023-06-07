@@ -133,7 +133,7 @@ export default function CreateOffer() {
       setradeStepClass("trade-bar-line trade-step-2");
       setcurrentTradeStep(2);
     }
-    if (currentTradeStep === 2) {
+    else if (currentTradeStep === 2) {
       if (wantOffer.length === 0) {
         return showAlert("SELECT AT LEAST ONE NFT YOU WANT TO CONTINUE", "error", 2000);
       }
@@ -142,8 +142,7 @@ export default function CreateOffer() {
       }
       setradeStepClass("trade-bar-line trade-step-3");
       setcurrentTradeStep(3);
-    } else {
-      return;
+      setTradeLoading(TradeLoading.HIDDEN);
     }
   }
 
@@ -152,12 +151,9 @@ export default function CreateOffer() {
       setradeStepClass("trade-bar-line trade-step-2");
       setcurrentTradeStep(2);
     }
-
-    if (currentTradeStep === 2) {
+    else if (currentTradeStep === 2) {
       setradeStepClass("trade-bar-line trade-step-1");
       setcurrentTradeStep(1);
-    } else {
-      return;
     }
   }
 
