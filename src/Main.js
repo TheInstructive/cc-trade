@@ -7,15 +7,27 @@ import Typewriter from "./components/TypeWriter";
 import Tutorial from "./components/Tutorial";
 import testvideo from "./images/testvideo.mp4";
 import newslettervideo from "./images/newsletter.mp4";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from 'react-i18next';
 import { Player } from '@lottiefiles/react-lottie-player';
+import { useWeb3Modal } from "@web3modal/react";
+import { WalletContext } from "./web3/WalletConnect";
 
 
 function App() {
   const [tutorialRender, setTutorialRender] = useState(0);
   const { t } = useTranslation();
+  const { isOpen: isModalOpen, open: openModal, close: closeModal } = useWeb3Modal();
+  const { isConnected } = useContext(WalletContext);
+
+  function onConnectClick() {
+    if (isModalOpen) {
+      closeModal();
+    } else {
+      openModal();
+    }
+  }
 
   return (
     <div className="App App-1280">
@@ -27,10 +39,11 @@ function App() {
               descriptions={[t('tradeyournft'), t('shareyourref'), t('followcollection')]}
             />
             <br></br>
-          <button className="button">
+          {!isConnected &&
+          <button className="button" onClick={onConnectClick}>
           {t('connectwallet')} &nbsp;&nbsp;
               <FontAwesomeIcon icon={faCircleArrowRight} />
-            </button>
+          </button>}
           </div>
 
           <div className="banner-right">
