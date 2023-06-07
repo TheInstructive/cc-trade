@@ -1017,6 +1017,7 @@ cursor: pointer;
   background-color: #000000b0;
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
+  z-index: 9999;
 }
 
 .trade-loading a{
