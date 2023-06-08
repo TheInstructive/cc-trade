@@ -499,7 +499,7 @@ export default function CreateOffer() {
                 </div>
 
                 <div className="given-nfts">
-                  {haveOffer.map((offered, idx) => (
+                  {wantOffer.map((offered, idx) => (
                     <TradeItem
                       key={idx}
                       class={"nft-trade-item"}
@@ -515,7 +515,7 @@ export default function CreateOffer() {
                 </div>
 
                 <div className="given-nfts">
-                  {wantOffer.map((offered, idx) => (
+                  {haveOffer.map((offered, idx) => (
                     <TradeItem
                       key={idx}
                       class={"nft-trade-item"}
