@@ -25,6 +25,7 @@ import { AlertProvider } from './components/Alert';
 import { WalletProvider } from './web3/WalletConnect';
 import RevokePage from './Revoke';
 import OpenBox from './components/OpenBox';
+import AfeWhitelist from './AfeWhitelist';
 
 
 const router = createBrowserRouter([
@@ -82,6 +83,10 @@ const router = createBrowserRouter([
       {
         path: "revoke",
         element: <RevokePage />,
+      },
+      {
+        path: "afe-whitelist",
+        element: <AfeWhitelist />,
       },
     ],
   },

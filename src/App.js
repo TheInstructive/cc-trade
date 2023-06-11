@@ -24,8 +24,13 @@ function App() {
   const { isOpen: isModalOpen, open: openModal, close: closeModal } = useWeb3Modal();
   const { address, isConnected } = useContext(WalletContext);
   const [ walletName, setWalletName ] = useState("");
+  const [ iswlpage, setiswlpage ] = useState(false);
 
   useEffect(() => {
+    if (window.location.href.includes('afe-whitelist')) {
+      setiswlpage(true)
+    }
+
     if (address && isConnected) {
       getWalletName().then(setWalletName);
     } else {
@@ -76,7 +81,7 @@ function App() {
 
       <Outlet/>
 
-      <div className="footer">
+      <div className={`footer ${iswlpage ? "displaynone" : ""}`}>
         <div className="footer-menus">
           <div className="footer-menu">
             <h4>About</h4>
