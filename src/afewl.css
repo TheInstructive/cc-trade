@@ -1,0 +1,63 @@
+
+
+  .afewl-container{
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    position: relative;
+  }
+  
+  
+  .wl-form{
+    overflow: hidden;
+  }
+
+  .background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+    z-index: -5;
+    overflow: hidden;
+  }
+  
+  .afe-desc{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .afe-desc p{
+    max-width: 900px;
+    color: var(--both-white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+  }
+  
+  .afe-desc h1{
+    font-family: 'Montserrat', sans-serif;
+    color: var(--both-white);
+    margin: 0;
+    padding-top: 1em;
+  }
+  
+  .mint-prices{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .mint-prices p{
+  padding-left: 1em;
+  padding-right: 1em;
+  margin-left: 1em;
+  margin-right: 1em;
+  text-align: center;
+  border: 1px solid var(--both-white);
+
+  }
