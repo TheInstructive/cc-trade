@@ -7,8 +7,11 @@ import { WalletContext } from "./web3/WalletConnect";
 import Inventory from './components/Inventory'
 import Alert, { AlertContext } from './components/Alert';
 import NeedLogin from './components/NeedLogin'
+import { useNavigate } from 'react-router-dom'
 
 export default function TradePage() {
+  const navigate = useNavigate();
+
   const { showAlert } = useContext(AlertContext);
 
   const [rederTab, setRenderTab] = useState(0)
@@ -28,7 +31,7 @@ export default function TradePage() {
     console.log(url.length)
     if(url == "" || sentOfferAddress.length < 4){return showAlert("PLEASE ENTER A VALID ADDRESS", "error", 2000);}
 
-    else{window.location.href = url;    }
+    else{navigate(`/offer/${sentOfferAddress}`);}
   }
 
 
@@ -73,8 +76,10 @@ export default function TradePage() {
               <h2>I WANT TO SEND TRADE OFFERS</h2>
               <div className='send-offer'>
                 <div className='send-offer-form'>
+                  <form>
                   <input onChange={handleInputChange} required value={sentOfferAddress} placeholder='ENTER WALLET ADDRESS OR CRONOS ID'></input>
                   <button onClick={() => redirectToTradePage(offerAdress)}>TRADE</button>
+                  </form>
                 </div>
 
                 <div className='trade-offer-desc'>
