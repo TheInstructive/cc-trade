@@ -46,6 +46,10 @@ function App() {
     }
   }
 
+  function onWalletClick() {
+    openModal();
+  }
+
   const { t } = useTranslation();
 
   const selectLanguage = (key) => {
@@ -69,7 +73,7 @@ function App() {
           </div>
 
           <div className='right'>
-            {!isConnected ? <button onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress'>{walletName}</div> }
+            {!isConnected ? <button onClick={onConnectClick}>{t('connectwallet')}</button>: <div className='right-walletaddress' onClick={onWalletClick}>{walletName}</div> }
           </div>
 
           <Settings/>
