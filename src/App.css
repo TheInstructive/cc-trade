@@ -752,6 +752,7 @@ cursor: pointer;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--both-white);
+  cursor: pointer;
 }
 
 .trade-nav-menu ul{
