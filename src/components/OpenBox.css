@@ -2,7 +2,6 @@
     	height: 100px;
     	position: relative;
     	margin: 60px auto 30px auto;
-    	width: 900px;
 }
 .raffle-roller-holder {
     	position: absolute;
@@ -10,7 +9,7 @@
     	left: 0;
     	right: 0;
     	bottom: 0;
-    	height: 100px;
+    	height: 200px;
     	width: 100%;
 }
 .raffle-roller-holder {
@@ -24,16 +23,18 @@
     	left: 0;
     	right: 0;
     	bottom: 0;
-    	height: 100px;
+    	height: 115px;
     	width: 100%;
+		background: #191726;
 }
+
 .raffle-roller-container {
     	width: 9999999999999999999px;
     	max-width: 999999999999999999px;
     	height: 100px;
-    	background: #191726;
-    	margin-left: 0;
     	transition: all 8s cubic-bezier(.08,.6,0,1);
+      margin-left: 0;
+      margin-right: 0;
 }
 
 .raffle-roller-holder:before {
@@ -51,7 +52,7 @@
 	display: inline-block;
 	margin: 4px 0px 0.5px 5px;
   width: 85px;
-	height: 88px;
+	height: 100%;
 	border: 1px solid #70677c;
 	background: #14202b;
 	background-size: 100%;
@@ -73,12 +74,8 @@ img {
 }
 .inventory {
 	margin: 0 auto;
-	width: 960px;
-	max-width: 953px;
 	padding: 10px 15px 6px;
 	height: auto;
-	border: 2px solid #1c3344;
-	background: #0e1a23;
 }
 .inventory > .item {
 	float: none;
@@ -87,7 +84,6 @@ img {
 }
 .inventory > .item:hover {
 	background-size: 90%;
-	background-color: #182a38;
 }
 .inventory > .item:active {
 	height: 83px;
