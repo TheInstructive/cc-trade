@@ -66,7 +66,7 @@ export async function getNFTsFromChain(address) {
   }
 
   const network = getNetworkName();
-  const contracts = Collections.map(col => col.address(network));
+  const contracts = Collections.map(col => col.address(network)).filter(Boolean);
   const tokenIdsByContract = await Promise.all(contracts.map(contractAddress => getRemoteTokens(contractAddress, address)));
   const tokens = contracts.flatMap((contractAddress, index) => tokenIdsByContract[index].tokens?.map(id => ({
     id,

@@ -360,17 +360,18 @@ export async function checkApprovals() {
   try {
     const network = getNetworkName();
     const trader = TraderContract();
-    const results = await trader.read("checkApprovals", [Collections.map(col => col.address(network))]);
+    const available = Collections.filter(col => col.address(network))
+    const results = await trader.read("checkApprovals", [available.map(col => col.address(network))]);
 
     if (!results) {
-      return Collections.map(collection => ({
+      return available.map(collection => ({
         collection,
         approved: false,
       }));
     }
 
     return {
-      approvals: Collections.map((collection, i) => ({
+      approvals: available.map((collection, i) => ({
         collection,
         approved: results[i],
       })),
