@@ -64,7 +64,7 @@ export default function TradePage() {
 
   return (
     <>
-    <div>
+      <div style={{minHeight:'100vh'}}>
         <Alert />
 
 

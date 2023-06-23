@@ -41,7 +41,7 @@ export default function Inventory() {
 
 
   return (
-    <div style={{overflow:'hidden'}} className="trade-container">
+    <div style={{overflow:'hidden', minHeight:'100vh' }} className="trade-container">
           <div className='trades-message-text'>
           {loading && <h2>Loading...</h2>}
 

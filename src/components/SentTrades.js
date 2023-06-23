@@ -75,7 +75,7 @@ async function cancelTradeOffer(id, index) {
 
 
 return (
-<div>
+<div style={{ minHeight:'100vh' }}>
 {pageTrades.map((offer, index) => (
 <div key={index} className="trade-offer-wrapper">
   <div className="trade-offer-header">

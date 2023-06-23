@@ -73,7 +73,7 @@ export default function ReceivedTrades() {
 
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", minHeight:'100vh' }}>
       {pageTrades.map((offer, index) => ( 
 
       <ReceivedTradesItem key={index} offer = {offer} />

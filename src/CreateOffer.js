@@ -271,7 +271,7 @@ export default function CreateOffer() {
   }
 
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative", minHeight:'100vh' }}>
       <Alert />
       <div className={warningClass}>
         <p>

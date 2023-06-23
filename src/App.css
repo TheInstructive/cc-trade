@@ -613,13 +613,12 @@ max-width: 100px;
 }
 
 .send-offer-form input{
-  width: 60%;
+  width: 58%;
   padding: 1em;
   border-top-left-radius: 5em;
   border-bottom-left-radius: 5em;
   border: 0;
   font-family: 'Montserrat', sans-serif;
-
 }
 
 .send-offer-form button{
