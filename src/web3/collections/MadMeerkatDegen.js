@@ -16,7 +16,7 @@ const MadMeerkatDegen = {
       return '';
     }
 
-    return '0xa19bfce9baf34b92923b71d487db9d0d051a88f8';
+    return '0xA19bFcE9BaF34b92923b71D487db9D0D051a88F8';
   },
 
   name(id) {
@@ -30,7 +30,7 @@ const MadMeerkatDegen = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0xa19bfce9baf34b92923b71d487db9d0d051a88f8/'+id;
+    return 'https://nft-cdn.cronos.club/0xA19bFcE9BaF34b92923b71D487db9D0D051a88F8/'+id;
   },
 
   links() {

@@ -16,12 +16,12 @@ const MadSacks = {
       return '';
     }
 
-    return '0x23721073592fb452c556fb9322ba4df6a6675050';
+    return '0x23721073592FB452C556fB9322bA4dF6A6675050';
   },
 
   name(id) {
     if (id === undefined) {
-      return "Mad Meerkat Equipment";
+      return "Mad Sacks";
     }
 
     validateId(id);
@@ -30,7 +30,7 @@ const MadSacks = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0x23721073592fb452c556fb9322ba4df6a6675050/'+id;
+    return 'https://nft-cdn.cronos.club/0x23721073592FB452C556fB9322bA4dF6A6675050/'+id;
   },
 
   links() {

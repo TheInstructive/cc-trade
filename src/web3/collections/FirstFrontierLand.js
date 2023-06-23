@@ -16,12 +16,12 @@ const FirstFrontierLand = {
       return '';
     }
 
-    return '0xe22f2cacf37b708f45a49b0cf5e24fa3ed635612';
+    return '0xE22F2CACF37b708F45a49b0Cf5e24fA3eD635612';
   },
 
   name(id) {
     if (id === undefined) {
-      return "First Frontier Land";
+      return "Crypto.com Land - The First Frontier";
     }
 
     validateId(id);
@@ -30,7 +30,7 @@ const FirstFrontierLand = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0xe22f2cacf37b708f45a49b0cf5e24fa3ed635612/'+id;
+    return 'https://nft-cdn.cronos.club/0xE22F2CACF37b708F45a49b0Cf5e24fA3eD635612/'+id;
   },
 
   links() {

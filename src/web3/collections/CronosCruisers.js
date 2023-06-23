@@ -1,7 +1,7 @@
 import { Web3ClientError } from "../Error";
 
 function validateId(id) {
-  if (id < 1 || id > 8000) {
+  if (id < 0 || id > 8000) {
     throw new Web3ClientError('Invalid token id');
   }
 }
@@ -16,12 +16,12 @@ const CronosCruisers = {
       return '';
     }
 
-    return '0xd25358e2cad3e1fd165887569892a99fffa674ac';
+    return '0xd25358e2cAD3E1Fd165887569892A99fFFA674ac';
   },
 
   name(id) {
     if (id === undefined) {
-      return "Cruiser";
+      return "Cronos Cruisers";
     }
 
     validateId(id);
@@ -30,7 +30,7 @@ const CronosCruisers = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0xd25358e2cad3e1fd165887569892a99fffa674ac/'+id;
+    return 'https://nft-cdn.cronos.club/0xd25358e2cAD3E1Fd165887569892A99fFFA674ac/'+id;
   },
 
   links() {

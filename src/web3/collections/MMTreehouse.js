@@ -16,12 +16,12 @@ const MMTreehouse = {
       return '';
     }
 
-    return '0xdc5bbdb4a4b051bdb85b959eb3cbd1c8c0d0c105';
+    return '0xDC5bBDb4A4b051BDB85B959eB3cBD1c8C0d0c105';
   },
 
   name(id) {
     if (id === undefined) {
-      return "Mad Meerkat Treehouse";
+      return "MM Treehouse";
     }
 
     validateId(id);
@@ -30,7 +30,7 @@ const MMTreehouse = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0xdc5bbdb4a4b051bdb85b959eb3cbd1c8c0d0c105/'+id;
+    return 'https://nft-cdn.cronos.club/0xDC5bBDb4A4b051BDB85B959eB3cBD1c8C0d0c105/'+id;
   },
 
   links() {

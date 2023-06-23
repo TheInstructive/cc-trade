@@ -16,12 +16,12 @@ const CyberCubs = {
       return '';
     }
 
-    return '0xe3d53fb80c8cda7bb9b7207cb6b186172bd323cf';
+    return '0xE3D53fb80c8Cda7Bb9B7207cb6B186172BD323cf';
   },
 
   name(id) {
     if (id === undefined) {
-      return "Cyber Cub";
+      return "Cyber Cubs";
     }
 
     validateId(id);
@@ -30,7 +30,7 @@ const CyberCubs = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0xe3d53fb80c8cda7bb9b7207cb6b186172bd323cf/'+id;
+    return 'https://nft-cdn.cronos.club/0xE3D53fb80c8Cda7Bb9B7207cb6B186172BD323cf/'+id;
   },
 
   links() {

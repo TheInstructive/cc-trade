@@ -16,12 +16,12 @@ const CroSkull = {
       return '';
     }
 
-    return '0xf87a517a5caecaa03d7cca770789bdb61e09e05f';
+    return '0xF87A517A5CaecaA03d7cCa770789BdB61e09e05F';
   },
 
   name(id) {
     if (id === undefined) {
-      return "CroSkulls";
+      return "CroSkull Originals";
     }
 
     validateId(id);
@@ -30,7 +30,7 @@ const CroSkull = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0xf87a517a5caecaa03d7cca770789bdb61e09e05f/'+id;
+    return 'https://nft-cdn.cronos.club/0xF87A517A5CaecaA03d7cCa770789BdB61e09e05F/'+id;
   },
 
   links() {

@@ -16,12 +16,12 @@ const CDCExpeditionGear = {
       return '';
     }
 
-    return '0xae50f345502ad3395db0099d38692f609f829b58';
+    return '0xaE50f345502aD3395DB0099d38692f609F829B58';
   },
 
   name(id) {
     if (id === undefined) {
-      return "Expedition Backpack";
+      return "Crypto.com Expedition Gear";
     }
 
     validateId(id);
@@ -30,7 +30,7 @@ const CDCExpeditionGear = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0xae50f345502ad3395db0099d38692f609f829b58/'+id;
+    return 'https://nft-cdn.cronos.club/0xaE50f345502aD3395DB0099d38692f609F829B58/'+id;
   },
 
   links() {
