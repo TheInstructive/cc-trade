@@ -1,7 +1,7 @@
 import { Web3ClientError } from "../Error";
 
 function validateId(id) {
-  if (id < 1 || id > 5000) {
+  if (id < 1 || id > 40943) {
     throw new Web3ClientError('Invalid token id');
   }
 }
