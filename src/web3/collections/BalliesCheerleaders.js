@@ -30,7 +30,7 @@ const BalliesCheerleaders = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0x9e38e9fe0b613be34f1826a5a3d63d9759d29873/'+id+'.png';
+    return 'https://nft-cdn.cronos.club/0x9e38e9fe0b613be34f1826a5a3d63d9759d29873/'+id+'';
   },
 
   links() {
