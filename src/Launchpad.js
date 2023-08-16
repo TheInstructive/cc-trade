@@ -11,18 +11,24 @@ export default function Launchpad() {
             <Slider/>
 
             <div className='launchpad-container'>
-                <h1>COLLECTIONS</h1>
-                <div className='launchpad-collection-item'>
-                    <div className='launchpad-collection-image'>
-                    <div className='launchpad-time'>10:14:20</div>
-                    <div className='launchpad-price'>200CRO</div>
-                    <img src="https://pbs.twimg.com/profile_images/1621649066798059522/1NaWOQ5G_400x400.jpg"></img>
-                    </div>
+                <div className='live-collections-wrapper'>
+                    <div className='live-collections'>
+                    <h1>LIVE COLLECTIONS</h1>
 
-                    <div className='launchpad-collection-details'>
-                        <h2>AFE: Baby Aliens</h2>
-                        <p>Short collection description.</p>
-                        <button><Link to="/affiliate">Details</Link></button>
+                        <div className='launchpad-collection-item'>
+                            <div className='launchpad-collection-image'>
+                                <img src={require('../src/images/banner.png')}></img>
+                            </div>
+
+                            <div className='launchpad-collection-details'>
+                                <h2>AFE: Baby Aliens</h2>
+                                <div className='launchpad-info'>
+                                    <div className='launchpad-price'>Price: 200CRO</div>
+                                    <div className='launchpad-supply'>Supply: 5000</div>
+                                </div>
+                                <Link to="/affiliate"><button>Details</button></Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
