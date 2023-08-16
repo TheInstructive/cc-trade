@@ -30,7 +30,7 @@ const DiamondCoins = {
 
   image(id) {
     validateId(id);
-    return 'https://nft-cdn.cronos.club/0xA86f74B47F1193d9d6DBe4029cAf4A2056607D7C/'+id+'.png';
+    return 'https://nft-cdn.cronos.club/0xA86f74B47F1193d9d6DBe4029cAf4A2056607D7C/'+id+'';
   },
 
   links() {
