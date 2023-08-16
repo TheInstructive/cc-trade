@@ -2144,10 +2144,16 @@ cursor: pointer;
   cursor: pointer;
 }
 
+.slider-wrapper{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .slider-container {
   margin-top: 1em;
   position: relative;
-  width: 100%;
+  width: 90%;
   overflow: hidden;
   border-radius: 1em;
   min-height: 400px;
@@ -2285,48 +2291,64 @@ cursor: pointer;
 .launchpad-container img{
   width: 100%;
   border-radius: 1em;
+}
 
+.live-collections-wrapper{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.live-collections{
+  width: 90%;
 }
 
 .launchpad-collection-item{
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
   flex-wrap: wrap;
+  width: 100%;
 }
 
-.launchpad-container h1{
+.live-collections h1{
   color: white;
-  padding-left: 0.5em;
   font-family: 'Montserrat', sans-serif;
 }
 
-.launchpad-collection-image{
-  max-height: 300px;
-  position: relative;
+.launchpad-collection-image img{
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   max-width: 300px;
-  border-radius: 1em;
 }
 
 .launchpad-collection-details{
-  height: 250px;
   padding: 1.2em;
   width: 250px;
-  background-color: #00000050;
+  background-color: var(--main2);
   border-radius: 1em;
-
-  color: white;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  color: var(--text);
   padding-left: 2em;
   font-family: 'Montserrat', sans-serif;
+}
 
+.launchpad-info{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-size: 0.9em;
 }
 
 .launchpad-collection-details h2{
   margin-top: 0;
   font-family: 'Montserrat', sans-serif;
+  text-align: center;
 }
 
-.launchpad-collection-details button {
+.launchpad-collection-details button{
+  cursor: pointer;
   border: 0;
   padding: 1em;
   width: 100%;
@@ -2335,30 +2357,11 @@ cursor: pointer;
   font-family: 'Montserrat', sans-serif;
   font-weight: 800;
   border-radius: 2em;
+  margin-top: 2em;
 }
 
-.launchpad-time{
-  position: absolute;
-  background-color: rgb(255, 58, 58);
-  border-radius: 2em;
-  padding: 0.5em;
-  left: 10px;
-  top: 10px;
+.launchpad-container a, .slider-wrapper a{
   color: white;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-}
-
-.launchpad-price{
-  position: absolute;
-  background-color: rgb(39, 167, 66);
-  border-radius: 2em;
-  padding: 0.5em;
-  right: 10px;
-  top: 10px;
-  color: white;
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
 }
 
 .affiliates-container{
@@ -2368,7 +2371,6 @@ cursor: pointer;
   height: 100%;
   flex-direction: column;
   font-family: 'Montserrat', sans-serif;
-
 }
 
 .affiliates-title{
@@ -3007,7 +3009,6 @@ cursor: pointer;
   .affiliates-step{width: 100%; margin-bottom: 1em;}
   .news-collections input{width: 100px; margin-left: 0.5em;}
   .banner-title, .blink-caret{font-size: 2.5em;}
-  .launchpad-collection-item{justify-content: center;}
   .affiliates-item button{width: 90%;}
   .nft-trade-item{
     width: 170px;

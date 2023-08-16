@@ -14,6 +14,9 @@ import MadMeerkatDegen from "./MadMeerkatDegen";
 import MadSacks from "./MadSacks";
 import MMTreehouse from "./MMTreehouse";
 import VVSMinerMole from "./VVSMinerMole";
+import BalliesCheerleaders from "./BalliesCheerleaders";
+import DiamondCoins from "./DiamondCoins";
+
 
 const Collections = [
   BabyAliens,
@@ -32,6 +35,8 @@ const Collections = [
   MadSacks,
   MMTreehouse,
   VVSMinerMole,
+  BalliesCheerleaders,
+  DiamondCoins,
 ];
 
 export default Collections;
