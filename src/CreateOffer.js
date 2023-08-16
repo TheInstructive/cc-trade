@@ -88,22 +88,24 @@ export default function CreateOffer() {
   const { page: currentWantItems, buttons: wantPageButtons } = paginate(pageSize, currentWantPage, wantNFTs || [], handlePageClick);
 
   useEffect(() => {
-    if (walletadrs.startsWith("0x")) {
-      getNFTs(walletadrs)
-        .then((want) => want && setWantNFTs(want))
-        .catch(console.error);
-      getCronosID({ address: walletadrs })
-        .then((details) => setDetails(details))
-        .catch(console.error);
-    } else {
-      getCronosID({ name: walletadrs })
-        .then((details) => {
-          setDetails(details);
-          getNFTs(details.address)
-            .then((want) => want && setWantNFTs(want))
-            .catch(console.error);
-        })
-        .catch(console.error);
+    if (walletadrs && network) {
+      if (walletadrs.startsWith("0x")) {
+        getNFTs(walletadrs)
+          .then((want) => want && setWantNFTs(want))
+          .catch(console.error);
+        getCronosID({ address: walletadrs })
+          .then((details) => setDetails(details))
+          .catch(console.error);
+      } else {
+        getCronosID({ name: walletadrs })
+          .then((details) => {
+            setDetails(details);
+            getNFTs(details.address)
+              .then((want) => want && setWantNFTs(want))
+              .catch(console.error);
+          })
+          .catch(console.error);
+      }
     }
   }, [walletadrs, network]);
 

@@ -17,6 +17,7 @@ import VVSMinerMole from "./VVSMinerMole";
 import BalliesCheerleaders from "./BalliesCheerleaders";
 import DiamondCoins from "./DiamondCoins";
 
+
 const Collections = [
   BabyAliens,
   Ballies,
